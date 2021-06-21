@@ -1,11 +1,18 @@
 class Plan < ApplicationRecord
+  CATEGORY = [
+    'Mensal',
+    'Trimestral',
+    'Semestral',
+    'Anual'
+  ].freeze
 
-  validates :category, presence: true,
+  belongs_to :user
+  validates :category, presence: true
+                            inclusion: { in: CATEGORY }
   validates :price, presence: true,
   validates :shipment, presence: true,
   validates :ship_day, presence: true,
   validates :carrefour_card, presence: true,
-  validates :user_id, presence: true,
   validates :auto_renew, presence: true,
   validates :quantity, presence: true
 end
