@@ -28,8 +28,8 @@ user = User.create!(
 
 puts 'Admin - email: admin@test.com, password: 123123'
 puts 'Normal user - email: test@test.com, password: 123123'
-puts ''
 
+puts ''
 puts '=' * 30
 puts 'Creating box items'
 puts '=' * 30
@@ -74,6 +74,7 @@ receita_certa.each do |item|
   puts "<<- #{item}"
 end
 
+puts ''
 puts '=' * 30
 puts 'Creating plans'
 puts '=' * 30
@@ -87,6 +88,20 @@ puts '=' * 30
     quantity: rand(1..3),
     ship_day: Plan::SHIP_DAYS.sample
   )
+end
+
+puts "#{Plan.count} plans created..."
+
+puts ''
+puts '=' * 30
+puts 'Creating shipments'
+puts '=' * 30
+
+6.times do
+  shipment = Shipment.create!(
+    plan: Plan.all.sample
+  )
+  puts "Created shipment '#{shipment.shipping_code}'"
 end
 
 puts ''
