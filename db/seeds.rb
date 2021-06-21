@@ -74,5 +74,20 @@ receita_certa.each do |item|
   puts "<<- #{item}"
 end
 
+puts '=' * 30
+puts 'Creating plans'
+puts '=' * 30
+
+3.times do
+  Plan.create!(
+    user: user,
+    carrefour_card: [true, false].sample,
+    category: Plan::CATEGORIES.keys.sample,
+    auto_renew: true,
+    quantity: rand(1..3),
+    ship_day: Plan::SHIP_DAYS.sample
+  )
+end
+
 puts ''
 puts 'Seeding done!'
