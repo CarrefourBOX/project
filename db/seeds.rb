@@ -39,7 +39,7 @@ beleza_cuidado = %w[Skincare\ Rosto Skincare\ Corpo Cabelo Esmaltaria]
 receita_certa = %w[Aves Bovinos Peixe Vegano Vegetariano Sobremesa]
 
 puts ''
-puts 'Happy Hour Box'
+puts 'Box Happy Hour'
 puts '-' * 30
 
 happy_hour.each do |item|
@@ -51,7 +51,7 @@ happy_hour.each do |item|
 end
 
 puts ''
-puts 'Happy Hour Box'
+puts 'Box Beleza e Cuidado'
 puts '-' * 30
 
 beleza_cuidado.each do |item|
@@ -63,7 +63,7 @@ beleza_cuidado.each do |item|
 end
 
 puts ''
-puts 'Happy Hour Box'
+puts 'Box Receita Certa'
 puts '-' * 30
 
 receita_certa.each do |item|
@@ -74,4 +74,5 @@ receita_certa.each do |item|
   puts "<<- #{item}"
 end
 
+puts ''
 puts 'Seeding done!'

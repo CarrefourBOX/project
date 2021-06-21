@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_21_181234) do
+ActiveRecord::Schema.define(version: 2021_06_21_184017) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -21,6 +21,22 @@ ActiveRecord::Schema.define(version: 2021_06_21_181234) do
     t.string "item_name", default: "", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "plans", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.boolean "carrefour_card", default: false, null: false
+    t.string "category", null: false
+    t.integer "price_cents", default: 0, null: false
+    t.string "price_currency", default: "USD", null: false
+    t.integer "shipment_cents", default: 0, null: false
+    t.string "shipment_currency", default: "USD", null: false
+    t.uuid "user_id"
+    t.boolean "auto_renew", default: true, null: false
+    t.integer "quantity", null: false
+    t.text "ship_day", default: "", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_plans_on_user_id"
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -42,4 +58,5 @@ ActiveRecord::Schema.define(version: 2021_06_21_181234) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "plans", "users"
 end
