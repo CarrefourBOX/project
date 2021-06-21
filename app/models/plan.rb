@@ -7,7 +7,7 @@ class Plan < ApplicationRecord
   ].freeze
 
   belongs_to :user
-  validates :category, presence: true
+  validates :category, presence: true,
                             inclusion: { in: CATEGORY }
   validates :price, presence: true,
   validates :shipment, presence: true,
