@@ -34,7 +34,7 @@ gem 'devise'
 gem 'pundit'
 
 # Manages currency
-gem 'money'
+gem 'money-rails'
 
 # Manages payments
 gem 'stripe'
