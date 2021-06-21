@@ -199,6 +199,9 @@ GEM
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
     semantic_range (3.0.0)
+    simple_form (5.1.0)
+      actionpack (>= 5.2)
+      activemodel (>= 5.2)
     spring (2.1.1)
     sprockets (4.0.2)
       concurrent-ruby (~> 1.0)
@@ -261,6 +264,7 @@ DEPENDENCIES
   redis (~> 4.0)
   sass-rails (>= 6)
   selenium-webdriver
+  simple_form
   spring
   stripe
   turbo-rails
@@ -273,4 +277,4 @@ RUBY VERSION
    ruby 2.6.6p146
 
 BUNDLED WITH
-   2.2.17
+   2.2.20

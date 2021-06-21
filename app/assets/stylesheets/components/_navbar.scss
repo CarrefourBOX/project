@@ -1,0 +1,19 @@
+div.nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: $nav-height;
+  padding: $md-gap;
+  align-items: center;
+  p {
+    font-size: calc(.8rem + 1vw);
+    color: $nav-header-gray;
+    font-weight: 500;
+    margin: 0;
+  }
+  a {
+    color: $btn-gray;
+    font-size: calc(1rem + 1vw);
+    margin-right: $md-gap;
+  }
+}

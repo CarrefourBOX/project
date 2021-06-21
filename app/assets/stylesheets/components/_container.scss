@@ -3,7 +3,12 @@
   position: relative;
   min-height: 100vh;
 }
-#content-wrap {}
+#content-wrap {
+  padding-top: $nav-height;
+}
+.container-pad {
+  margin: 0 $md-gap;
+}
 
 .visibility-hidden {
   border: 0;
@@ -17,4 +22,28 @@
   clip: rect(1px, 1px, 1px, 1px); /*maybe deprecated but we need to support legacy browsers */
   clip-path: inset(50%); /*modern browsers, clip-path works inwards from each corner*/
   white-space: nowrap; /* added line to stop words getting smushed together (as they go onto seperate lines and some screen readers do not understand line feeds as a space */
+}
+
+// Useful containers
+
+.f-center {
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+  align-content: center;
+  align-items: center;
+}
+.f-column {
+  display: flex;
+  flex-direction: column;
+}
+
+// Devise views
+.devise {
+  h2 {
+    color: $dark-blue;
+  }
+  p {
+    color: $text-gray;
+  }
 }
