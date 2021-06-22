@@ -35,6 +35,9 @@ export default class extends Controller {
     const letterHint = document.getElementById('letter-hint');
     const numberHint = document.getElementById('number-hint');
     if (target.value == "") {
+      target.classList.remove('medium');
+      target.classList.remove('strong');
+      target.classList.remove('is-invalid');
       lengthHint.classList.remove('invalid');
       lengthHint.classList.remove('valid');
       numberHint.classList.remove('invalid');
