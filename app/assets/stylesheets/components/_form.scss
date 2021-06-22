@@ -106,3 +106,35 @@
     }
   }
 }
+.password-hints {
+  span {
+    color: $nav-header-gray;
+    &::before {
+      content: "\f13e";
+      font-family: 'Font Awesome 5 Free';
+      font-weight: 900;
+      font-size: .9em;
+      margin-right: $xs-gap;
+    }
+    &.invalid {
+      color: crimson;
+      &::before {
+        content: "\f057";
+        font-weight: 300;
+      }
+    }
+    &.valid {
+      color: $green;
+      &::before {
+        content: "\f058";
+        font-weight: 300;
+      }
+    }
+  }
+}
+.password-group {
+  .form-group {
+    margin-bottom: $sm-gap;
+  }
+  margin-bottom: calc(2.6rem + 1.4vw);
+}

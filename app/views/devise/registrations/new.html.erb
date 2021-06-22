@@ -39,10 +39,18 @@
       <div class="tab-header">
         <h2>Senha</h2>
       </div>
-      <%= f.input :password,
-                  label: 'Digite sua senha',
-                  wrapper: :line_form_password,
-                  input_html: { autocomplete: "new-password" } %>
+      <div class='password-group'>
+        <%= f.input :password,
+                    label: 'Digite sua senha',
+                    wrapper: :line_form_password,
+                    input_html: { autocomplete: "new-password",
+                                  data: { action: 'input->input#checkPasswordStrength' } } %>
+        <div class="password-hints f-column">
+          <span id='length-hint'>Mínimo de <strong>6 caractéres</strong></span>
+          <span id='letter-hint'>Ter pelo menos <strong>1 letra</strong></span>
+          <span id='number-hint'>Ter pelo menos <strong>1 número</strong></span>
+        </div>
+      </div>
       <%= f.input :password_confirmation,
                   label: 'Confirme sua senha',
                   input_html: { autocomplete: "new-password" } %>

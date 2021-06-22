@@ -27,4 +27,41 @@ export default class extends Controller {
     inputType == "password" ? inputType = "text" : inputType = "password";
     inputPassword.setAttribute('type', inputType);
   }
+
+  checkPasswordStrength = (e) => {
+    const target = e.currentTarget;
+    const lengthHint = document.getElementById('length-hint');
+    const letterHint = document.getElementById('letter-hint');
+    const numberHint = document.getElementById('number-hint');
+    if (target.value == "") {
+      lengthHint.classList.remove('invalid');
+      lengthHint.classList.remove('valid');
+      numberHint.classList.remove('invalid');
+      numberHint.classList.remove('valid');
+      letterHint.classList.remove('invalid');
+      letterHint.classList.remove('valid');
+    } else {
+      if (target.value.length >= 6) {
+        lengthHint.classList.remove('invalid');
+        lengthHint.classList.add('valid');
+      } else {
+        lengthHint.classList.remove('valid');
+        lengthHint.classList.add('invalid');
+      }
+      if (target.value.match(/\d+/)) {
+        numberHint.classList.remove('invalid');
+        numberHint.classList.add('valid');
+      } else {
+        numberHint.classList.remove('valid');
+        numberHint.classList.add('invalid');
+      }
+      if (target.value.match(/[a-zA-Z]+/)) {
+        letterHint.classList.remove('invalid');
+        letterHint.classList.add('valid');
+      } else {
+        letterHint.classList.remove('valid');
+        letterHint.classList.add('invalid');
+      }
+    }
+  }
 }
