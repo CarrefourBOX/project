@@ -9,6 +9,10 @@ class PagePolicy < ApplicationPolicy
     admin?
   end
 
+  def my_boxes?
+    user
+  end
+
   private
 
   def admin?
