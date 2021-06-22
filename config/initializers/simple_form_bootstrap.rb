@@ -79,6 +79,24 @@ SimpleForm.setup do |config|
     b.use :hint, wrap_with: { tag: 'small', class: 'form-text text-muted' }
   end
 
+  config.wrappers :line_form_password, tag: 'div', class: 'form-group line-input', error_class: 'form-group-invalid', valid_class: 'form-group-valid' do |b|
+    b.use :html5
+    b.use :placeholder
+    b.optional :maxlength
+    b.optional :minlength
+    b.optional :pattern
+    b.optional :min_max
+    b.optional :readonly
+    b.use :input, error_class: 'is-invalid', valid_class: 'is-valid', onchange: "this.setAttribute('value', this.value);"
+    b.use :label
+    b.wrapper tag: :span, class: 'focus-line' do |c|
+    end
+    b.use :full_error, wrap_with: { tag: 'div', class: 'invalid-feedback' }
+    b.use :hint, wrap_with: { tag: 'small', class: 'form-text text-muted' }
+    b.wrapper tag: :button, class: 'show-hide-password', html: { type: 'button', aria: { selected: 'false' }, data: { action: 'input#showHidePassword' } } do |c|
+    end
+  end
+
   # vertical input for boolean
   config.wrappers :vertical_boolean, tag: 'fieldset', class: 'form-group', error_class: 'form-group-invalid', valid_class: 'form-group-valid' do |b|
     b.use :html5

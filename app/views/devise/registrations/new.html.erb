@@ -41,12 +41,13 @@
       </div>
       <%= f.input :password,
                   label: 'Digite sua senha',
+                  wrapper: :line_form_password,
                   input_html: { autocomplete: "new-password" } %>
       <%= f.input :password_confirmation,
                   label: 'Confirme sua senha',
                   input_html: { autocomplete: "new-password" } %>
     </div>
 
-    <button type="button" data-multistep-target='nextBtn' data-action='multistep#nextTab'>AVANÇAR</button>
+    <button type="button" class='nextSubmitBtn' data-multistep-target='nextBtn' data-action='multistep#nextTab'>AVANÇAR</button>
   <% end %>
 </div>

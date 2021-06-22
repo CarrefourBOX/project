@@ -4,8 +4,10 @@
   flex-direction: column;
   align-items: center;
   margin-bottom: calc(2.6rem + 1.4vw);
-  label, .focus-line, .invalid-feedback {
+  label, .focus-line, .invalid-feedback, .show-hide-password {
     position: absolute;
+  }
+  label, .focus-line, .invalid-feedback {
     left: 0;
   }
   label {
@@ -68,9 +70,26 @@
       font-size: 1.2em;
     }
   }
+  .show-hide-password {
+    right: 0;
+    border: none;
+    background-color: transparent;
+    color: $nav-header-gray;
+    height: 100%;
+    &::before {
+      content: "\f070";
+      font-family: 'Font Awesome 5 Free';
+      font-weight: 900;
+    }
+    &[aria-selected='true'] {
+      &::before {
+        content: '\f06e';
+      }
+    }
+  }
 }
 .devise {
-  button {
+  .nextSubmitBtn {
     color: white;
     background-color: $blue;
     border: 0;
