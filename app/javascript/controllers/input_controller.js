@@ -62,6 +62,21 @@ export default class extends Controller {
         letterHint.classList.remove('valid');
         letterHint.classList.add('invalid');
       }
+      if (target.value.length >= 6 && target.value.match(/\d+/) && target.value.match(/[a-z]+/)) {
+        if (target.value.match(/[A-Z]+/) && target.value.match(/[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/]+/)) {
+          target.classList.remove('is-invalid');
+          target.classList.remove('medium');
+          target.classList.add('strong');
+        } else {
+          target.classList.remove('is-invalid');
+          target.classList.remove('strong');
+          target.classList.add('medium');
+        }
+      } else {
+        target.classList.remove('medium');
+        target.classList.remove('strong');
+        target.classList.add('is-invalid');
+      }
     }
   }
 }

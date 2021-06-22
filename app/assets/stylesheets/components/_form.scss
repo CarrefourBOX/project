@@ -44,10 +44,13 @@
         bottom: 100%;
         font-size: calc(.8rem + .2vw);
       }
-      &.is-invalid {
-        & ~ label {
-          color: crimson;
-        }
+    }
+    &.is-invalid {
+      & ~ label {
+        color: crimson;
+      }
+      & ~ .focus-line {
+        background-color: crimson;
       }
     }
     &:focus, &[value]:not([value=""]), &.is-invalid {
@@ -57,9 +60,6 @@
     }
   }
   &.form-group-invalid {
-    .focus-line {
-      background-color: crimson;
-    }
     &::after {
       content: "\f06a";
       position: absolute;
@@ -137,4 +137,16 @@
     margin-bottom: $sm-gap;
   }
   margin-bottom: calc(2.6rem + 1.4vw);
+}
+input.password {
+  &.medium {
+    & ~ .focus-line {
+      background-color: orange;
+    }
+  }
+  &.strong {
+    & ~ .focus-line {
+      background-color: $green;
+    }
+  }
 }
