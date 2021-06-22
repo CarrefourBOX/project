@@ -1,29 +1,64 @@
-<h2>Sign up</h2>
+<%= content_for(:page_header, 'Cadastro') %>
+<div class="container-pad devise" data-controller='multistep input' data-action='popstate@window->multistep#showCurrentTab'>
+  
+  <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), defaults: { wrapper: :line_form }, html: { data: { turbo: false } }) do |f| %>
+    <div data-multistep-target='tab' class="tab">
+      <div class="tab-header">
+        <h2>Crie sua conta</h2>
+        <p>Estamos felizes por ver você aqui! Para se cadastrar, precisamos de algumas informações</p>
+      </div>
+      <%= f.input :first_name,
+                  autofocus: true,
+                  label: 'Nome',
+                  input_html: { autocomplete: "first_name" } %>
+      <%= f.input :last_name,
+                  label: 'Sobrenome',
+                  input_html: { autocomplete: "last_name"  } %>
+      <%= f.input :cpf,
+                  label: 'CPF',
+                  input_html: { autocomplete: "cpf",
+                                data: { mask: 'cpf' }  } %>
+      <%= f.input :birth_date,
+                  as: :string,
+                  label: 'Data de nascimento',
+                  input_html: { autocomplete: "birth_date", class: 'flatpickr' } %>
+    </div>
+    <div id="access" data-multistep-target='tab' class="tab">
+      <div class="tab-header">
+        <h2>Dados de acesso</h2>
+        <p>Utilizamos essas informações para validar sua conta. <br />Garanta que elas estão corretas. </p>
+      </div>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+      <%= f.input :email,
+                  label: 'E-mail',
+                  input_html: { autocomplete: "email" } %>
+      <%= f.input :phone,
+                  label: 'Celular',
+                  input_html: { autocomplete: "phone",
+                                data: { mask: 'phone' } } %>
+    </div>
+    <div id="password" data-multistep-target='tab' class="tab">
+      <div class="tab-header">
+        <h2>Senha</h2>
+      </div>
+      <div class='password-group'>
+        <%= f.input :password,
+                    label: 'Digite sua senha',
+                    wrapper: :line_form_password,
+                    hint: '',
+                    input_html: { autocomplete: "new-password",
+                                  data: { action: 'input->input#checkPasswordStrength' } } %>
+        <div class="password-hints f-column">
+          <span id='length-hint'>Mínimo de <strong>6 caractéres</strong></span>
+          <span id='letter-hint'>Ter pelo menos <strong>1 letra</strong></span>
+          <span id='number-hint'>Ter pelo menos <strong>1 número</strong></span>
+        </div>
+      </div>
+      <%= f.input :password_confirmation,
+                  label: 'Confirme sua senha',
+                  input_html: { autocomplete: "new-password" } %>
+    </div>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Sign up" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+    <button type="button" class='nextSubmitBtn' data-multistep-target='nextBtn' data-action='multistep#nextTab'>AVANÇAR</button>
+  <% end %>
+</div>

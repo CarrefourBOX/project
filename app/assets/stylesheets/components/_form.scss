@@ -1,0 +1,168 @@
+.line-input {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: calc(2.6rem + 1.4vw);
+  label, .focus-line, .invalid-feedback, .show-hide-password, small {
+    position: absolute;
+  }
+  label, .focus-line, .invalid-feedback {
+    left: 0;
+  }
+  label {
+    color: $label-gray;
+    font-weight: 500;
+    transition: .3s;
+    bottom: $xs-gap;
+    line-height: 1em;
+  }
+  .focus-line {
+    max-width: 0;
+    width: 100%;
+    height: 2px;
+    bottom: 0;
+    background-color: $dark-blue;
+    transition: max-width .3s;
+  }
+  .invalid-feedback {
+    top: 100%;
+    font-size: calc(.8rem + .2vw);
+    color: crimson;
+  }
+  small {
+    top: 100%;
+    right: 0;
+    color: $text-gray;
+  }
+  input {
+    width: 100%;
+    padding: $xs-gap 0;
+    border: none;
+    border-bottom: 1px solid $input-gray;
+    color: $black;
+    transition: border-color .3s;
+    &:focus, &[value]:not([value=""]) {
+      outline: none;
+      & ~ label {
+        color: $dark-blue;
+        bottom: 100%;
+        font-size: calc(.8rem + .2vw);
+      }
+    }
+    &.is-invalid {
+      & ~ label {
+        color: crimson;
+      }
+      & ~ .focus-line {
+        background-color: crimson;
+      }
+    }
+    &:focus, &[value]:not([value=""]), &.is-invalid {
+      & ~ .focus-line {
+        max-width: 100%;
+      }
+    }
+  }
+  &.form-group-invalid {
+    &::after {
+      content: "\f06a";
+      position: absolute;
+      right: 0;
+      font-family: 'Font Awesome 5 Free';
+      font-weight: 900;
+      color: crimson;
+      font-size: 1.2em;
+    }
+  }
+  .show-hide-password {
+    right: 0;
+    border: none;
+    background-color: transparent;
+    color: $nav-header-gray;
+    height: 100%;
+    &::before {
+      content: "\f070";
+      font-family: 'Font Awesome 5 Free';
+      font-weight: 900;
+    }
+    &[aria-selected='true'] {
+      &::before {
+        content: '\f06e';
+      }
+    }
+  }
+}
+.devise {
+  .nextSubmitBtn {
+    color: white;
+    background-color: $blue;
+    border: 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    padding: $md-gap 0;
+    transition: background-color .3s;
+    &:not([disabled]) {
+      &:focus, &:hover {
+        background: $dark-blue;
+      }
+    }
+  }
+}
+.password-hints {
+  span {
+    color: $nav-header-gray;
+    &::before {
+      content: "\f13e";
+      font-family: 'Font Awesome 5 Free';
+      font-weight: 900;
+      font-size: .9em;
+      margin-right: $xs-gap;
+    }
+    &.invalid {
+      color: crimson;
+      &::before {
+        content: "\f057";
+        font-weight: 300;
+      }
+    }
+    &.valid {
+      color: $green;
+      &::before {
+        content: "\f058";
+        font-weight: 300;
+      }
+    }
+  }
+}
+.password-group {
+  .form-group {
+    margin-bottom: $sm-gap;
+  }
+  margin-bottom: calc(2.6rem + 1.4vw);
+}
+input.password {
+  &.medium {
+    & ~ .focus-line {
+      background-color: orange;
+    }
+    & ~ small {
+      color: orange;
+    }
+  }
+  &.strong {
+    & ~ .focus-line {
+      background-color: $green;
+    }
+    & ~ small {
+      color: $green;
+    }
+  }
+  &.is-invalid {
+    & ~ small {
+      color: crimson;
+    }
+  }
+}
