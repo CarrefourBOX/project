@@ -30,6 +30,7 @@ export default class extends Controller {
 
   checkPasswordStrength = (e) => {
     const target = e.currentTarget;
+    const hint = e.currentTarget.parentElement.querySelector('small');
     const lengthHint = document.getElementById('length-hint');
     const letterHint = document.getElementById('letter-hint');
     const numberHint = document.getElementById('number-hint');
@@ -40,6 +41,7 @@ export default class extends Controller {
       numberHint.classList.remove('valid');
       letterHint.classList.remove('invalid');
       letterHint.classList.remove('valid');
+      hint.innerText = "";
     } else {
       if (target.value.length >= 6) {
         lengthHint.classList.remove('invalid');
@@ -67,15 +69,18 @@ export default class extends Controller {
           target.classList.remove('is-invalid');
           target.classList.remove('medium');
           target.classList.add('strong');
+          hint.innerText = "Forte";
         } else {
           target.classList.remove('is-invalid');
           target.classList.remove('strong');
           target.classList.add('medium');
+          hint.innerText = "Médio";
         }
       } else {
         target.classList.remove('medium');
         target.classList.remove('strong');
         target.classList.add('is-invalid');
+        hint.innerText = "Fraco";
       }
     }
   }

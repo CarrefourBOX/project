@@ -4,7 +4,7 @@
   flex-direction: column;
   align-items: center;
   margin-bottom: calc(2.6rem + 1.4vw);
-  label, .focus-line, .invalid-feedback, .show-hide-password {
+  label, .focus-line, .invalid-feedback, .show-hide-password, small {
     position: absolute;
   }
   label, .focus-line, .invalid-feedback {
@@ -29,6 +29,11 @@
     top: 100%;
     font-size: calc(.8rem + .2vw);
     color: crimson;
+  }
+  small {
+    top: 100%;
+    right: 0;
+    color: $text-gray;
   }
   input {
     width: 100%;
@@ -143,10 +148,21 @@ input.password {
     & ~ .focus-line {
       background-color: orange;
     }
+    & ~ small {
+      color: orange;
+    }
   }
   &.strong {
     & ~ .focus-line {
       background-color: $green;
+    }
+    & ~ small {
+      color: $green;
+    }
+  }
+  &.is-invalid {
+    & ~ small {
+      color: crimson;
     }
   }
 }

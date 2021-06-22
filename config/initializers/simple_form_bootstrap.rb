@@ -92,7 +92,7 @@ SimpleForm.setup do |config|
     b.wrapper tag: :span, class: 'focus-line' do |c|
     end
     b.use :full_error, wrap_with: { tag: 'div', class: 'invalid-feedback' }
-    b.use :hint, wrap_with: { tag: 'small', class: 'form-text text-muted' }
+    b.use :hint, wrap_with: { tag: 'small', class: 'form-text' }
     b.wrapper tag: :button, class: 'show-hide-password', html: { type: 'button', aria: { selected: 'false' }, data: { action: 'input#showHidePassword' } } do |c|
     end
   end
