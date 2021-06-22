@@ -31,6 +31,18 @@ puts 'Normal user - email: test@test.com, password: 123123'
 
 puts ''
 puts '=' * 30
+puts 'Creating box names'
+puts '=' * 30
+
+box1 = BoxName.create!(name: 'Happy Hour')
+puts "#{box1.name} Box created!"
+box2 = BoxName.create!(name: 'Beleza e Cuidado')
+puts "#{box2.name} Box created!"
+box3 = BoxName.create!(name: 'Receita Certa')
+puts "#{box3.name} Box created!"
+
+puts ''
+puts '=' * 30
 puts 'Creating box items'
 puts '=' * 30
 
@@ -39,36 +51,36 @@ beleza_cuidado = %w[Skincare\ Rosto Skincare\ Corpo Cabelo Esmaltaria]
 receita_certa = %w[Aves Bovinos Peixe Vegano Vegetariano Sobremesa]
 
 puts ''
-puts 'Box Happy Hour'
+puts "Box #{box1.name}"
 puts '-' * 30
 
 happy_hour.each do |item|
   BoxItem.create!(
-    box_name: 'Happy Hour',
+    box_name: box1.name,
     item_name: item
   )
   puts "<<- #{item}"
 end
 
 puts ''
-puts 'Box Beleza e Cuidado'
+puts "Box #{box2.name}"
 puts '-' * 30
 
 beleza_cuidado.each do |item|
   BoxItem.create!(
-    box_name: 'Beleza e Cuidado',
+    box_name: box2.name,
     item_name: item
   )
   puts "<<- #{item}"
 end
 
 puts ''
-puts 'Box Receita Certa'
+puts "Box #{box3.name}"
 puts '-' * 30
 
 receita_certa.each do |item|
   BoxItem.create!(
-    box_name: 'Receita Certa',
+    box_name: box3.name,
     item_name: item
   )
   puts "<<- #{item}"

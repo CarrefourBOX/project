@@ -1,0 +1,54 @@
+<div class="container">
+  <h1 class="text-center py-3">Adicionar nova caixa</h1>
+
+  <%= form_with(model: @box_name, local: true, html: {class: 'd-flex row row-cols-lg-auto g-3 align-items-center', 'data-turbo': false}) do %>
+    <div class="col-12">
+      <div class="input-group justify-content-center">
+        <div class="form-floating">
+          <%= text_field_tag "box_name[name]", @box_name.name, required: true, class: 'form-control', id: 'newBoxName', placeholder: 'nome' %>
+          <%= label_tag "box_name[name]", 'nome', for:'newBoxName' %>
+        </div>
+        <%= submit_tag "Criar caixa", class: 'btn btn-dark' %>
+      </div>
+    </div>
+  <% end %>
+
+  <h1 class="text-center py-3">Suas caixas</h1>
+  <div class="accordion accordion-flush" id="accordionFlushExample">
+    <% @boxes.each do |key, values| %>
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="flush-heading-<%= values['box_name'].id %>">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-<%= values['box_name'].id %>" aria-expanded="false" aria-controls="flush-collapse-<%= values['box_name'].id %>">
+            <%= key %>
+          </button>
+        </h2>
+        <div id="flush-collapse-<%= values['box_name'].id %>" class="accordion-collapse collapse" aria-labelledby="flush-heading-<%= values['box_name'].id %>" data-bs-parent="#accordionFlushExample">
+          <div class="accordion-body">
+
+            <% values['items'].each do |item|%>
+              <p><%= item.item_name %>
+                <%= link_to box_item_path(item), method: :delete, data: { confirm: 'Tem certeza?' } do %>
+                  <i class="fas fa-minus-circle text-danger"></i>
+                <% end %>
+              </p>
+            <% end %>
+
+            <p class="text-center">Adicionar um novo item</p>
+            <%= form_with(model: @box_item, local: true, html: {class: 'd-flex row row-cols-lg-auto g-3 align-items-center', 'data-turbo': false}) do %>
+              <div class="col-12">
+                <div class="input-group justify-content-center">
+                  <%= hidden_field_tag "box_item[box_name]", key, required: true, class: 'form-control', placeholder: 'nome' %>
+                  <%= text_field_tag "box_item[item_name]", @box_name.name, required: true, class: 'form-control', placeholder: 'nome' %>
+                  <%= submit_tag "Adicionar item", class: 'btn btn-sm btn-dark' %>
+                </div>
+              </div>
+            <% end %>
+
+            <p class="text-center"><%= link_to "apagar caixa", box_name_path(values['box_name']), method: :delete, class: 'text-center text-danger fs-6', data: { confirm: 'Tem certeza?' } %></p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+</div>
