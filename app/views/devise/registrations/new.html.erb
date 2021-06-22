@@ -16,7 +16,8 @@
                   input_html: { autocomplete: "last_name"  } %>
       <%= f.input :cpf,
                   label: 'CPF',
-                  input_html: { autocomplete: "cpf"  } %>
+                  input_html: { autocomplete: "cpf",
+                                data: { mask: 'cpf' }  } %>
       <%= f.input :birth_date,
                   as: :string,
                   label: 'Data de nascimento',
@@ -33,7 +34,8 @@
                   input_html: { autocomplete: "email" } %>
       <%= f.input :phone,
                   label: 'Celular',
-                  input_html: { autocomplete: "phone" } %>
+                  input_html: { autocomplete: "phone",
+                                data: { mask: 'phone' } } %>
     </div>
     <div id="password" data-multistep-target='tab' class="tab">
       <div class="tab-header">

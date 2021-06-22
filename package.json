@@ -13,6 +13,7 @@
     "bootstrap": "^5.0.0-beta3",
     "bootstrap-icons": "^1.5.0",
     "flatpickr": "^4.6.9",
+    "inputmask": "^5.0.6-beta.57",
     "jquery": "^3.6.0",
     "jquery-validation": "^1.19.3",
     "stimulus": "^2.0.0",
