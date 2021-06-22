@@ -5,5 +5,5 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   # validations
-  validates :first_name, :last_name, :cpf, :phone, presence: true, if: -> (user) { !user.admin }
+  validates :first_name, :last_name, :birth_date, :cpf, :phone, presence: true, if: -> (user) { !user.admin }
 end

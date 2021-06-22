@@ -1,5 +1,5 @@
 <%= content_for(:page_header, 'Cadastro') %>
-<div class="container-pad devise" data-controller='multistep' data-action='popstate@window->multistep#showCurrentTab'>
+<div class="container-pad devise" data-controller='multistep input' data-action='popstate@window->multistep#showCurrentTab'>
   
   <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), defaults: { wrapper: :line_form }, html: { data: { turbo: false } }) do |f| %>
     <div data-multistep-target='tab' class="tab">
@@ -17,6 +17,10 @@
       <%= f.input :cpf,
                   label: 'CPF',
                   input_html: { autocomplete: "cpf"  } %>
+      <%= f.input :birth_date,
+                  as: :string,
+                  label: 'Data de nascimento',
+                  input_html: { autocomplete: "birth_date", class: 'flatpickr' } %>
     </div>
     <div id="access" data-multistep-target='tab' class="tab">
       <div class="tab-header">
