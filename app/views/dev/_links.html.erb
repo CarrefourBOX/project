@@ -4,7 +4,7 @@
   }
 </style>
 
-<nav class="navbar navbar-expand bg-dark text-white">
+<nav class="navbar navbar-expand bg-dark text-white fixed-bottom">
   <div class="container-fluid">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -28,7 +28,7 @@
     <div>
       <ul class="navbar-nav">
         <% if current_user %>
-          <li class="nav-item dropdown">
+          <li class="nav-item dropup">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <%= "user: #{current_user.email}" %>
             </a>
