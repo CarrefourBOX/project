@@ -42,13 +42,15 @@
         bottom: 100%;
         font-size: calc(.8rem + .2vw);
       }
-      & ~ .focus-line {
-        max-width: 100%;
-      }
       &.is-invalid {
         & ~ label {
           color: crimson;
         }
+      }
+    }
+    &:focus, &[value]:not([value=""]), &.is-invalid {
+      & ~ .focus-line {
+        max-width: 100%;
       }
     }
   }
