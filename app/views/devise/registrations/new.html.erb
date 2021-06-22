@@ -1,16 +1,19 @@
 <%= content_for(:page_header, 'Cadastro') %>
 <div class="container-pad devise" data-controller='multistep' data-action='popstate@window->multistep#showCurrentTab'>
   
-  <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), defaults: { wrapper: :line_form }) do |f| %>
     <div data-multistep-target='tab' class="tab">
       <h2>Crie sua conta</h2>
       <p>Estamos felizes por ver você aqui! Para se cadastrar, precisamos de algumas informações</p>
       <%= f.input :first_name,
                   autofocus: true,
+                  label: 'Nome',
                   input_html: { autocomplete: "first_name" } %>
       <%= f.input :last_name,
+                  label: 'Sobrenome',
                   input_html: { autocomplete: "last_name"  } %>
       <%= f.input :cpf,
+                  label: 'CPF',
                   input_html: { autocomplete: "cpf"  } %>
     </div>
     <div id="access" data-multistep-target='tab' class="tab">

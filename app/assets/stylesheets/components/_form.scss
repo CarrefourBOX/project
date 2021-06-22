@@ -1,0 +1,42 @@
+.line-input {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: calc(1.8rem + 1.2vw);
+  label, .focus-line {
+    position: absolute;
+    left: 0;
+    bottom: $xs-gap;
+  }
+  label {
+    color: $label-gray;
+    font-weight: 500;
+    transition: .3s;
+  }
+  .focus-line {
+    max-width: 0;
+    width: 100%;
+    height: 2px;
+    bottom: 0;
+    background-color: $dark-blue;
+    transition: max-width .3s;
+  }
+  input {
+    width: 100%;
+    padding: $xs-gap 0;
+    border: none;
+    border-bottom: 1px solid $input-gray;
+    transition: border-color .3s;
+    &:focus, &[value]:not([value=""]) {
+      outline: none;
+      & ~ label {
+        color: $dark-blue;
+        bottom: 100%;
+        font-size: calc(.8rem + .2vw);
+      }
+      & ~ .focus-line {
+        max-width: 100%;
+      }
+    }
+  }
+}
