@@ -1,0 +1,2 @@
+module BoxNamesHelper
+end
