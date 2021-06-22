@@ -1,17 +1,19 @@
 .line-input {
   position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  margin-bottom: calc(1.8rem + 1.2vw);
-  label, .focus-line {
+  margin-bottom: calc(2.6rem + 1.4vw);
+  label, .focus-line, .invalid-feedback {
     position: absolute;
     left: 0;
-    bottom: $xs-gap;
   }
   label {
     color: $label-gray;
     font-weight: 500;
     transition: .3s;
+    bottom: $xs-gap;
+    line-height: 1em;
   }
   .focus-line {
     max-width: 0;
@@ -21,11 +23,17 @@
     background-color: $dark-blue;
     transition: max-width .3s;
   }
+  .invalid-feedback {
+    top: 100%;
+    font-size: calc(.8rem + .2vw);
+    color: crimson;
+  }
   input {
     width: 100%;
     padding: $xs-gap 0;
     border: none;
     border-bottom: 1px solid $input-gray;
+    color: $black;
     transition: border-color .3s;
     &:focus, &[value]:not([value=""]) {
       outline: none;
@@ -36,6 +44,34 @@
       }
       & ~ .focus-line {
         max-width: 100%;
+      }
+      &.is-invalid {
+        & ~ label {
+          color: crimson;
+        }
+      }
+    }
+  }
+  &.form-group-invalid {
+    .focus-line {
+      background-color: crimson;
+    }
+  }
+}
+.devise {
+  button {
+    color: white;
+    background-color: $blue;
+    border: 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    padding: $md-gap 0;
+    transition: background-color .3s;
+    &:not([disabled]) {
+      &:focus, &:hover {
+        background: $dark-blue;
       }
     }
   }

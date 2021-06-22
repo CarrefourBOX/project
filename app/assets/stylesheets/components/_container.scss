@@ -40,6 +40,9 @@
 
 // Devise views
 .devise {
+  form {
+    margin-top: $sm-gap;
+  }
   h2 {
     color: $dark-blue;
   }
@@ -50,5 +53,8 @@
 .tab {
   &:not(.current-tab) {
     display: none;
+  }
+  .tab-header {
+    margin-bottom: $lg-gap;
   }
 }

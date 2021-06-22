@@ -29,6 +29,8 @@ gem 'bootsnap', '>= 1.4.4', require: false
 
 # Manages user authentication
 gem 'devise'
+gem 'client_side_validations'
+gem 'client_side_validations-simple_form'
 
 # Set default structure to inputs
 gem 'simple_form'
