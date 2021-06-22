@@ -1,0 +1,49 @@
+<style>
+  .navbar a {
+    color: white;
+  }
+</style>
+
+<nav class="navbar navbar-expand bg-dark text-white">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+
+        <li>
+          <strong><%= link_to 'Home', root_path, class: 'nav-link' %></strong>
+        </li>
+
+        <% if current_user && current_user.admin %>
+          <li>
+            <strong><%= link_to 'Dashboard', dashboard_path, class: 'nav-link' %></strong>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
+    <div>
+      <ul class="navbar-nav">
+        <% if current_user %>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <%= "user: #{current_user.email}" %>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <li><%= link_to "sign out", destroy_user_session_path, method: :delete, class: 'dropdown-item' %></li>
+            </ul>
+          </li>
+        <% else %>
+          <li class="nav-item">
+            <%= link_to "sign in", new_user_session_path, class: 'nav-link' %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "sign up", new_user_registration_path, class: 'nav-link' %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </nav>
