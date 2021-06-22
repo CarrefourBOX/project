@@ -28,8 +28,8 @@ user = User.create!(
 
 puts 'Admin - email: admin@test.com, password: 123123'
 puts 'Normal user - email: test@test.com, password: 123123'
-puts ''
 
+puts ''
 puts '=' * 30
 puts 'Creating box items'
 puts '=' * 30
@@ -72,6 +72,36 @@ receita_certa.each do |item|
     item_name: item
   )
   puts "<<- #{item}"
+end
+
+puts ''
+puts '=' * 30
+puts 'Creating plans'
+puts '=' * 30
+
+3.times do
+  Plan.create!(
+    user: user,
+    carrefour_card: [true, false].sample,
+    category: Plan::CATEGORIES.keys.sample,
+    auto_renew: true,
+    quantity: rand(1..3),
+    ship_day: Plan::SHIP_DAYS.sample
+  )
+end
+
+puts "#{Plan.count} plans created..."
+
+puts ''
+puts '=' * 30
+puts 'Creating shipments'
+puts '=' * 30
+
+6.times do
+  shipment = Shipment.create!(
+    plan: Plan.all.sample
+  )
+  puts "Created shipment '#{shipment.shipping_code}'"
 end
 
 puts ''
