@@ -47,3 +47,8 @@
     color: $text-gray;
   }
 }
+.tab {
+  &:not(.current-tab) {
+    display: none;
+  }
+}
