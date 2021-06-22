@@ -1,7 +1,7 @@
 <%= content_for(:page_header, 'Cadastro') %>
 <div class="container-pad devise" data-controller='multistep' data-action='popstate@window->multistep#showCurrentTab'>
   
-  <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), defaults: { wrapper: :line_form, validate: true }, validate: true) do |f| %>
+  <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), defaults: { wrapper: :line_form }, html: { data: { turbo: false } }) do |f| %>
     <div data-multistep-target='tab' class="tab">
       <div class="tab-header">
         <h2>Crie sua conta</h2>

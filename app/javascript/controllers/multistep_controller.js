@@ -1,4 +1,3 @@
-
 import { Controller } from "stimulus";
 
 export default class extends Controller {
@@ -31,6 +30,17 @@ export default class extends Controller {
 			this.showCurrentTab();
 		}
 	}
+
+	// formValidation = () => {
+	// 	let valid = true;
+  //   $('[data-validate]:input:visible').each(function() {
+	// 		const settings = window[this.form.id].ClientSideValidations.settings;
+  //     if (!$(this).isValid(settings.validators)) {
+  //       valid = false
+  //     }
+  //   });
+	// 	return valid;
+	// }
 
 	updateBtnSubmit = () => {
 		if (this.tabTargets[this.tabTargets.length - 1].classList.contains('current-tab')) {
