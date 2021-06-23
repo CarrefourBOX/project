@@ -37,7 +37,51 @@
 }
 .profile-list-links {
   list-style-type: none;
+  margin: 0;
+  padding: 0;
+  & > div {
+    border-bottom: 1px solid $gray;
+  }
   li {
-    display: flex;
+    a {
+      display: grid;
+      grid-template-columns: calc(1.2rem + 1.2vw) max-content 1fr;
+      align-items: center;
+      width: 100%;
+      gap: $md-gap;
+      padding: $md-gap;
+      transition: background-color .3s;
+      .fa-chevron-right {
+        justify-self: end;
+      }
+      &:hover, &:focus {
+        background-color: rgba(0, 0, 0, .3);
+      }
+    }
+  }
+  i:first-child {
+    color: $text-gray;
+    font-size: calc(1.2rem + 1.2vw);
+  }
+  span {
+    font-size: calc(.6rem + .6vw);
+  }
+  p {
+    font-size: calc(.8rem + .8vw);
+    font-weight: 400;
+    margin: 0;
+    line-height: 1em;
+  }
+  span, p, i:last-child {
+    color: $black;
+  }
+  .app-options {
+    padding: $md-gap 0;
+    a {
+      display: inline-flex;
+      padding: $sm-gap $md-gap;
+      color: $input-gray;
+      font-size: calc(.8rem + 1vw);
+    }
   }
 }

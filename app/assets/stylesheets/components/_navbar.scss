@@ -34,8 +34,8 @@ nav {
   bottom: 2%;
   height: $menu-height;
   z-index: 999;
-  background: white;
   & > div {
+    background: white;
     width: 90%;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
