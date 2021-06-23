@@ -1,3 +1,64 @@
-// Place all the styles related to the pages controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: https://sass-lang.com/
+.start-container {
+    background-color: $bg-gray;
+    color: $font-default-color;
+    font-family: "BenchNine", sans-serif;
+    h2 {
+        margin-top: 50px;
+        font-size: 36px;
+        line-height: 48px;
+    }
+    p {
+        padding-bottom: 5px;
+        font-size: 27px;
+        line-height: 36px;
+        padding: 0 10px;
+    }
+}
+
+.img-ruler {
+    background-image: image-url("bg.png");
+    background-position: center;
+    background-size: cover;
+    width: 330px;
+    height: 86px;
+    margin: 50px 0 0 0;
+}
+
+.box-card {
+    border-radius: 23px;
+    color: #ffffff;
+    font-family: "Roboto", sans-serif;
+    text-align: left;
+    margin: 10px;
+    padding: 15px;
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+    p {
+        font-size: 18px !important;
+        line-height: normal;
+        padding-top: 10px;
+    }
+}
+
+.box-card-footer {
+    font-size: 14px !important;
+}
+
+.box-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-start {
+    font-size: 20px;
+    background-color: $btn-bg;
+    border-radius: 15px;
+    font-family: "Roboto", sans-serif;
+    color: $btn-blue-font;
+    text-decoration: none;
+    padding: calc(0.8rem + 0.4vw);
+    margin: 20px 0;
+}
