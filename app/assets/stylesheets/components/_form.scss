@@ -50,6 +50,9 @@
         font-size: calc(.8rem + .2vw);
       }
     }
+    &#user_password ~ .invalid-feedback {
+      display: none;
+    }
     &.is-invalid {
       & ~ label {
         color: crimson;
@@ -73,6 +76,9 @@
       font-weight: 900;
       color: crimson;
       font-size: 1.2em;
+    }
+    .show-hide-password {
+      right: 1.2em;
     }
   }
   .show-hide-password {
@@ -103,11 +109,15 @@
     left: 0;
     width: 100vw;
     padding: $md-gap 0;
+    font-weight: 500;
     transition: background-color .3s;
     &:not([disabled]) {
       &:focus, &:hover {
         background: $dark-blue;
       }
+    }
+    &[disabled] {
+      background: $gray;
     }
   }
 }

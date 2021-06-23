@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: %i[first_name last_name cpf phone])
+    devise_parameter_sanitizer.permit(:sign_up, keys: %i[first_name last_name cpf phone birth_date])
   end
   
   # Uncomment and add keys if user model has additional attributes
