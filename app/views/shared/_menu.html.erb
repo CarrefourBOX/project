@@ -1,22 +1,22 @@
-<div class='menu-nav' role="menubar">
+<div class='menu-nav' role="menubar" data-controller='modal'>
   <div>
     <%= link_to root_path, aria: { selected: current_page?(root_path)  } do %>
       <i class="fas fa-home" aria-hidden='true'></i>
       <span>Início</span>
     <% end %>
-    <%= link_to '#' do %>
+    <%= link_to '#', aria: { selected: false } do %>
       <i class="fas fa-cart-plus" aria-hidden='true'></i>
       <span>Comprar</span>
     <% end %>
-    <%= link_to '#' do %>
+    <%= link_to '#', aria: { selected: false } do %>
       <%= inline_svg_tag 'icons/barcode.svg', aria: { hidden: 'true' } %>
       <span>Leitor</span>
     <% end %>
-    <%= link_to new_user_session_path, remote: true, aria: { selected: false  } do %>
+    <%= link_to user_signed_in? ? profile_path : new_user_session_path, remote: !user_signed_in?, aria: { selected: current_page?(profile_path) }, data: { action: user_signed_in? ? '' : 'ajax:success->modal#emptyModal' } do %>
       <i class="far fa-user" aria-hidden='true'></i>
       <span>Perfil</span>
     <% end %>
-    <%= link_to '#' do %>
+    <%= link_to '#', aria: { selected: false } do %>
       <i class="fas fa-ellipsis-h" aria-hidden='true'></i>
       <span>Tudo</span>
     <% end %>

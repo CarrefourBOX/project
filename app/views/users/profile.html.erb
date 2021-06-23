@@ -1,0 +1,70 @@
+<% content_for(:page_header, 'Meu perfil') %>
+
+<div class="container">
+  <div class='avatar-container my-3'>
+    <%= image_tag 'profile', class: 'avatar' %>
+    <%= link_to "#", class: 'f-center' do %>
+      <i class="far fa-edit"></i>
+    <% end %>
+  </div>
+
+  <div class='profile-header my-4'>
+    <h3><%= current_user.name %></h3>
+    <%= link_to 'Editar perfil', edit_user_registration_path %>
+  </div>
+
+  <ul class='profile-list-links'>
+    <div>
+      <li>
+        <i class="fas fa-ticket-alt"></i>
+        <div>
+          <h5>Meus cupons</h5>
+          <p>Todos os Cupons de descontos ativos</p>
+        </div>
+        <i class="fas fa-chevron-right"></i>
+      </li>
+      <li>
+        <i class="fas fa-scroll"></i>
+        <div>
+          <h5>Pedidos e compras</h5>
+          <p>Histórico de compras e compras ativas</p>
+        </div>
+        <i class="fas fa-chevron-right"></i>
+      </li>
+      <li>
+        <i class="fas fa-map-marker-alt"></i>
+        <div>
+          <h5>Meus endereços</h5>
+          <p>Endereços cadastrados e de entrega</p>
+        </div>
+        <i class="fas fa-chevron-right"></i>
+      </li>
+      <li>
+        <i class="far fa-comments"></i>
+        <div>
+          <h5>Sua opnião sobre o App</h5>
+          <p>Conte para nós o que você pensa</p>
+        </div>
+        <i class="fas fa-chevron-right"></i>
+      </li>
+    </div>
+    <div>
+      <li>
+        <i class="far fa-question-circle"></i>
+        <p>Central de ajuda</p>
+      </li>
+      <li>
+        <i class="fas fa-book-open"></i>
+        <p>Manual do SuperApp</p>
+      </li>
+    </div>
+    <div>
+      <li>Termos e Condições</li>
+      <li>Política de Privacidade</li>
+      <li>Avalie o App</li>
+      <li>Sobre o App</li>
+      <li><%= link_to 'Sair', destroy_user_session_path, method: :delete %></li>
+    </div>
+    <span>Versão do app XX.X.X</span>
+  </ul>
+</div>

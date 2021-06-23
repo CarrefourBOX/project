@@ -1,0 +1,43 @@
+.avatar-container {
+  position: relative;
+  width: max-content;
+  margin: 0 auto;
+  .avatar {
+    border-radius: 50%;
+    height: calc(6rem + 6vw);
+    width: calc(6rem + 6vw);
+    border: 1px solid;
+  }
+  a {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: $lg-gap;
+    width: $lg-gap;
+    border-radius: 50%;
+    background: $blue;
+    color: white;
+    transition: box-shadow .5s;
+    font-size: calc(.8rem + .8vw);
+    &:hover, &:focus {
+      color: white;
+      box-shadow: .1rem .1rem .15rem .1rem rgba(0, 0, 0, .3);
+    }
+  }
+}
+.profile-header {
+  text-align: center;
+  h3 {
+    font-weight: 400;
+    margin-bottom: 0;
+  }
+  a {
+    font-size: calc(.8rem + .2vw);
+  }
+}
+.profile-list-links {
+  list-style-type: none;
+  li {
+    display: flex;
+  }
+}

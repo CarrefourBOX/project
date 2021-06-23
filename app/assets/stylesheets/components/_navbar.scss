@@ -1,11 +1,13 @@
 div.nav {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   height: $nav-height;
   padding: $md-gap;
   align-items: center;
   width: 100%;
+  background: white;
+  z-index: 999;
   p {
     font-size: calc(.8rem + 1vw);
     color: $nav-header-gray;
@@ -30,6 +32,9 @@ nav {
   width: 100%;
   position: fixed;
   bottom: 2%;
+  height: $menu-height;
+  z-index: 999;
+  background: white;
   & > div {
     width: 90%;
     display: grid;
@@ -42,7 +47,6 @@ nav {
   }
   a {
     position: relative;
-    text-decoration: none;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -74,6 +78,7 @@ nav {
     }
     &[aria-selected='true'] {
       color: $dark-blue;
+      transform: scale(1.1);
       &:hover, &:focus {
         color: $dark-blue;
       }

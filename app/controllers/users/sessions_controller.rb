@@ -4,9 +4,14 @@ class Users::SessionsController < Devise::SessionsController
   # before_action :configure_sign_in_params, only: [:create]
 
   # GET /resource/sign_in
-  # def new
-  #   super
-  # end
+  def new
+    super do
+      respond_to do |f|
+        f.json {  render json: { content: render_to_string(partial: 'new', formats: :html, layout: false) } }
+      end
+      return
+    end
+  end
 
   # POST /resource/sign_in
   # def create

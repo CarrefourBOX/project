@@ -5,8 +5,9 @@
 }
 #content-wrap {
   &:not(.home) {
-    padding-top: $navs-height;
+    padding-top: $nav-height;
   }
+  padding-bottom: $menu-height;
 }
 .container-pad {
   margin: 0 $md-gap;
