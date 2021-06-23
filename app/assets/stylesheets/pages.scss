@@ -1,3 +1,10 @@
+$bg-gray: #f0f0f0;
+$font-default-color: #525252;
+$btn-bg: #c4c4c4;
+$btn-blue-font: #444bee;
+$color-box-grape: #7a0997;
+$color-box-pink: #e1357d;
+$color-box-green: #05977d;
 .start-container {
     background-color: $bg-gray;
     color: $font-default-color;
@@ -71,4 +78,28 @@
     text-decoration: none;
     padding: calc(0.8rem + 0.4vw);
     margin: 20px 0;
+}
+
+.dashboard-container {
+    font-size: 22px;
+    a {
+        color: white;
+    }
+    background-color: $bg-gray;
+    color: $font-default-color;
+    font-family: "BenchNine",
+    sans-serif;
+    .accordion-button {
+        color: white;
+        font-size: 27px;
+        &:not(.collapsed) {
+            color: white;
+        }
+    }
+    .accordion-body p {
+        font-size: 20px;
+    }
+    .form-control {
+        font-size: 22px;
+    }
 }

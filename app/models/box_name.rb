@@ -1,3 +1,3 @@
 class BoxName < ApplicationRecord
-  validates :name, presence: true
+  validates :name, :description, :color, presence: true
 end

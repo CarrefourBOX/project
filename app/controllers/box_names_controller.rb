@@ -1,6 +1,7 @@
 class BoxNamesController < ApplicationController
   def create
     @box_name = BoxName.new(box_name_params)
+    @box_name.color = params[:box_name][:color].first
     authorize @box_name
     flash[:notice] = "Caixa '#{@box_name.name}' criada!" if @box_name.save
     redirect_to dashboard_path
@@ -18,6 +19,6 @@ class BoxNamesController < ApplicationController
   private
 
   def box_name_params
-    params.require(:box_name).permit(:name)
+    params.require(:box_name).permit(:name, :description, color: [])
   end
 end
