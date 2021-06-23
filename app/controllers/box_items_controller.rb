@@ -2,7 +2,7 @@ class BoxItemsController < ApplicationController
   def create
     @box_item = BoxItem.new(box_item_params)
     authorize @box_item
-    flash[:notice] = 'Item adicionado.' if @box_item.save
+    flash[:notice] = @box_item.save ? 'Item adicionado.' : @box_item.errors.full_messages
     redirect_to dashboard_path
   end
 

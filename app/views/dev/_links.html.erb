@@ -1,51 +1,13 @@
-<style>
-  .navbar a {
-    color: inherit;
-  }
-</style>
-
-<nav class="navbar navbar-expand bg-dark text-white fixed-bottom">
-  <div class="container-fluid">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav">
-
-        <li>
-          <strong><%= link_to 'Home', root_path, class: 'nav-link' %></strong>
-        </li>
-
-        <% if current_user && current_user.admin %>
-          <li>
-            <strong><%= link_to 'Dashboard', dashboard_path, class: 'nav-link' %></strong>
-          </li>
-        <% end %>
-      </ul>
-    </div>
-
-    <div>
-      <ul class="navbar-nav">
-        <% if current_user %>
-          <li class="nav-item dropup">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <%= "user: #{current_user.email}" %>
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <li><%= link_to "nova caixa", new_plan_path, class: 'dropdown-item' %></li>
-              <li><%= link_to "minhas caixas", my_boxes_path, class: 'dropdown-item' %></li>
-              <li><%= link_to "sign out", destroy_user_session_path, method: :delete, class: 'dropdown-item' %></li>
-            </ul>
-          </li>
-        <% else %>
-          <li class="nav-item">
-            <%= link_to "sign in", new_user_session_path, class: 'nav-link' %>
-          </li>
-          <li class="nav-item">
-            <%= link_to "sign up", new_user_registration_path, class: 'nav-link' %>
-          </li>
-        <% end %>
-      </ul>
-    </div>
-  </nav>
+<div class="container">
+  <% if current_user %>
+    <%= "user: #{current_user.email}" %>
+    <hr>
+    <p><%= link_to "dashboard", dashboard_path if current_user.admin %></p>
+    <p><%= link_to "nova caixa", new_plan_path %></p>
+    <p><%= link_to "minhas caixas", my_boxes_path %></p>
+    <p><%= link_to "sign out", destroy_user_session_path, method: :delete %></p>
+  <% else %>
+    <p><%= link_to "sign in", new_user_session_path, class: 'nav-link' %></p>
+    <p><%= link_to "sign up", new_user_registration_path, class: 'nav-link' %></p>
+  <% end %>
+</div>
