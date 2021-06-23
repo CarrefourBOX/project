@@ -1,11 +1,10 @@
 <%= render 'layouts/base' do %>
   <div id="page-container">
-    <%= render 'shared/navbar' unless current_page? root_path %>
-    <div id="content-wrap" class='<%= 'home' if current_page? root_path %>'>
+    <%= render 'shared/navbar' %>
+    <div id="content-wrap">
       <%= yield %>
     </div>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
-    <%= render 'shared/menu' %>
   </div>
 <% end %>

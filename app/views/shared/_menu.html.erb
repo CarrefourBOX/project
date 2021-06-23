@@ -1,0 +1,24 @@
+<div class='menu-nav' role="menubar">
+  <div>
+    <%= link_to root_path, aria: { selected: current_page?(root_path)  } do %>
+      <i class="fas fa-home" aria-hidden='true'></i>
+      <span>Início</span>
+    <% end %>
+    <%= link_to '#' do %>
+      <i class="fas fa-cart-plus" aria-hidden='true'></i>
+      <span>Comprar</span>
+    <% end %>
+    <%= link_to '#' do %>
+      <%= inline_svg_tag 'icons/barcode.svg', aria: { hidden: 'true' } %>
+      <span>Leitor</span>
+    <% end %>
+    <%= link_to new_user_session_path, remote: true, aria: { selected: false  } do %>
+      <i class="far fa-user" aria-hidden='true'></i>
+      <span>Perfil</span>
+    <% end %>
+    <%= link_to '#' do %>
+      <i class="fas fa-ellipsis-h" aria-hidden='true'></i>
+      <span>Tudo</span>
+    <% end %>
+  </div>
+</div>

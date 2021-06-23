@@ -40,6 +40,8 @@ gem 'rails-i18n', '~> 6.0.0'
 # Set default structure to inputs
 gem 'simple_form'
 
+gem 'inline_svg'
+
 # Manages user authorization
 gem 'pundit'
 

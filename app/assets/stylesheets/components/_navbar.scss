@@ -22,3 +22,77 @@ nav {
   position: absolute;
   top: $nav-height;
 }
+
+// menu nav
+.menu-nav {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  position: fixed;
+  bottom: 2%;
+  & > div {
+    width: 90%;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    align-items: center;
+    box-shadow: 0 0.1rem 0.25rem 0.05rem rgba(0, 0, 0, .3);
+    border-radius: 50rem;
+    padding: 0 $sm-gap;
+    overflow: hidden;
+  }
+  a {
+    position: relative;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: $text-gray;
+    font-size: calc(.8rem + .4vw);
+    padding: $sm-gap 0;
+    &::before {
+      content: "";
+      position: absolute;
+      background: rgba(0, 0, 0, .05);
+      border-radius: 50rem;
+      height: calc(4rem + 4vw);
+      width: calc(4rem + 4vw);
+      z-index: -1;
+      opacity: 0;
+      transition: opacity .5s;
+    }
+    &::after {
+      content: "";
+      position: absolute;
+      background: rgba(0, 0, 0, .05);
+      border-radius: 50rem;
+      height: calc(4rem + 4vw);
+      width: calc(4rem + 4vw);
+      max-height: 0;
+      max-width: 0;
+      z-index: -1;
+    }
+    &[aria-selected='true'] {
+      color: $dark-blue;
+      &:hover, &:focus {
+        color: $dark-blue;
+      }
+    }
+    &:hover, &:focus {
+      color: $text-gray;
+      &::before {
+        opacity: 1;
+      }
+      &::after {
+        max-width: calc(4rem + 4vw);
+        max-height: calc(4rem + 4vw);
+        transition: max-height .7s .5s linear, max-width .7s .5s linear;
+      }
+    }
+  }
+  i, svg {
+    height: calc(1rem + 1vw);
+    width: auto;
+    font-size: calc(1rem + 1vw);
+  }
+}
