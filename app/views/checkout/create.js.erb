@@ -1,8 +1,7 @@
-// const stripe = Stripe('<%= Rails.configuration.stripe[:publishable_key] %>');
+const stripe = Stripe('<%= Rails.configuration.stripe[:publishable_key] %>');
 
-// stripe.redirectToCheckout({
-//   sessionId: '<%= @session.id %>'
-// }).then (function (result) {
-//   console.log(result.error.message);
-// });
-console.log('<%= @plan.price %>')
+stripe.redirectToCheckout({
+  sessionId: '<%= @session.id %>'
+}).then (function (result) {
+  console.log(result.error.message);
+});
