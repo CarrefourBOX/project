@@ -2,7 +2,7 @@ puts '=' * 30
 puts 'Creating users'
 puts '=' * 30
 
-User.create!(
+user = User.create!(
   email: 'test@test.com',
   password: '123123',
   first_name: 'John',
@@ -14,7 +14,7 @@ User.create!(
   admin: false
 )
 
-user = User.create!(
+User.create!(
   email: 'admin@test.com',
   password: '123123',
   first_name: 'Jane',
@@ -92,7 +92,7 @@ puts 'Creating plans'
 puts '=' * 30
 
 3.times do
-  Plan.create!(
+  plan = Plan.create!(
     user: user,
     carrefour_card: [true, false].sample,
     category: Plan::CATEGORIES.keys.sample,
@@ -100,6 +100,12 @@ puts '=' * 30
     quantity: rand(1..3),
     ship_day: Plan::SHIP_DAYS.sample
   )
+
+  boxes = BoxName.all.sample(rand(1..3))
+  boxes.each do |box|
+    items = BoxItem.where(box_name: box.name).sample(rand(1..4))
+    items.each { |item| Box.create!(box_item: item, plan: plan) }
+  end
 end
 
 puts "#{Plan.count} plans created..."

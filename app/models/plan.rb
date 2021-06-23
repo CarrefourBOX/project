@@ -11,6 +11,7 @@ class Plan < ApplicationRecord
   SHIP_DAYS = %w[10 20 30].freeze
 
   belongs_to :user
+  has_many :boxes
 
   before_validation :calculate_price
   before_validation :calculate_shipment

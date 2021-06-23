@@ -4,6 +4,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  has_many :plans
+  has_many :boxes, through: :plans
+
   # validations
   validates :first_name, :last_name, :birth_date, :cpf, :phone, presence: true, unless: :admin?
   validates :password, format: { with: /(.*([A-Za-z]+[0-9]|[0-9]+[A-Za-z]).*)/ }
