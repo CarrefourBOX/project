@@ -1,27 +1,25 @@
-<h2>Cadastre-se</h2>
-<h2>ou acesse sua conta</h2>
-
-<p>Para começar, precisamos do seu CPF ou e-mail</p>
-
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
-  </div>
-
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
+<div class="session">
+  <h3>Cadastre-se</h3>
+  <h2>ou acesse sua conta</h2>
+  
+  <%= image_tag 'session_icon' %>
+  
+  <p>Para começar, precisamos do seu CPF ou e-mail</p>
+  
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+    <div class="form-float">
+      <%= f.text_field :login, autofocus: true, autocomplete: "email", placeholder: 'Digite seu CPF ou e-mail' %>
+      <%= f.label :login, 'Digite seu CPF ou e-mail' %><br />
     </div>
-  <% end %>
-
-  <div class="actions">
-    <%= f.submit "Log in" %>
-  </div>
-<% end %>
+  
+    <div class="form-float">
+      <%= f.password_field :password, autocomplete: "current-password", placeholder: 'Senha' %>
+      <%= f.label :password, 'Senha' %>
+    </div>
+  
+    <div class="actions">
+      <%= f.submit "Ok, vamos lá", class: 'btn-blue' %>
+    </div>
+    <% end %>
+    <%= link_to 'Criar nova conta', new_user_registration_path %>
+</div>

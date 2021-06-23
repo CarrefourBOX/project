@@ -1,0 +1,15 @@
+#modal-content {
+  a {
+    text-decoration: none;
+  }
+  h2, h3 {
+    text-align: start;
+    font-size: calc(1.3rem + 0.6vw);
+  }
+  h3 {
+    color: $dark-blue;
+  }
+}
+.swal2-html-container {
+  padding: $md-gap;
+}
