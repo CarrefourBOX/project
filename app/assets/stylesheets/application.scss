@@ -1,7 +1,8 @@
 // CSS partials
 @import "config/index";
 @import "components/index";
-
+// Controllers' CSS
+@import "pages";
 // External libraries
 @import "bootstrap/scss/bootstrap";
 @import "font-awesome-sprockets";
