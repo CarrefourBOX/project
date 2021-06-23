@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   devise_for :users
   root to: 'pages#start'
   get 'start', to: 'pages#start', as: :start
+  get 'home', to: 'pages#home', as: :home
   get 'dashboard', to: 'pages#dashboard', as: :dashboard
   get 'my_boxes', to: 'pages#my_boxes', as: :my_boxes
 
