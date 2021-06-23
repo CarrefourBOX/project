@@ -4,7 +4,7 @@ puts '=' * 30
 
 user = User.create!(
   email: 'test@test.com',
-  password: '123123',
+  password: 'senha123',
   first_name: 'John',
   last_name: 'Doe',
   birth_date: Date.new(2001, 0o1, 0o1),
@@ -16,7 +16,7 @@ user = User.create!(
 
 User.create!(
   email: 'admin@test.com',
-  password: '123123',
+  password: 'senha123',
   first_name: 'Jane',
   last_name: 'Doe',
   birth_date: Date.new(2001, 0o1, 0o1),
@@ -26,8 +26,8 @@ User.create!(
   admin: true
 )
 
-puts 'Admin - email: admin@test.com, password: 123123'
-puts 'Normal user - email: test@test.com, password: 123123'
+puts 'Admin - email: admin@test.com, password: senha123'
+puts 'Normal user - email: test@test.com, password: senha123'
 
 puts ''
 puts '=' * 30
