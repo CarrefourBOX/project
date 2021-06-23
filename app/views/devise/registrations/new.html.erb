@@ -1,7 +1,7 @@
 <%= content_for(:page_header, 'Cadastro') %>
-<div class="container-pad devise" data-controller='multistep input' data-action='popstate@window->multistep#showCurrentTab'>
+<div class="container-pad devise" data-controller='input multistep' data-action='popstate@window->multistep#showCurrentTab'>
   
-  <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), defaults: { wrapper: :line_form }, html: { data: { turbo: false } }) do |f| %>
+  <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), defaults: { wrapper: :line_form }, validate: true, html: { novalidate: "novalidate", data: { turbo: false, action: 'input->multistep#updateNextBtn focusout->multistep#updateNextBtn', 'multistep-target': 'form' } } ) do |f| %>
     <div data-multistep-target='tab' class="tab">
       <div class="tab-header">
         <h2>Crie sua conta</h2>
@@ -9,17 +9,21 @@
       </div>
       <%= f.input :first_name,
                   autofocus: true,
+                  validate: true,
                   label: 'Nome',
                   input_html: { autocomplete: "first_name" } %>
       <%= f.input :last_name,
+                  validate: true,
                   label: 'Sobrenome',
                   input_html: { autocomplete: "last_name"  } %>
       <%= f.input :cpf,
+                  validate: true,
                   label: 'CPF',
                   input_html: { autocomplete: "cpf",
                                 data: { mask: 'cpf' }  } %>
       <%= f.input :birth_date,
                   as: :string,
+                  validate: true,
                   label: 'Data de nascimento',
                   input_html: { autocomplete: "birth_date", class: 'flatpickr' } %>
     </div>
@@ -30,9 +34,11 @@
       </div>
 
       <%= f.input :email,
+                  as: :string,
                   label: 'E-mail',
                   input_html: { autocomplete: "email" } %>
       <%= f.input :phone,
+                  validate: true,
                   label: 'Celular',
                   input_html: { autocomplete: "phone",
                                 data: { mask: 'phone' } } %>
@@ -47,7 +53,8 @@
                     wrapper: :line_form_password,
                     hint: '',
                     input_html: { autocomplete: "new-password",
-                                  data: { action: 'input->input#checkPasswordStrength' } } %>
+                                  data: { action: 'input->multistep#checkPasswordStrength',
+                                          'multistep-target': 'passwordInput' } } %>
         <div class="password-hints f-column">
           <span id='length-hint'>Mínimo de <strong>6 caractéres</strong></span>
           <span id='letter-hint'>Ter pelo menos <strong>1 letra</strong></span>
@@ -55,10 +62,13 @@
         </div>
       </div>
       <%= f.input :password_confirmation,
+                  validate: false,
                   label: 'Confirme sua senha',
-                  input_html: { autocomplete: "new-password" } %>
+                  input_html: { autocomplete: "new-password",
+                                data: { action: 'input->multistep#passwordConfirmationInput',
+                                        'multistep-target': 'passwordConfirmationInput' } } %>
     </div>
 
-    <button type="button" class='nextSubmitBtn' data-multistep-target='nextBtn' data-action='multistep#nextTab'>AVANÇAR</button>
+    <button type="button" class='nextSubmitBtn' data-multistep-target='nextBtn' data-action='multistep#nextTab' disabled>AVANÇAR</button>
   <% end %>
 </div>

@@ -29,8 +29,13 @@ gem 'bootsnap', '>= 1.4.4', require: false
 
 # Manages user authentication
 gem 'devise'
+
+
 gem 'client_side_validations'
 gem 'client_side_validations-simple_form'
+
+# to translate the rails validation messages
+gem 'rails-i18n', '~> 6.0.0'
 
 # Set default structure to inputs
 gem 'simple_form'

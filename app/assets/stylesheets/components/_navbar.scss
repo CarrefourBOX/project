@@ -5,6 +5,7 @@ div.nav {
   height: $nav-height;
   padding: $md-gap;
   align-items: center;
+  width: 100%;
   p {
     font-size: calc(.8rem + 1vw);
     color: $nav-header-gray;
@@ -16,4 +17,8 @@ div.nav {
     font-size: calc(1rem + 1vw);
     margin-right: $md-gap;
   }
+}
+nav {
+  position: absolute;
+  top: $nav-height;
 }

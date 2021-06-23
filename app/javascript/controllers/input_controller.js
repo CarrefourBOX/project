@@ -30,66 +30,6 @@ export default class extends Controller {
     inputPassword.setAttribute('type', inputType);
   }
 
-  checkPasswordStrength = (e) => {
-    const target = e.currentTarget;
-    const hint = e.currentTarget.parentElement.querySelector('small');
-    const lengthHint = document.getElementById('length-hint');
-    const letterHint = document.getElementById('letter-hint');
-    const numberHint = document.getElementById('number-hint');
-    if (target.value == "") {
-      target.classList.remove('medium');
-      target.classList.remove('strong');
-      target.classList.remove('is-invalid');
-      lengthHint.classList.remove('invalid');
-      lengthHint.classList.remove('valid');
-      numberHint.classList.remove('invalid');
-      numberHint.classList.remove('valid');
-      letterHint.classList.remove('invalid');
-      letterHint.classList.remove('valid');
-      hint.innerText = "";
-    } else {
-      if (target.value.length >= 6) {
-        lengthHint.classList.remove('invalid');
-        lengthHint.classList.add('valid');
-      } else {
-        lengthHint.classList.remove('valid');
-        lengthHint.classList.add('invalid');
-      }
-      if (target.value.match(/\d+/)) {
-        numberHint.classList.remove('invalid');
-        numberHint.classList.add('valid');
-      } else {
-        numberHint.classList.remove('valid');
-        numberHint.classList.add('invalid');
-      }
-      if (target.value.match(/[a-zA-Z]+/)) {
-        letterHint.classList.remove('invalid');
-        letterHint.classList.add('valid');
-      } else {
-        letterHint.classList.remove('valid');
-        letterHint.classList.add('invalid');
-      }
-      if (target.value.length >= 6 && target.value.match(/\d+/) && target.value.match(/[a-z]+/)) {
-        if (target.value.match(/[A-Z]+/) && target.value.match(/[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/]+/)) {
-          target.classList.remove('is-invalid');
-          target.classList.remove('medium');
-          target.classList.add('strong');
-          hint.innerText = "Forte";
-        } else {
-          target.classList.remove('is-invalid');
-          target.classList.remove('strong');
-          target.classList.add('medium');
-          hint.innerText = "Médio";
-        }
-      } else {
-        target.classList.remove('medium');
-        target.classList.remove('strong');
-        target.classList.add('is-invalid');
-        hint.innerText = "Fraco";
-      }
-    }
-  }
-
   setInputmask = () => {
     document.querySelectorAll('input[data-mask]').forEach(input => {
       if (input.dataset.mask !== undefined) {
