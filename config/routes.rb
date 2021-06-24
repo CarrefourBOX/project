@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     get 'success', to: 'checkout#success', as: 'checkout_success'
   end
 
-  resources :plans, only: %i[new create]
+  resources :plans, only: %i[new create show]
   resources :box_names, only: %i[create destroy]
   resources :box_items, only: %i[create destroy]
 end
