@@ -4,4 +4,14 @@ class PlanPolicy < ApplicationPolicy
       scope.all
     end
   end
+
+  def toggle_auto_renew?
+    user == record.user || admin?
+  end
+
+  private
+
+  def admin?
+    user.admin
+  end
 end
