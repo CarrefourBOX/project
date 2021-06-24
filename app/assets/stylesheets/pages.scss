@@ -156,3 +156,62 @@ $color-box-green: #05977d;
         border-radius: 0.25rem !important;
     }
 }
+
+.my-box-container {
+    background-color: $bg-gray;
+    color: $font-default-color;
+    font-family: "BenchNine", sans-serif;
+    h2 {
+        margin-top: 50px;
+        font-size: 36px;
+        line-height: 48px;
+    }
+    p {
+        padding-bottom: 5px;
+        font-size: 27px;
+        line-height: 36px;
+        padding: 0 10px;
+    }
+    .plan-card {
+        background: #ffffff;
+        border: 1px solid #000000;
+        border-radius: 15px;
+        .box-items {
+            font-size: 22px;
+            line-height: 27px;
+            width: 100%;
+            margin: 10px 0;
+            padding: 5px 0;
+            span {
+                display: block;
+            }
+        }
+        .plan-card-head {
+            font-family: BenchNine;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 27px;
+            line-height: 36px;
+            background: black;
+            color: white;
+            border-radius: 15px;
+            height: 46px;
+            display: flex;
+            align-items: flex-end;
+            padding-left: 10px;
+        }
+        .plan-info {
+            padding: 0 10px;
+            font-size: 25px;
+            line-height: 30px;
+            a {
+                font-family: Roboto;
+                font-style: normal;
+                font-weight: bold;
+                font-size: 15px;
+                line-height: 18px;
+                text-decoration: none;
+            }
+        }
+    }
+}
