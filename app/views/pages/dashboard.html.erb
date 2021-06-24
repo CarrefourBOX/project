@@ -1,25 +1,36 @@
 <div class="container dashboard-container">
-  <h1 class="text-center py-3">Adicionar nova caixa</h1>
+  <div class="dashboard-form">
+    <h1 class="text-center py-3">Adicionar nova caixa</h1>
 
-  <%= form_with(model: @box_name, local: true, html: {class: 'd-flex row row-cols-lg-auto g-3 align-items-center', 'data-turbo': false}) do %>
-    <div class="col-12">
-      <div class="pb-3">
-        <%= text_field_tag "box_name[name]", @box_name.name, required: true, class: 'form-control w-100', placeholder: 'nome' %>
-      </div>
-      <div class="pb-3">
-        <%= text_area_tag "box_name[description]", @box_name.name, required: true, class: 'form-control', placeholder: 'descrição' %>
-      </div>
-      <div class="row">
-        <div class="input-group pb-3 col d-flex justify-content-center align-items-center">
-          <%= color_field "box_name[color]", @box_name.color, class: 'form-control form-control-color', value: '#112382', title: 'Escolha uma cor' %>
-          <%= label_tag "box_name[color]", 'cor', class: 'ms-2' %>
+    <%= form_with model: @box_name, local: true, html: {class: 'd-flex row row-cols-lg-auto g-3 align-items-center', 'data-turbo': false, 'data-controller':'image-attachment' } do |f| %>
+      <div class="col-12">
+        <div class="pb-3">
+          <%= text_field_tag "box_name[name]", @box_name.name, required: true, class: 'form-control w-100', placeholder: 'nome' %>
         </div>
-        <div class="col">
-          <%= submit_tag "Criar caixa", class: 'btn btn-dark' %>
+        <div class="pb-3">
+          <%= text_area_tag "box_name[description]", @box_name.name, required: true, class: 'form-control', placeholder: 'descrição' %>
+        </div>
+        <div class="row py-3">
+          <div class="input-group col d-flex justify-content-center align-items-center">
+            <%= color_field "box_name[color]", @box_name.color, class: 'form-control form-control-color', value: '#112382', title: 'Escolha uma cor' %>
+            <%= label_tag "box_name[color]", 'cor', class: 'ms-2' %>
+          </div>
+          <div class="input-group col d-flex justify-content-center align-items-center">
+            <%= f.file_field :icon, id:'icon-upload', required: true, class: 'form-control form-control-color', class:'visually-hidden', data: { 'image-attachment-target': 'input', action: 'image-attachment#preview' } %>
+            <label for="icon-upload" class="upload-label">
+              <%= image_tag("img-placeholder", title: 'Escolha um ícone', class: 'icon-placeholder', data: {"image-attachment-target": "output"}) %>
+            </label>
+            <%= label_tag "box_name[color]", 'ícone', class: 'ms-2' %>
+          </div>
+        </div>
+        <div class="row d-flex justify-content-center align-items-center pt-3">
+          <%= submit_tag "Criar caixa", class: 'btn btn-dark mx-auto w-50' %>
         </div>
       </div>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
+
+  <hr>
 
   <h1 class="text-center py-3">Suas caixas</h1>
   <div class="accordion accordion-flush" id="accordionFlushExample">
@@ -27,7 +38,7 @@
       <div class="accordion-item">
         <h2 class="accordion-header" id="flush-heading-<%= values['box_name'].id %>">
           <button class="accordion-button collapsed" style="background-color:<%= values['box_name'].color %> !important;" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-<%= values['box_name'].id %>" aria-expanded="false" aria-controls="flush-collapse-<%= values['box_name'].id %>">
-            <%= key %>
+            <%= cl_image_tag values['box_name'].icon.key, width: 35, class:'me-3' %><%= key %>
           </button>
         </h2>
         <div id="flush-collapse-<%= values['box_name'].id %>" class="accordion-collapse collapse" aria-labelledby="flush-heading-<%= values['box_name'].id %>" data-bs-parent="#accordionFlushExample">
@@ -37,7 +48,7 @@
 
             <% values['items'].each do |item|%>
               <p>
-                <%= link_to box_item_path(item), class: 'me-3', method: :delete, data: { confirm: 'Tem certeza?' } do %>
+                <%= link_to box_item_path(item), class: 'me-2', method: :delete, data: { confirm: 'Tem certeza?' } do %>
                   <i class="fas fa-minus-circle text-danger"></i>
                 <% end %>
                 <%= item.item_name %>
@@ -50,12 +61,12 @@
                 <div class="input-group justify-content-center">
                   <%= hidden_field_tag "box_item[box_name]", key, required: true, class: 'form-control', placeholder: 'nome' %>
                   <%= text_field_tag "box_item[item_name]", @box_name.name, required: true, class: 'form-control', placeholder: 'nome' %>
-                  <%= submit_tag "Adicionar item", class: 'btn btn-sm btn-dark' %>
+                  <%= submit_tag "Adicionar item", class: 'btn btn-sm btn-dark fs-5' %>
                 </div>
               </div>
             <% end %>
 
-            <p class="text-center"><%= link_to "apagar caixa", box_name_path(values['box_name']), method: :delete, class: 'text-center text-danger fs-6', data: { confirm: 'Tem certeza?' } %></p>
+            <p class="text-center"><%= link_to "apagar caixa", box_name_path(values['box_name']), method: :delete, class: 'btn btn-danger text-center fs-5 mt-3', data: { confirm: 'Tem certeza?' } %></p>
           </div>
         </div>
       </div>
