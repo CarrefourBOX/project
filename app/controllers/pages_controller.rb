@@ -3,7 +3,9 @@ class PagesController < ApplicationController
 
   def home; end
 
-  def start; end
+  def start
+    @boxes = BoxName.all
+  end
 
   def dashboard
     authorize :page
