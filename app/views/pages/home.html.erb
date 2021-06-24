@@ -93,4 +93,29 @@
     </div>
     <i aria-hidden="true" class="fas fa-chevron-right"></i>
   <% end %>
+
+  <% if user_signed_in? %>
+    <div class="user-activity">
+      <div>
+        <p>
+          Minhas Moedas: <strong>0</strong>
+          <%= image_tag 'icons/coin.png' %>
+        </p>
+        <%= link_to 'Quero usar!', "#" %>
+      </div>
+      <div>
+        <p>Veja sua evolução de <%= l(Time.now, format: "%B") %></p>
+        <%= image_tag 'graphic.png' %>
+        <div>
+          <span>Faça sua <em>primeira compra do mês</em> e comece a acumular Moedas!</span>
+          <%= link_to "#" do %>
+            <i class="fas fa-exclamation-circle"></i>
+            <span>Entenda como funciona</span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% else %>
+
+  <% end %>
 </div>
