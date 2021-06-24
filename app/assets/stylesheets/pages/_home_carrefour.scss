@@ -49,12 +49,17 @@
     }
     &.purple {
       & > div {
-        background: $purple;
+        background: linear-gradient(45deg, transparent, rgba(0, 0, 0, .3)) $purple;
       }
     }
     &.gray {
       & > div {
         background: $light-gray;
+      }      
+    }
+    &.white {
+      & > div {
+        background: white;
       }      
     }
     &.pink {
@@ -69,17 +74,17 @@
     }
     &.blue-shadow {
       & > div {
-        background: $home-blue-2;
+        background: linear-gradient(45deg, transparent, rgba(0, 0, 0, .5)) $home-blue-2;
       }      
     }
     &.blue-light {
       & > div {
-        background: $home-light-blue;
+        background: linear-gradient(45deg, transparent, rgba(255, 255, 255, .5)) $home-light-blue;
       }      
     }
     &.dark-blue {
       & > div {
-        background: $home-dark-blue;
+        background: linear-gradient(45deg, rgba(0, 0, 0, .2), rgba(255, 255, 255, .2)) $home-dark-blue;
       }      
     }
     &.orange {
