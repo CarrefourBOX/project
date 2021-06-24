@@ -19,7 +19,8 @@ class CheckoutController < ApplicationController
     @session = Stripe::Checkout::Session.create(
       payment_method_types: ['card'],
       line_items: [{
-        name: 'Seu plano:',
+        name: 'Receber no endereço:',
+
         amount: @price_cents,
         quantity: @quantity,
         currency: 'brl'
@@ -33,8 +34,12 @@ class CheckoutController < ApplicationController
     end
   end
 
-  def success; end
+  def success
+    skip_authorization
+  end
 
-  def cancel; end
+  def cancel
+    skip_authorization
+  end
 
 end
