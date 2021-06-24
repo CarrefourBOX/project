@@ -1,0 +1,14 @@
+<div class="container">
+  <% if current_user %>
+    <%= "user: #{current_user.email}" %>
+    <hr>
+    <p><%= link_to "dashboard", dashboard_path if current_user.admin %></p>
+    <p><%= link_to "início", start_path %></p>
+    <p><%= link_to "nova caixa", new_plan_path %></p>
+    <p><%= link_to "minhas caixas", my_boxes_path %></p>
+    <p><%= link_to "sign out", destroy_user_session_path, method: :delete %></p>
+  <% else %>
+    <p><%= link_to "sign in", new_user_session_path, class: 'nav-link' %></p>
+    <p><%= link_to "sign up", new_user_registration_path, class: 'nav-link' %></p>
+  <% end %>
+</div>

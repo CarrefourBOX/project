@@ -1,6 +1,9 @@
 class PagesController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[home]
+  skip_before_action :authenticate_user!, only: %i[home start]
+
   def home; end
+
+  def start; end
 
   def dashboard
     authorize :page
