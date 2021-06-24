@@ -8,5 +8,5 @@ Rails.application.routes.draw do
 
   resources :plans, only: %i[new create]
   resources :box_names, only: %i[create destroy]
-  resources :box_items, only: %i[create destroy]
+  resources :box_items, only: %i[new create destroy]
 end
