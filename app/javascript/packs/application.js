@@ -22,7 +22,7 @@ application.load(definitionsFromContext(context));
 Rails.start()
 ActiveStorage.start()
 
-import 'slick-carousel';
+import 'slick-carousel/slick/slick';
 import "slick-carousel/slick/slick.scss";
 import "slick-carousel/slick/slick-theme.scss";
 import 'jquery-validation/dist/jquery.validate';

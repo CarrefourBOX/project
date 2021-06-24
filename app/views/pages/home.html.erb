@@ -96,26 +96,29 @@
 
   <% if user_signed_in? %>
     <div class="user-activity">
-      <div>
-        <p>
+      <div class='f-center f-between'>
+        <p class='f-center'>
           Minhas Moedas: <strong>0</strong>
           <%= image_tag 'icons/coin.png' %>
         </p>
         <%= link_to 'Quero usar!', "#" %>
       </div>
-      <div>
-        <p>Veja sua evolução de <%= l(Time.now, format: "%B") %></p>
+      <div class='f-center f-column'>
+        <h4>Veja sua evolução de <%= l(Time.now, format: "%B") %></h4>
         <%= image_tag 'graphic.png' %>
-        <div>
-          <span>Faça sua <em>primeira compra do mês</em> e comece a acumular Moedas!</span>
-          <%= link_to "#" do %>
-            <i class="fas fa-exclamation-circle"></i>
-            <span>Entenda como funciona</span>
-          <% end %>
-        </div>
+        <hr />
+        <span>Faça sua <em>primeira compra do mês</em> e comece a acumular Moedas!</span>
+        <%= link_to "#" do %>
+          <i class="fas fa-exclamation-circle"></i>
+          <span>Entenda como funciona</span>
+        <% end %>
       </div>
     </div>
   <% else %>
-
+    <div class='call-to-rewards'>
+      <p>Destrave suas moedas para trocar por <strong>recompensas e produtos incríveis.</strong></p>
+      <%= image_tag 'items.png' %>
+      <%= link_to 'Entre ou cadastre-se', new_user_session_path, data: { 'bs-toggle': 'modal', 'bs-target': '#sessionModal' }, class: 'btn-blue purple' %>
+    </div>
   <% end %>
 </div>
