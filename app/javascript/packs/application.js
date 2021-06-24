@@ -22,13 +22,13 @@ application.load(definitionsFromContext(context));
 Rails.start()
 ActiveStorage.start()
 
-import "../stylesheets/style";
+import 'slick-carousel/slick/slick';
+import "slick-carousel/slick/slick.scss";
+import "slick-carousel/slick/slick-theme.scss";
 import 'jquery-validation/dist/jquery.validate';
 import "bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import('@client-side-validations/client-side-validations');
 import('../plugins/simple-form.bootstrap4');
 import { initTooltips } from "../components/init_tooltips";
-import Swal from "sweetalert2";
-window.Swal = Swal;
 initTooltips();

@@ -1,0 +1,24 @@
+.carousel {
+  .slick-dots {
+    li {
+      margin: 0;
+      button {
+        &:before {
+          color: #8D8E90;
+          opacity: 1;
+          font-size: .5rem;
+        }
+      }
+      &.slick-active {
+        button {
+          &:before {
+            color: #e71e26;
+          }
+        }
+      }
+    }
+  }
+  .slick-slide {
+    margin: 0 $md-gap;
+  }
+}

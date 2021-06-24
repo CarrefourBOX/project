@@ -1,4 +1,124 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<div class='home-menu'>
+  <div class="header-bg"></div>
+  <div class='home-options'>
+    <% if !user_signed_in? %>
+      <%= link_to new_registration_path(User), class: 'f-center sign_up' do %>
+        <div>
+          <div class='content'>
+            <%= image_tag 'icons/carrefour.png' %>
+          </div>
+        </div>
+        <span>Cadastre-se!</span>
+      <% end %>
+    <% end %>
+    <%= link_to '#', class: 'f-center purple' do %>
+      <div>
+        <%= image_tag 'icons/coin.png' %>
+      </div>
+      <span>Minhas Recompensas</span>
+    <% end %>
+    <%= link_to start_path, class: 'f-center white' do %>
+      <div>
+        <%= image_tag 'logo.png' %>
+      </div>
+      <span>Box Surpresa</span>
+    <% end %>
+    <%= link_to '#', class: 'f-center gray' do %>
+      <div>
+        <%= image_tag 'icons/heart.png' %>
+      </div>
+      <span>Nutri Escolha</span>
+    <% end %>
+    <%= link_to '#', class: 'f-center pink' do %>
+      <div>
+        <%= image_tag 'icons/discount.png' %>
+      </div>
+      <span>Cupons Exclusivos</span>
+    <% end %>
+    <%= link_to '#', class: 'f-center red' do %>
+      <div>
+        <%= image_tag 'icons/market.png' %>
+      </div>
+      <span>Mercado Online</span>
+    <% end %>
+    <%= link_to '#', class: 'f-center blue-shadow' do %>
+      <div>
+        <%= image_tag 'icons/phone.png' %>
+      </div>
+      <span>Shopping Online</span>
+    <% end %>
+    <%= link_to '#', class: 'f-center blue-light' do %>
+      <div>
+        <%= image_tag 'icons/tickets.png' %>
+      </div>
+      <span>Folhetos de Ofertas</span>
+    <% end %>
+    <%= link_to '#', class: 'f-center gray' do %>
+      <div>
+        <%= image_tag 'icons/cook.png' %>
+      </div>
+      <span>Receitas CyberCook</span>
+    <% end %>
+    <%= link_to '#', class: 'f-center orange' do %>
+      <div>
+        <%= image_tag 'icons/basket.png' %>
+      </div>
+      <span>Scan&Go</span>
+    <% end %>
+    <%= link_to '#', class: 'f-center dark-blue' do %>
+      <div>
+        <%= image_tag 'icons/search.png' %>
+      </div>
+      <span>Leitor</span>
+    <% end %>
+    <%= link_to '#', class: 'f-center gray' do %>
+      <div>
+        <i class="fas fa-ellipsis-h"></i>
+      </div>
+      <span>Tudo</span>
+    <% end %>
+  </div>
+</div>
+<div class="carousel" data-controller='carousel'>
+  <%= image_tag 'banner1.png' %>
+  <%= image_tag 'banner2.png' %>
+  <%= image_tag 'banner3.png' %>
+</div>
+<div class='home-content'>
+  <%= link_to "#", class: 'link-row' do %>
+    <%= image_tag 'icons/present.png' %>
+    <div>
+      <h4>Minhas Recompensas</h4>
+      <span>Troque suas moedas por recompensas incríveis!</span>
+    </div>
+    <i aria-hidden="true" class="fas fa-chevron-right"></i>
+  <% end %>
 
-<%= render 'dev/links' %>
+  <% if user_signed_in? %>
+    <div class="user-activity">
+      <div class='f-center f-between'>
+        <p class='f-center'>
+          Minhas Moedas: <strong>0</strong>
+          <%= image_tag 'icons/coin.png' %>
+        </p>
+        <%= link_to 'Quero usar!', "#" %>
+      </div>
+      <div class='f-center f-column'>
+        <h4>Veja sua evolução de <%= l(Time.now, format: "%B") %></h4>
+        <%= image_tag 'graphic.png' %>
+        <hr />
+        <span>Faça sua <em>primeira compra do mês</em> e comece a acumular Moedas!</span>
+        <%= link_to "#" do %>
+          <i class="fas fa-exclamation-circle"></i>
+          <span>Entenda como funciona</span>
+        <% end %>
+      </div>
+    </div>
+  <% else %>
+    <div class='call-to-rewards'>
+      <p>Destrave suas moedas para trocar por <strong>recompensas e produtos incríveis.</strong></p>
+      <%= image_tag 'items.png' %>
+      <%= link_to 'Entre ou cadastre-se', new_user_session_path, data: { 'bs-toggle': 'modal', 'bs-target': '#sessionModal' }, class: 'btn-blue purple' %>
+    </div>
+  <% end %>
+</div>

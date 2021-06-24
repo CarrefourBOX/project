@@ -29,16 +29,20 @@
 
 // Useful containers
 
-.f-center {
+.f-center, .f-column, .f-between {
   display: flex;
+}
+.f-center {
   justify-content: center;
   justify-items: center;
   align-content: center;
   align-items: center;
 }
 .f-column {
-  display: flex;
   flex-direction: column;
+}
+.f-between {
+  justify-content: space-between;
 }
 
 // Devise views
