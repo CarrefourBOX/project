@@ -16,6 +16,7 @@
         "inputmask": "^5.0.6",
         "jquery": "^3.6.0",
         "jquery-validation": "^1.19.3",
+        "slick-carousel": "^1.8.1",
         "stimulus": "^2.0.0",
         "webpack": "^4.46.0",
         "webpack-cli": "^3.3.12"
