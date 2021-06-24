@@ -1,14 +1,22 @@
-<div class="container">
+<div class="container dashboard-container">
   <h1 class="text-center py-3">Adicionar nova caixa</h1>
 
   <%= form_with(model: @box_name, local: true, html: {class: 'd-flex row row-cols-lg-auto g-3 align-items-center', 'data-turbo': false}) do %>
     <div class="col-12">
-      <div class="input-group justify-content-center">
-        <div class="form-floating">
-          <%= text_field_tag "box_name[name]", @box_name.name, required: true, class: 'form-control', id: 'newBoxName', placeholder: 'nome' %>
-          <%= label_tag "box_name[name]", 'nome', for:'newBoxName' %>
+      <div class="pb-3">
+        <%= text_field_tag "box_name[name]", @box_name.name, required: true, class: 'form-control w-100', placeholder: 'nome' %>
+      </div>
+      <div class="pb-3">
+        <%= text_area_tag "box_name[description]", @box_name.name, required: true, class: 'form-control', placeholder: 'descrição' %>
+      </div>
+      <div class="row">
+        <div class="input-group pb-3 col d-flex justify-content-center align-items-center">
+          <%= color_field "box_name[color]", @box_name.color, class: 'form-control form-control-color', value: '#112382', title: 'Escolha uma cor' %>
+          <%= label_tag "box_name[color]", 'cor', class: 'ms-2' %>
         </div>
-        <%= submit_tag "Criar caixa", class: 'btn btn-dark' %>
+        <div class="col">
+          <%= submit_tag "Criar caixa", class: 'btn btn-dark' %>
+        </div>
       </div>
     </div>
   <% end %>
@@ -18,18 +26,21 @@
     <% @boxes.each do |key, values| %>
       <div class="accordion-item">
         <h2 class="accordion-header" id="flush-heading-<%= values['box_name'].id %>">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-<%= values['box_name'].id %>" aria-expanded="false" aria-controls="flush-collapse-<%= values['box_name'].id %>">
+          <button class="accordion-button collapsed" style="background-color:<%= values['box_name'].color %> !important;" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-<%= values['box_name'].id %>" aria-expanded="false" aria-controls="flush-collapse-<%= values['box_name'].id %>">
             <%= key %>
           </button>
         </h2>
         <div id="flush-collapse-<%= values['box_name'].id %>" class="accordion-collapse collapse" aria-labelledby="flush-heading-<%= values['box_name'].id %>" data-bs-parent="#accordionFlushExample">
           <div class="accordion-body">
+            <p><%= values['box_name'].description %></p>
+            <hr>
 
             <% values['items'].each do |item|%>
-              <p><%= item.item_name %>
-                <%= link_to box_item_path(item), method: :delete, data: { confirm: 'Tem certeza?' } do %>
+              <p>
+                <%= link_to box_item_path(item), class: 'me-3', method: :delete, data: { confirm: 'Tem certeza?' } do %>
                   <i class="fas fa-minus-circle text-danger"></i>
                 <% end %>
+                <%= item.item_name %>
               </p>
             <% end %>
 

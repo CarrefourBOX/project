@@ -1,0 +1,82 @@
+<% content_for(:page_header, 'Meu perfil') %>
+
+<div class="container">
+  <div class='avatar-container my-3'>
+    <%= image_tag 'profile', class: 'avatar' %>
+    <%= link_to "#", class: 'f-center' do %>
+      <i aria-hidden="true" class="far fa-edit"></i>
+    <% end %>
+  </div>
+
+  <div class='profile-header my-4'>
+    <h3><%= current_user.name %></h3>
+    <%= link_to 'Editar perfil', edit_user_registration_path %>
+  </div>
+
+  <ul class='profile-list-links'>
+    <div>
+      <li>
+        <%= link_to "#" do %>
+          <i aria-hidden="true" class="fas fa-ticket-alt"></i>
+          <div>
+            <p>Meus cupons</p>
+            <span>Todos os Cupons de descontos ativos</span>
+          </div>
+          <i aria-hidden="true" class="fas fa-chevron-right"></i>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to "#" do %>
+          <i aria-hidden="true" class="fas fa-scroll"></i>
+          <div>
+            <p>Pedidos e compras</p>
+            <span>Histórico de compras e compras ativas</span>
+          </div>
+          <i aria-hidden="true" class="fas fa-chevron-right"></i>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to "#" do %>
+          <i aria-hidden="true" class="fas fa-map-marker-alt"></i>
+          <div>
+            <p>Meus endereços</p>
+            <span>Endereços cadastrados e de entrega</span>
+          </div>
+          <i aria-hidden="true" class="fas fa-chevron-right"></i>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to "#" do %>
+          <i aria-hidden="true" class="far fa-comments"></i>
+          <div>
+            <p>Sua opnião sobre o App</p>
+            <span>Conte para nós o que você pensa</span>
+          </div>
+          <i aria-hidden="true" class="fas fa-chevron-right"></i>
+        <% end %>
+      </li>
+    </div>
+    <div>
+      <li>
+        <%= link_to "#" do %>
+          <i aria-hidden="true" class="far fa-question-circle"></i>
+          <p>Central de ajuda</p>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to "#" do %>
+          <i aria-hidden="true" class="fas fa-book-open"></i>
+          <p>Manual do SuperApp</p>
+        <% end %>
+      </li>
+    </div>
+    <div class='app-options'>
+      <li><%= link_to 'Termos e Condições', '#' %></li>
+      <li><%= link_to 'Política de Privacidade', '#' %></li>
+      <li><%= link_to 'Avalie o App', '#' %></li>
+      <li><%= link_to 'Sobre o App', '#' %></li>
+      <li><%= link_to 'Sair', destroy_user_session_path, method: :delete %></li>
+    </div>
+    <span>Versão do app XX.X.X</span>
+  </ul>
+</div>

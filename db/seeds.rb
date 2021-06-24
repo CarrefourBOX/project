@@ -1,4 +1,17 @@
 puts '=' * 30
+puts 'Cleaning DB...'
+puts '=' * 30
+
+Shipment.delete_all
+Box.delete_all
+BoxItem.delete_all
+BoxName.delete_all
+Plan.delete_all
+User.delete_all
+
+puts ''
+
+puts '=' * 30
 puts 'Creating users'
 puts '=' * 30
 
@@ -26,19 +39,28 @@ User.create!(
   admin: true
 )
 
-puts 'Admin - email: admin@test.com, password: senha123'
-puts 'Normal user - email: test@test.com, password: senha123'
-
 puts ''
 puts '=' * 30
 puts 'Creating box names'
 puts '=' * 30
 
-box1 = BoxName.create!(name: 'Happy Hour')
+box1 = BoxName.create!(
+  name: 'Happy Hour',
+  description: 'Receba em sua casa um KIT para curtir um momento de distração, com bebidas, salgados e aperitivos.',
+  color: '#7A0997'
+)
 puts "#{box1.name} Box created!"
-box2 = BoxName.create!(name: 'Beleza e Cuidado')
+box2 = BoxName.create!(
+  name: 'Beleza e Cuidado',
+  description: 'Que tal cuidar da sua beleza? Com o Box Beleza & Cuidado nunca foi tão facil e prático cuidar de você',
+  color: '#E1357D'
+)
 puts "#{box2.name} Box created!"
-box3 = BoxName.create!(name: 'Receita Certa')
+box3 = BoxName.create!(
+  name: 'Receita Certa',
+  description: 'Receba em sua residência todas os ingredientes para preparar sua receita diferente,tendo momentos agradáveis com seus familiares',
+  color: '#05977D'
+)
 puts "#{box3.name} Box created!"
 
 puts ''
@@ -109,8 +131,6 @@ puts '=' * 30
   end
 end
 
-puts "#{Plan.count} plans created..."
-
 puts ''
 puts '=' * 30
 puts 'Creating shipments'
@@ -122,6 +142,18 @@ puts '=' * 30
   )
   puts "Created shipment '#{shipment.shipping_code}'"
 end
+
+puts ''
+puts '=' * 30
+puts "#{User.count} users created..."
+puts 'Admin - email: admin@test.com, password: senha123'
+puts 'Normal user - email: test@test.com, password: senha123'
+puts '-' * 30
+puts "#{Plan.count} plans created..."
+puts '-' * 30
+puts "#{BoxName.count} boxes created..."
+puts '-' * 30
+puts "#{Shipment.count} shipments created..."
 
 puts ''
 puts 'Seeding done!'
