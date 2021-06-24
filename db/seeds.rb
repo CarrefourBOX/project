@@ -78,7 +78,7 @@ puts "#{box2.name} Box created!"
 
 box3 = BoxName.create!(
   name: 'Receita Certa',
-  description: 'Receba em sua residência todas os ingredientes para preparar sua receita diferente,tendo momentos agradáveis com seus familiares',
+  description: 'Receba em sua residência todas os ingredientes para preparar sua receita diferente, tendo momentos agradáveis com seus familiares',
   color: '#05977D'
 )
 box3_icon = URI.open(icon_urls[2])
