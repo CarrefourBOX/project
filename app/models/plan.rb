@@ -43,11 +43,12 @@ class Plan < ApplicationRecord
   end
 
   def calculate_expiration
-    self.expires_at = Time.at(created_at) + CATEGORIES[category][1].months
+    time = created_at || Time.now
+    self.expires_at = Time.at(time) + CATEGORIES[category][1].months
   end
 
   def set_ship_day
-    day = created_at.day
+    day = created_at ? created_at.day : Time.now.day
     self.ship_day = if day >= 9 && day <= 18
                       '20'
                     elsif day >= 19 && day <= 28
