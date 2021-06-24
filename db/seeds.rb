@@ -120,7 +120,8 @@ puts '=' * 30
     category: Plan::CATEGORIES.keys.sample,
     auto_renew: true,
     quantity: rand(1..3),
-    ship_day: Plan::SHIP_DAYS.sample
+    ship_day: Plan::SHIP_DAYS.sample,
+    payment: true
   )
 
   boxes = BoxName.all.sample(rand(1..3))

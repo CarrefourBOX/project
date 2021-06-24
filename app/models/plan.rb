@@ -29,6 +29,7 @@ class Plan < ApplicationRecord
   validates :carrefour_card, inclusion: { in: [true, false] }
   validates :auto_renew, presence: true
   validates :quantity, presence: true
+  validates :payment, inclusion: { in: [true, false] }
 
   private
 
