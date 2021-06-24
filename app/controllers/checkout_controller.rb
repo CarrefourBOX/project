@@ -2,16 +2,17 @@ class CheckoutController < ApplicationController
   def create
     skip_authorization
     @plan = Plan.find(params[:id])
+    @price = @plan.price_cents / @plan.quantity
     @session = Stripe::Checkout::Session.create(
       payment_method_types: ['card'],
       line_items: [{
-        name: 'Seu plano <%= current_user.plans.count %>',
-        amount: @plan.price_cents,
+        name: 'Valor total:',
+        amount: @price,
         quantity: @plan.quantity,
         currency: 'brl'
       }],
       success_url: checkout_success_url,
-      cancel_url: new_plan_url
+      cancel_url: plan_url(@plan)
     )
 
     respond_to do |format|
