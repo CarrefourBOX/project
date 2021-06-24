@@ -5,6 +5,10 @@ class BoxItemPolicy < ApplicationPolicy
     end
   end
 
+  def new?
+    admin?
+  end
+
   def create?
     admin?
   end

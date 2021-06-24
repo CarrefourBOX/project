@@ -19,6 +19,6 @@ class BoxNamesController < ApplicationController
   private
 
   def box_name_params
-    params.require(:box_name).permit(:name, :description, color: [])
+    params.require(:box_name).permit(:name, :description, :icon, color: [])
   end
 end

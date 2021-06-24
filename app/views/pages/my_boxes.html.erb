@@ -1,26 +1,24 @@
-<div class="container justify-content-center">
-  <h1 class="text-center pb-3">Suas caixas</h1>
-  <% @plans.each do |plan| %>
-    <div class="row d-flex justify-content-center">
-      <div class="card text-dark bg-light mb-3">
-        <div class="text-center card-header">
-          <%= "#{plan[:plan].category} - #{humanized_money_with_symbol plan[:plan].price} (início: #{plan[:plan].created_at.strftime("%d/%m/%Y")})" %>
-        </div>
-        <div class="card-body">
-          <% plan[:boxes].each do |box, items| %>
-            <h5 class="card-title"><%= box %></h5>
-            <ul>
-              <div class="row">
-                <% items.each do |item| %>
-                  <div class="col-6">
-                    <li class="card-text"><%= item %></li>
-                  </div>
-                <% end %>
-              </div>
-            </ul>
-          <% end %>
-        </div>
+<div class="container my-box-container">
+  <h1 class="pb-3">Meu BOX:</h1>
+  <% counter = @plans.size %>
+  <% @plans.each_with_index do |plan, i| %>
+    <div class="plan-card my-3">
+      <div class="plan-card-head">
+        <span>Assinatura <%= (counter - i).to_s.rjust(2, "0") %></span>
       </div>
+      <% plan[:boxes].each do |name, box| %>
+        <div class="box-items row mx-auto" style="background: rgba(<%= box['box'].color.match(/^#(..)(..)(..)$/).captures.map(&:hex).join(', ') %>, 0.25);">
+          <div class="col-6">
+            <span><b>BOX <%= name %>:</b></span>
+          </div>
+          <div class="col-6">
+            <% box['items'].each do |item| %>
+              <span><%= item %></span>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+      <%= render 'plans/plan', plan: plan[:data] %>
     </div>
   <% end %>
 </div>

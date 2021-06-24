@@ -14,8 +14,7 @@ class Plan < ApplicationRecord
   has_many :boxes, dependent: :destroy
   has_many :shipments, dependent: :destroy
 
-  before_validation :calculate_price
-  before_validation :calculate_shipment
+  before_validation :calculate_price, :calculate_shipment, :calculate_expiration, :set_ship_day
 
   monetize :price_cents, as: 'price'
   monetize :shipment_cents, as: 'shipment'
@@ -27,7 +26,7 @@ class Plan < ApplicationRecord
   validates :ship_day, presence: true,
                        inclusion: { in: SHIP_DAYS }
   validates :carrefour_card, inclusion: { in: [true, false] }
-  validates :auto_renew, presence: true
+  validates :auto_renew, inclusion: { in: [true, false] }
   validates :quantity, presence: true
   validates :payment, inclusion: { in: [true, false] }
 
@@ -41,5 +40,21 @@ class Plan < ApplicationRecord
 
   def calculate_shipment
     self.shipment_cents = rand(10..20) * 99
+  end
+
+  def calculate_expiration
+    time = created_at || Time.now
+    self.expires_at = Time.at(time) + CATEGORIES[category][1].months
+  end
+
+  def set_ship_day
+    day = created_at ? created_at.day : Time.now.day
+    self.ship_day = if day >= 9 && day <= 18
+                      '20'
+                    elsif day >= 19 && day <= 28
+                      '30'
+                    else
+                      '10'
+                    end
   end
 end

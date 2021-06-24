@@ -59,6 +59,9 @@ gem 'turbo-rails'
 gem 'bootstrap', '~> 5.0.0.beta2'
 gem 'font-awesome-sass'
 
+# Image upload management
+gem 'cloudinary'
+
 group :development, :test do
   gem 'dotenv-rails'
   gem 'pry-byebug'
