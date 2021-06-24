@@ -2,9 +2,11 @@
   <div class="header-bg"></div>
   <div class='home-options'>
     <% if !user_signed_in? %>
-      <%= link_to new_registration_path, class: 'sign-in' do %>
+      <%= link_to new_registration_path(User), class: 'f-center sign_up' do %>
         <div>
-          <%= image_tag 'icons/carrefour.png' %>
+          <div class='content'>
+            <%= image_tag 'icons/carrefour.png' %>
+          </div>
         </div>
         <span>Cadastre-se!</span>
       <% end %>
@@ -82,15 +84,13 @@
   <%= image_tag 'banner2.png' %>
   <%= image_tag 'banner3.png' %>
 </div>
-<div>
-  <div>
-    <%= link_to "#" do %>
-      <%= image_tag 'icons/present.png' %>
-      <div>
-        <h4>Minhas Recompensas</h4>
-        <span>Troque suas moedas por recompensas incríveis!</span>
-      </div>
-      <i aria-hidden="true" class="fas fa-chevron-right"></i>
-    <% end %>
-  </div>
+<div class='home-content'>
+  <%= link_to "#", class: 'link-row' do %>
+    <%= image_tag 'icons/present.png' %>
+    <div>
+      <h4>Minhas Recompensas</h4>
+      <span>Troque suas moedas por recompensas incríveis!</span>
+    </div>
+    <i aria-hidden="true" class="fas fa-chevron-right"></i>
+  <% end %>
 </div>
