@@ -1,0 +1,91 @@
+.home-menu {
+  overflow: hidden;
+  position: relative;
+}
+.header-bg {
+  position: absolute;
+  background: $home-blue;
+  width: 110vw;
+  height: calc(3rem + 3vw);
+  left: -.4rem;
+  border-bottom-left-radius: 4rem;
+  z-index: -1;
+}
+.home-options {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: $md-gap;
+  overflow-y: scroll;
+  padding: $md-gap;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  a {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    & > div {
+      box-shadow: 0 0.5rem 1rem 0.1rem rgba(0, 0, 0, .05);
+      border-radius: 50%;
+      height: calc(4rem + 4vw);
+      width: calc(4rem + 4vw);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    img {
+      width: calc(2.2rem + 2.2vw);
+    }
+    i {
+      font-size: $lg-gap;
+      color: #8999a8;
+    }
+    span {
+      color: $black;
+      font-size: calc(.8rem + .2vw);
+      width: calc(4.5rem + 4.5vw);
+      text-align: center;
+    }
+    &.purple {
+      & > div {
+        background: $purple;
+      }
+    }
+    &.gray {
+      & > div {
+        background: $light-gray;
+      }      
+    }
+    &.pink {
+      & > div {
+        background: $light-pink;
+      }      
+    }
+    &.red {
+      & > div {
+        background: $red;
+      }      
+    }
+    &.blue-shadow {
+      & > div {
+        background: $home-blue-2;
+      }      
+    }
+    &.blue-light {
+      & > div {
+        background: $home-light-blue;
+      }      
+    }
+    &.dark-blue {
+      & > div {
+        background: $home-dark-blue;
+      }      
+    }
+    &.orange {
+      & > div {
+        background: $orange;
+      }      
+    }
+  }
+}
