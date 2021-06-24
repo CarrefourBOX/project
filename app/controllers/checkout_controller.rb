@@ -20,13 +20,12 @@ class CheckoutController < ApplicationController
       payment_method_types: ['card'],
       line_items: [{
         name: 'Receber no endereço:',
-
         amount: @price_cents,
         quantity: @quantity,
         currency: 'brl'
       }],
       success_url: checkout_success_url,
-      cancel_url: checkout_cancel_url
+      cancel_url: new_plan_url
     )
 
     respond_to do |format|

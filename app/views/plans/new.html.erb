@@ -18,7 +18,8 @@
       <div class="pb-3">
         <%= select_tag "category", options_for_select(Plan::CATEGORIES.keys), class: 'form-select' %>
       </div>
-      <%= submit_tag 'comprar', method: :post %>
+      <%= submit_tag 'Assinar', method: :post, class: 'btn btn-dark w-100' %>
     </div>
   <% end %>
 </div>
+
