@@ -3,5 +3,8 @@
 // font-family: 'BenchNine', sans-serif;
 // font-family: 'Roboto', sans-serif;
 p {
-    font-size: calc(0.8rem + 0.4vw);
+  font-size: calc(0.8rem + 0.4vw);
+}
+#page-container a {
+  text-decoration: none;
 }

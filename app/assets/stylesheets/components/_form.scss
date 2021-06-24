@@ -176,3 +176,42 @@ input.password {
     }
   }
 }
+
+.form-float {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: $sm-gap;
+  input, label {
+    font-size: calc(.8rem + .8vw);
+  }
+  input {
+    width: 100%;
+    border-radius: .5rem;
+    padding: $sm-gap;
+    border-color: $input-gray;
+    &:not(:placeholder-shown), &:focus {
+      & ~ label {
+        top: -.5em;
+        color: $text-gray;
+        transform: scale(.8);
+        transform-origin: left;
+      }
+    }
+    &:-internal-autofill-selected,
+    &:-webkit-autofill {
+      box-shadow: inset 0 0 0 99rem white !important;
+    }
+    &::placeholder {
+      color: white;
+    }
+  }
+  label {
+    position: absolute;
+    left: $sm-gap;
+    top: $sm-gap;
+    background: white;
+    color: $black;
+    transition: .3s;
+  }
+}

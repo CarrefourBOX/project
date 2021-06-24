@@ -6,6 +6,12 @@ class PlansController < ApplicationController
     @items = sort_box_items
   end
 
+  def show
+    skip_authorization
+    @plan = Plan.find(params[:id])
+    @plan.payment = true
+  end
+
   def create
     skip_authorization
     @plan = Plan.new(quantity: params[:boxes].keys.size, category: params[:category])
@@ -13,7 +19,7 @@ class PlansController < ApplicationController
     if @plan.save
       create_boxes(@plan, params[:boxes])
       flash[:notice] = 'Plan created!'
-      redirect_to my_boxes_path
+      redirect_to plan_path(@plan)
     else
       @items = sort_box_items
       flash[:notice] = @plan.errors.full_messages.join(', ')

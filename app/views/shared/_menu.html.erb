@@ -1,0 +1,36 @@
+<div class='menu-nav' role="menubar" data-controller='modal'>
+  <div>
+    <%= link_to root_path, aria: { selected: current_page?(root_path)  } do %>
+      <i class="fas fa-home" aria-hidden='true'></i>
+      <span>Início</span>
+    <% end %>
+    <%= link_to '#', aria: { selected: false } do %>
+      <i class="fas fa-cart-plus" aria-hidden='true'></i>
+      <span>Comprar</span>
+    <% end %>
+    <%= link_to '#', aria: { selected: false } do %>
+      <%= inline_svg_tag 'icons/barcode.svg', aria: { hidden: 'true' } %>
+      <span>Leitor</span>
+    <% end %>
+    <%= link_to user_signed_in? ? profile_path : new_user_session_path, aria: { selected: current_page?(profile_path) }, data: user_signed_in? ? {} : { 'bs-toggle': 'modal', 'bs-target': '#sessionModal' } do %>
+      <i class="far fa-user" aria-hidden='true'></i>
+      <span>Perfil</span>
+    <% end %>
+    <%= link_to '#', aria: { selected: false } do %>
+      <i class="fas fa-ellipsis-h" aria-hidden='true'></i>
+      <span>Tudo</span>
+    <% end %>
+  </div>
+</div>
+
+<% if !user_signed_in? %>
+  <div class="modal" id="sessionModal" tabindex="-1" aria-labelledby="sessionHeaders" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body">
+          <%= render 'devise/sessions/new' %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

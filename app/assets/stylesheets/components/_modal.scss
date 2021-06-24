@@ -1,0 +1,22 @@
+.modal {
+  transition: opacity .3s;
+  opacity: 0;
+  &.show {
+    opacity: 1;
+  }
+}
+.modal-content {
+  text-align: center;
+  border-radius: 1rem !important;
+  border: none !important;
+  h2, h3 {
+    text-align: start;
+    font-size: calc(1.3rem + 0.6vw);
+  }
+  h3 {
+    color: $dark-blue;
+  }
+  .modal-body {
+    padding: $md-gap;
+  }
+}

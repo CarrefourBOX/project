@@ -29,6 +29,7 @@ gem 'bootsnap', '>= 1.4.4', require: false
 
 # Manages user authentication
 gem 'devise'
+gem 'devise-i18n'
 
 
 gem 'client_side_validations'
@@ -39,6 +40,8 @@ gem 'rails-i18n', '~> 6.0.0'
 
 # Set default structure to inputs
 gem 'simple_form'
+
+gem 'inline_svg'
 
 # Manages user authorization
 gem 'pundit'
