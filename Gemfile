@@ -29,6 +29,7 @@ gem 'bootsnap', '>= 1.4.4', require: false
 
 # Manages user authentication
 gem 'devise'
+gem 'devise-i18n'
 
 
 gem 'client_side_validations'

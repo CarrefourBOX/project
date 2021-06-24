@@ -2,7 +2,7 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable, :authentication_keys => {email: true, login: false}
+         :recoverable, :rememberable, :validatable
 
   has_many :plans
   has_many :boxes, through: :plans
@@ -15,21 +15,19 @@ class User < ApplicationRecord
   attr_writer :login
 
   def login
-    @login || cpf || email
+    @login || self.cpf || self.email
   end
 
   def name
     "#{first_name.split.map(&:capitalize) * " "} #{last_name.split.map(&:capitalize) * " "}"
   end
 
-  protected
-
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
     if login = conditions.delete(:login)
-      where(conditions).where(["lower(cpf) = :value OR lower(email) = :value", { :value => login.downcase }]).first
+      where(conditions.to_h).where(["lower(cpf) = :value OR lower(email) = :value", { :value => login.downcase }]).first
     elsif conditions.has_key?(:cpf) || conditions.has_key?(:email)
-      where(conditions).first
+      where(conditions.to_h).first
     end
   end
 end

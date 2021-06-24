@@ -1,12 +1,13 @@
-<div class="session">
-  <h3>Cadastre-se</h3>
-  <h2>ou acesse sua conta</h2>
+<div id='session_form' class="session">
+  <div id="sessionHeaders">
+    <h3>Cadastre-se</h3>
+    <h2>ou acesse sua conta</h2>
+  </div>
   
   <%= image_tag 'session_icon' %>
   
   <p>Para começar, precisamos do seu CPF ou e-mail</p>
-  
-  <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+  <%= form_for(:user, url: session_path(:user)) do |f| %>
     <div class="form-float">
       <%= f.text_field :login, autofocus: true, autocomplete: "email", placeholder: 'Digite seu CPF ou e-mail' %>
       <%= f.label :login, 'Digite seu CPF ou e-mail' %><br />
@@ -18,8 +19,8 @@
     </div>
   
     <div class="actions">
-      <%= f.submit "Ok, vamos lá", class: 'btn-blue' %>
+      <%= f.submit "Ok, vamos lá", class: 'btn-blue', data: { disable_with: false } %>
     </div>
-    <% end %>
-    <%= link_to 'Criar nova conta', new_user_registration_path %>
+  <% end %>
+  <%= link_to 'Criar nova conta', new_user_registration_path %>
 </div>

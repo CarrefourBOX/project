@@ -4,7 +4,6 @@ export default class extends Controller {
 	static targets = [ ];
 
 	connect = () => {
-    console.log('hello')
 	}
 
   emptyModal = (e) => {
@@ -14,7 +13,8 @@ export default class extends Controller {
       html: `<div id="modal-content"></div>`,
       showConfirmButton: false,
       focusConfirm: false,
-      width: '95%'
+      width: '95%',
+      showClass: { popup: '' },
     })
     document.getElementById('modal-content').innerHTML = response.content;
   }
