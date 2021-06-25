@@ -205,6 +205,9 @@ $color-box-green: #05977d;
             font-size: 25px;
             line-height: 30px;
             a {
+                font-family: inherit;
+            }
+            .cancel-link {
                 font-family: Roboto;
                 font-style: normal;
                 font-weight: bold;
