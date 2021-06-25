@@ -1,9 +1,13 @@
 class PlansController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[new]
-  before_action :skip_authorization, only: %i[new create show]
+  skip_before_action :authenticate_user!, only: %i[new shopcart]
+  before_action :skip_authorization, only: %i[new create show shopcart]
 
   def new
     @items = sort_box_items
+  end
+
+  def shopcart
+    @plan = cookies[:plan_params] ? Plan.new(quantity: cookies[:plan_params][:boxes].keys.size, category: cookies[:plan_params][:category]) : nil
   end
 
   def create
@@ -12,7 +16,7 @@ class PlansController < ApplicationController
     @plan.ship_day = set_ship_day
     if @plan.save
       create_boxes(@plan, params[:boxes])
-      flash[:notice] = 'Plan created!'
+      flash[:notice] = 'Plan crecalc(1.2rem + 1.2vw)ated!'
       redirect_to plan_path(@plan)
     else
       @items = sort_box_items

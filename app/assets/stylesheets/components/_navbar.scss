@@ -1,14 +1,19 @@
 #nav {
   position: fixed;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   top: 0;
   left: 0;
-  display: flex;
   height: $nav-height;
   padding: $md-gap;
-  align-items: center;
   width: 100%;
   background: white;
   z-index: 999;
+  div:first-child {
+    display: flex;
+    align-items: center;
+  }
   h3 {
     font-size: calc(.8rem + 1vw);
     color: #353A40;
@@ -20,6 +25,48 @@
     height: calc(.8rem + .8vw);
     margin-right: $md-gap;
     width: auto;
+  }
+  button {
+    background: transparent;
+    border: none;
+    padding: 0;
+  }
+  .nav-options {
+    svg {
+      margin: 0;
+    }
+  }
+  .menu-btn {
+    margin-right: $md-gap;
+    svg {
+      width: calc(1.2rem + 1.2vw);
+      height: auto;
+    }
+  }
+  .shopcart {
+    svg {
+      height: $md-gap;
+    }
+  }
+  .nav-menu {
+    position: fixed;
+    background: white;
+    height: 100vh;
+    width: 100%;
+    max-width: 100vw;
+    top: 0;
+    right: 0;
+    z-index: -1;
+    transition: max-width .35s ease, opacity 0s .35s;
+    &.collapse:not(.show) {
+      opacity: 0;
+      display: block;
+      max-width: 0;
+    }
+    &.collapsing {
+      height: 100vh !important;
+      max-width: 0;
+    }
   }
 }
 .devise {
@@ -42,7 +89,7 @@
   position: fixed;
   bottom: 2%;
   height: $menu-height;
-  z-index: 999;
+  z-index: 998;
   & > div {
     background: white;
     width: 90%;
