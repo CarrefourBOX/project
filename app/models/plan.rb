@@ -17,6 +17,7 @@ class Plan < ApplicationRecord
   before_validation :calculate_price, :calculate_shipment, :calculate_expiration, :set_ship_day
 
   monetize :price_cents, as: 'price'
+  monetize :full_price_cents, as: 'full_price'
   monetize :shipment_cents, as: 'shipment'
 
   validates :category, presence: true,
@@ -28,13 +29,20 @@ class Plan < ApplicationRecord
   validates :carrefour_card, inclusion: { in: [true, false] }
   validates :auto_renew, inclusion: { in: [true, false] }
   validates :quantity, presence: true
+  validates :full_price_cents, presence: true
 
   private
 
   def calculate_price
-    total_price = (CATEGORIES[category][0] * CATEGORIES[category][1]) * quantity
+    total_price = (CATEGORIES[category][0]) * quantity
     discounts = quantity == 1 ? 0 : (total_price * DISCOUNTS[quantity]) / 100
     self.price_cents = total_price - discounts
+  end
+
+  def calculate_price
+    total_price = (CATEGORIES[category][0] * CATEGORIES[category][1]) * quantity
+    discounts = quantity == 1 ? 0 : (total_price * DISCOUNTS[quantity]) / 100
+    self.full_price_cents = total_price - discounts
   end
 
   def calculate_shipment
