@@ -1,11 +1,12 @@
 <div class="container text-center">
   <div class="row py-4">
-    <% image = image_path('check.png') %>
-    <div class="col-md-3"><%= image_tag image %></div>
+    <% image = image_path('CERTO1.png') %>
+    <div class="col-md-3"><%= image_tag image, style: 'width:30%;' %></div>
     <div class="col">
-      <h1>Pagamento Aprovado!</h1>
-      <p>Agora é aguardar o recebimento do seus BOX's em sua cada e curtir a experiência da melhor maneira possível</p>
-      <%= button_to 'Acompanhar seus pedidos', my_boxes_path, method: :get, class: 'btn btn-dark w-100'%>
+      <br>
+      <h4 class='text-success'>Pagamento Aprovado!</h4>
+      <p class='m-4'>Agora é aguardar o recebimento do seus BOX's em sua cada e curtir a experiência da melhor maneira possível</p>
+      <%= button_to 'Acompanhar seus pedidos', my_boxes_path, method: :get, class: 'btn btn-dark w-60'%>
     </div>
   </div>
 </div>

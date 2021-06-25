@@ -6,8 +6,9 @@ Rails.application.routes.draw do
   get 'start', to: 'pages#start', as: :start
   get 'dashboard', to: 'pages#dashboard', as: :dashboard
   get 'my_boxes', to: 'pages#my_boxes', as: :my_boxes
+  get 'cancel', to: 'pages#cancel', as: :cancel
 
-  resources :plans, only: %i[new create show], shallow: true do
+  resources :plans, only: %i[new create show destroy], shallow: true do
     member do
       put '/toggle_auto_renew', to: 'plans#toggle_auto_renew', as: :toggle_auto_renew
     end
