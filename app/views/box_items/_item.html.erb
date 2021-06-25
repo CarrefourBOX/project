@@ -1,0 +1,6 @@
+<p id="<%= dom_id item %>">
+  <%= link_to box_item_path(item), class: 'me-2', method: :delete, data: { confirm: 'Tem certeza?', turbo: true } do %>
+    <i class="fas fa-minus-circle text-danger"></i>
+  <% end %>
+  <%= item.item_name %>
+</p>

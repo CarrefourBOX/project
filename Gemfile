@@ -51,6 +51,7 @@ gem 'money-rails'
 
 # Manages payments
 gem 'stripe'
+gem 'stripe_event'
 
 # Enables turbo (Hotwire) functionalities
 gem 'turbo-rails'
@@ -58,6 +59,9 @@ gem 'turbo-rails'
 # Frontend libraries
 gem 'bootstrap', '~> 5.0.0.beta2'
 gem 'font-awesome-sass'
+
+# Image upload management
+gem 'cloudinary'
 
 group :development, :test do
   gem 'dotenv-rails'

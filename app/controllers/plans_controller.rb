@@ -1,6 +1,6 @@
 class PlansController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[new shopcart]
-  before_action :skip_authorization, only: %i[new create show shopcart]
+  before_action :skip_authorization, only: %i[new create show destroy shopcart]
 
   def new
     @items = sort_box_items
@@ -10,10 +10,15 @@ class PlansController < ApplicationController
     @plan = cookies[:plan_params] ? Plan.new(quantity: cookies[:plan_params][:boxes].keys.size, category: cookies[:plan_params][:category]) : nil
   end
 
+  def show
+    @plan = Plan.find(params[:id])
+    authorize @plan
+    @boxes = sort_boxes(@plan)
+  end
+
   def create
     @plan = Plan.new(quantity: params[:boxes].keys.size, category: params[:category])
     @plan.user = current_user
-    @plan.ship_day = set_ship_day
     if @plan.save
       create_boxes(@plan, params[:boxes])
       flash[:notice] = 'Plan crecalc(1.2rem + 1.2vw)ated!'
@@ -25,9 +30,37 @@ class PlansController < ApplicationController
     end
   end
 
-  def show
+  def destroy
+    skip_authorization
     @plan = Plan.find(params[:id])
-    @plan.payment = true
+    @order = Order.find_by(plan: @plan)
+    if @order.nil?
+    else
+      @order.destroy
+    end
+    flash[:notice] = "Plano cancelado!"
+    @plan.destroy
+    redirect_to cancel_path
+  end
+
+  def toggle_auto_renew
+    @plan = Plan.find(params[:id])
+    authorize @plan
+    if @plan.auto_renew
+      @plan.update(auto_renew: false)
+      flash[:notice] = 'Renovação automática cancelada'
+    else
+      @plan.update(auto_renew: true)
+      flash[:notice] = 'Renovação automática ativada'
+    end
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.replace(@plan,
+                                                  partial: 'plans/plan',
+
+                                                  locals: { plan: @plan })
+      end
+    end
   end
 
   private
@@ -45,14 +78,10 @@ class PlansController < ApplicationController
     end
   end
 
-  def set_ship_day
-    day = Date.today.day
-    if day >= 9 && day <= 18
-      '20'
-    elsif day >= 19 && day <= 28
-      '30'
-    else
-      '10'
+  def sort_boxes(plan)
+    plan.boxes.each_with_object({}) do |box, hash|
+      hash[box.box_item.box_name] = [] unless hash[box.box_item.box_name]
+      hash[box.box_item.box_name] << box.box_item.item_name
     end
   end
 end

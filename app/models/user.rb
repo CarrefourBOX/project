@@ -6,6 +6,8 @@ class User < ApplicationRecord
 
   has_many :plans, dependent: :destroy
   has_many :boxes, through: :plans
+  has_many :orders
+
 
   # validations
   validates :first_name, :last_name, :birth_date, :cpf, :phone, presence: true, unless: :admin?

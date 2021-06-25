@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  state: MyString
+  teddy_sku: MyString
+  amount: 
+  checkout_session_id: MyString
+  user: one
+  teddy: one
+
+two:
+  state: MyString
+  teddy_sku: MyString
+  amount: 
+  checkout_session_id: MyString
+  user: two
+  teddy: two

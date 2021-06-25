@@ -3,95 +3,38 @@
   <p style="text-align: left;">Adquira seu BOX:</p>
 
   <!-- cards -->
-  <div class="box-card" style="background-color: #7A0997">
-    <div class="d-flex">
-      <div class="col-2 d-flex align-items-center justify-content-center">
-        <%= image_tag 'box-icons/happy-hour.png' %>
-      </div>
-      <div class="col ms-1">
-        <div class="row pb-0 d-flex justify-content-between align-items-center">
-          <div class="col-3">
-            <span>Box</span>
-          </div>
-          <div class="col-8 d-flex justify-content-end card-price">
-            <span>R$ 89.90</span>
-            <span>R$ 69,90*</span>
-          </div>
+
+  <% @boxes.each do |box| %>
+    <div class="box-card" style="background-color: <%= box.color %>">
+      <div class="d-flex">
+        <div class="col-2 d-flex align-items-center justify-content-center">
+          <%= cl_image_tag box.icon.key %>
         </div>
-        <div class="row">
-          <span class="fs-3">Happy Hour</span>
-        </div>
-      </div>
-    </div>
-
-    <div>
-      <p>Receba em sua casa um KIT para curtir um momento de distração, com bebidas, salgados e aperitivos.</p>
-    </div>
-
-    <div class="row box-card-footer">
-      <span>*Valor referente ao plano anual</span>
-    </div>
-  </div>
-
-  <div class="box-card" style="background-color: #E1357D">
-    <div class="d-flex">
-      <div class="col-2 d-flex align-items-center justify-content-center">
-        <%= image_tag 'box-icons/beauty-care.png' %>
-      </div>
-      <div class="col ms-1">
-        <div class="row pb-0 d-flex justify-content-between align-items-center">
-          <div class="col-3">
-            <span>Box</span>
+        <div class="col ms-1">
+          <div class="row pb-0 d-flex justify-content-between align-items-center">
+            <div class="col-3">
+              <span>Box</span>
+            </div>
+            <div class="col-8 d-flex justify-content-end card-price">
+              <span>R$ 89.90</span>
+              <span>R$ 69,90*</span>
+            </div>
           </div>
-          <div class="col-8 d-flex justify-content-end card-price">
-            <span>R$ 89.90</span>
-            <span>R$ 69,90*</span>
+          <div class="row">
+            <span class="fs-3"><%= box.name %></span>
           </div>
         </div>
-        <div class="row">
-          <span class="fs-3">Beleza & Cuidado</span>
-        </div>
+      </div>
+
+      <div>
+        <p><%= box.description %></p>
+      </div>
+
+      <div class="row box-card-footer">
+        <span>*Valor referente ao plano anual</span>
       </div>
     </div>
-
-    <div>
-      <p>Que tal cuidar da sua beleza? Com o Box Beleza & Cuidado nunca foi tão facil e prático cuidar de você.</p>
-    </div>
-
-    <div class="row box-card-footer">
-      <span>*Valor referente ao plano anual</span>
-    </div>
-  </div>
-
-  <div class="box-card" style="background-color: #05977D">
-    <div class="d-flex">
-      <div class="col-2 d-flex align-items-center justify-content-center">
-        <%= image_tag 'box-icons/right-recipe.png' %>
-      </div>
-      <div class="col ms-1">
-        <div class="row pb-0 d-flex justify-content-between align-items-center">
-          <div class="col-3">
-            <span>Box</span>
-          </div>
-          <div class="col-8 d-flex justify-content-end card-price">
-            <span>R$ 89.90</span>
-            <span>R$ 69,90*</span>
-          </div>
-        </div>
-        <div class="row">
-          <span class="fs-3">Receita Certa</span>
-        </div>
-      </div>
-    </div>
-
-    <div>
-      <p>Receba em sua residência todas os ingredientes para preparar sua receita diferente,tendo momentos agradáveis com seus familiares.</p>
-    </div>
-
-    <div class="row box-card-footer">
-      <span>*Valor referente ao plano anual</span>
-    </div>
-  </div>
+  <% end %>
 
   <div class='mt-5'><%= link_to 'Eu quero', new_plan_path, class: 'btn-start' %></div>
 

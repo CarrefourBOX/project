@@ -44,22 +44,48 @@ puts '=' * 30
 puts 'Creating box names'
 puts '=' * 30
 
+icon_urls = [
+  'https://res.cloudinary.com/dezlaawpu/image/upload/v1624482281/carrefour_box/happy-hour.png',
+  'https://res.cloudinary.com/dezlaawpu/image/upload/v1624482281/carrefour_box/beleza-e-cuidado.png',
+  'https://res.cloudinary.com/dezlaawpu/image/upload/v1624482281/carrefour_box/receita-certa.png'
+]
+
 box1 = BoxName.create!(
   name: 'Happy Hour',
   description: 'Receba em sua casa um KIT para curtir um momento de distração, com bebidas, salgados e aperitivos.',
   color: '#7A0997'
 )
+box1_icon = URI.open(icon_urls[0])
+box1.icon.attach(
+  io: box1_icon,
+  filename: "box#{box1.id}-icon.jpg",
+  content_type: 'image/png'
+)
 puts "#{box1.name} Box created!"
+
 box2 = BoxName.create!(
   name: 'Beleza e Cuidado',
   description: 'Que tal cuidar da sua beleza? Com o Box Beleza & Cuidado nunca foi tão facil e prático cuidar de você',
   color: '#E1357D'
 )
+box2_icon = URI.open(icon_urls[1])
+box2.icon.attach(
+  io: box2_icon,
+  filename: "box#{box2.id}-icon.jpg",
+  content_type: 'image/png'
+)
 puts "#{box2.name} Box created!"
+
 box3 = BoxName.create!(
   name: 'Receita Certa',
-  description: 'Receba em sua residência todas os ingredientes para preparar sua receita diferente,tendo momentos agradáveis com seus familiares',
+  description: 'Receba em sua residência todas os ingredientes para preparar sua receita diferente, tendo momentos agradáveis com seus familiares',
   color: '#05977D'
+)
+box3_icon = URI.open(icon_urls[2])
+box3.icon.attach(
+  io: box3_icon,
+  filename: "box#{box3.id}-icon.jpg",
+  content_type: 'image/png'
 )
 puts "#{box3.name} Box created!"
 
@@ -113,6 +139,7 @@ puts '=' * 30
 puts 'Creating plans'
 puts '=' * 30
 
+num_of_shipments = { 'Mensal' => 1, 'Trimestral' => 3, 'Semestral' => 6, 'Anual' => 12 }
 3.times do
   plan = Plan.create!(
     user: user,
@@ -120,8 +147,7 @@ puts '=' * 30
     category: Plan::CATEGORIES.keys.sample,
     auto_renew: true,
     quantity: rand(1..3),
-    ship_day: Plan::SHIP_DAYS.sample,
-    payment: true
+    created_at: rand(30..133).days.ago
   )
 
   boxes = BoxName.all.sample(rand(1..3))
@@ -129,18 +155,26 @@ puts '=' * 30
     items = BoxItem.where(box_name: box.name).sample(rand(1..4))
     items.each { |item| Box.create!(box_item: item, plan: plan) }
   end
-end
 
-puts ''
-puts '=' * 30
-puts 'Creating shipments'
-puts '=' * 30
-
-6.times do
-  shipment = Shipment.create!(
-    plan: Plan.all.sample
+  Order.create!(plan: plan, amount: plan.price, state: 'complete', user: user, created_at: plan.created_at)
+  puts ''
+  puts '-' * 30
+  puts %(
+Created a #{plan.category} Plan on #{plan.created_at.strftime('%d/%m/%Y')}, for R$#{plan.price_cents / 100.to_f},
+with #{plan.boxes.map { |box| "BOX #{box.box_item.box_name}" }.uniq.join(', ')}.
   )
-  puts "Created shipment '#{shipment.shipping_code}'"
+
+  days_till_ship = plan.ship_day.to_i - plan.created_at.day
+  num_of_shipments[plan.category].times do |i|
+    ship_date = Time.at(plan.created_at + i.months) + days_till_ship.days
+    break if ship_date > Time.now
+
+    shipment = Shipment.create!(
+      plan: plan,
+      created_at: ship_date
+    )
+    puts "- Sent a shipment on #{shipment.created_at.strftime('%d/%m/%Y')}, code: '#{shipment.shipping_code}' "
+  end
 end
 
 puts ''
