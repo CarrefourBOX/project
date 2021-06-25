@@ -7,7 +7,10 @@ class PlansController < ApplicationController
   end
 
   def shopcart
-    @plan = cookies[:plan_params] ? Plan.new(quantity: cookies[:plan_params][:boxes].keys.size, category: cookies[:plan_params][:category]) : nil
+    @plan = if cookies[:plan_params]
+              Plan.new(quantity: cookies[:plan_params][:boxes].keys.size,
+                       category: cookies[:plan_params][:category])
+            end
   end
 
   def show
@@ -21,7 +24,7 @@ class PlansController < ApplicationController
     @plan.user = current_user
     if @plan.save
       create_boxes(@plan, params[:boxes])
-      flash[:notice] = 'Plan crecalc(1.2rem + 1.2vw)ated!'
+      flash[:notice] = 'Plan created!'
       redirect_to plan_path(@plan)
     else
       @items = sort_box_items
@@ -38,7 +41,7 @@ class PlansController < ApplicationController
     else
       @order.destroy
     end
-    flash[:notice] = "Plano cancelado!"
+    flash[:notice] = 'Plano cancelado!'
     @plan.destroy
     redirect_to cancel_path
   end
