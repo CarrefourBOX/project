@@ -147,7 +147,7 @@ num_of_shipments = { 'Mensal' => 1, 'Trimestral' => 3, 'Semestral' => 6, 'Anual'
     category: Plan::CATEGORIES.keys.sample,
     auto_renew: true,
     quantity: rand(1..3),
-    created_at: rand(1..133).days.ago
+    created_at: rand(30..133).days.ago
   )
 
   boxes = BoxName.all.sample(rand(1..3))
@@ -156,6 +156,7 @@ num_of_shipments = { 'Mensal' => 1, 'Trimestral' => 3, 'Semestral' => 6, 'Anual'
     items.each { |item| Box.create!(box_item: item, plan: plan) }
   end
 
+  Order.create!(plan: plan, amount: plan.price, state: 'complete', user: user, created_at: plan.created_at)
   puts ''
   puts '-' * 30
   puts %(
@@ -172,7 +173,7 @@ with #{plan.boxes.map { |box| "BOX #{box.box_item.box_name}" }.uniq.join(', ')}.
       plan: plan,
       created_at: ship_date
     )
-    puts "- Sent a shipment '#{shipment.shipping_code}' on #{shipment.created_at.strftime('%d/%m/%Y')}"
+    puts "- Sent a shipment on #{shipment.created_at.strftime('%d/%m/%Y')}, code: '#{shipment.shipping_code}' "
   end
 end
 
