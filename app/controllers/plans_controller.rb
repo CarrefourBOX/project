@@ -7,8 +7,8 @@ class PlansController < ApplicationController
   end
 
   def show
-    skip_authorization
     @plan = Plan.find(params[:id])
+    authorize @plan
   end
 
   def create
