@@ -5,4 +5,14 @@
   .btn-blue {
     margin-bottom: $md-gap;
   }
+  p {
+    color: $nav-header-gray;
+  }
+}
+#page-container {
+  .session {
+    p {
+      font-size: calc(1rem + .2vw);
+    }
+  }
 }

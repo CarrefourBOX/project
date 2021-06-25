@@ -12,7 +12,7 @@
   </head>
 
   <body>
-    <div id="page-container">
+    <div id="page-container" class='<%= 'devise' if devise_controller? %>'>
       <%= render 'shared/navbar' unless current_page? root_path %>
       <%= render 'shared/flashes' %>
       <%= yield %>

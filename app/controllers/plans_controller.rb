@@ -1,13 +1,12 @@
 class PlansController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[new]
+  before_action :skip_authorization, only: %i[new create show]
 
   def new
-    skip_authorization
     @items = sort_box_items
   end
 
   def create
-    skip_authorization
     @plan = Plan.new(quantity: params[:boxes].keys.size, category: params[:category])
     @plan.user = current_user
     @plan.ship_day = set_ship_day
@@ -23,7 +22,6 @@ class PlansController < ApplicationController
   end
 
   def show
-    skip_authorization
     @plan = Plan.find(params[:id])
     @plan.payment = true
   end

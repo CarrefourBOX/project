@@ -1,7 +1,7 @@
-<div class='nav'>
+<div id='nav'>
   <%= link_to :back do %>
-    <i class="fas fa-arrow-left"></i>
+    <%= inline_svg_tag 'icons/arrow.svg' %>
     <p class="visibility-hidden">Voltar a página anterior</p>
   <% end %>
-  <p><%= content_for(:page_header) || "Box Surpresa" %></p>
+  <h3><%= content_for(:page_header) || "Box Surpresa" %></h3>
 </div>

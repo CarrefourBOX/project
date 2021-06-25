@@ -1,29 +1,38 @@
-div.nav {
+#nav {
   position: fixed;
   top: 0;
   left: 0;
+  display: flex;
   height: $nav-height;
   padding: $md-gap;
   align-items: center;
   width: 100%;
   background: white;
   z-index: 999;
-  p {
+  h3 {
     font-size: calc(.8rem + 1vw);
-    color: $nav-header-gray;
+    color: #353A40;
     font-weight: 500;
     margin: 0;
   }
-  a {
-    color: $btn-gray;
-    font-size: calc(1rem + 1vw);
+  svg {
+    fill: #333333;
+    height: calc(.8rem + .8vw);
     margin-right: $md-gap;
+    width: auto;
   }
 }
-nav {
-  position: absolute;
-  top: $nav-height;
+.devise {
+  #nav {
+    h3 {
+      color: $nav-header-gray;
+    }
+    svg {
+      fill: $btn-gray;
+    }
+  }
 }
+
 
 // menu nav
 .menu-nav {
