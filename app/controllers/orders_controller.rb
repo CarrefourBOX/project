@@ -20,7 +20,7 @@ class OrdersController < ApplicationController
         quantity: plan.quantity
       }],
       success_url: order_url(order),
-      cancel_url: order_url(order)
+      cancel_url: plan_url(plan)
     )
 
     order.update(checkout_session_id: session.id)
