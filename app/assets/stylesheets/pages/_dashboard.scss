@@ -1,0 +1,22 @@
+.dashboard-container {
+  font-size: 22px;
+  a {
+      color: white;
+  }
+  color: $font-default-color;
+  font-family: "BenchNine",
+  sans-serif;
+  .accordion-button {
+      color: white;
+      font-size: 27px;
+      &:not(.collapsed) {
+          color: white;
+      }
+  }
+  .accordion-body p {
+      font-size: 20px;
+  }
+  .form-control {
+      font-size: 22px;
+  }
+}
