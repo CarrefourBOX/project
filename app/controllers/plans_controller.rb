@@ -1,9 +1,13 @@
 class PlansController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[new]
+  skip_before_action :authenticate_user!, only: %i[new shopcart]
+  before_action :skip_authorization, only: %i[new create show destroy shopcart]
 
   def new
-    skip_authorization
     @items = sort_box_items
+  end
+
+  def shopcart
+    @plan = cookies[:plan_params] ? Plan.new(quantity: cookies[:plan_params][:boxes].keys.size, category: cookies[:plan_params][:category]) : nil
   end
 
   def show
@@ -13,12 +17,11 @@ class PlansController < ApplicationController
   end
 
   def create
-    skip_authorization
     @plan = Plan.new(quantity: params[:boxes].keys.size, category: params[:category])
     @plan.user = current_user
     if @plan.save
       create_boxes(@plan, params[:boxes])
-      flash[:notice] = 'Plan created!'
+      flash[:notice] = 'Plan crecalc(1.2rem + 1.2vw)ated!'
       redirect_to plan_path(@plan)
     else
       @items = sort_box_items
