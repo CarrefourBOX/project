@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_25_124202) do
+ActiveRecord::Schema.define(version: 2021_06_25_005148) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -85,7 +85,7 @@ ActiveRecord::Schema.define(version: 2021_06_25_124202) do
     t.boolean "carrefour_card", default: false, null: false
     t.string "category", null: false
     t.integer "price_cents", default: 0, null: false
-    t.string "price_currency", default: "BRL", null: false
+    t.integer "mensal_price_cents", default: 0, null: false
     t.integer "shipment_cents", default: 0, null: false
     t.string "shipment_currency", default: "BRL", null: false
     t.uuid "user_id"
@@ -94,9 +94,7 @@ ActiveRecord::Schema.define(version: 2021_06_25_124202) do
     t.text "ship_day", default: "", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.boolean "payment", default: false
     t.datetime "expires_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.integer "mensal_plan_price"
     t.index ["user_id"], name: "index_plans_on_user_id"
   end
 

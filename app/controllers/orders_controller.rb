@@ -8,14 +8,14 @@ class OrdersController < ApplicationController
     skip_authorization
     plan = Plan.find(params[:plan_id])
     @price = plan.price / plan.quantity
-    @price_cents = plan.price_cents / plan.quantity
+    @mensal_price_cents = plan.mensal_price_cents / plan.quantity
     order  = Order.create!(plan: plan, amount: @price, state: 'pending', user: current_user)
 
     session = Stripe::Checkout::Session.create(
       payment_method_types: ['card'],
       line_items: [{
         name: "Compra de #{current_user.name} n #{current_user.plans.count}",
-        amount: @price_cents,
+        amount: @mensal_price_cents,
         currency: 'brl',
         quantity: plan.quantity
       }],
