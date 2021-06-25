@@ -1,5 +1,6 @@
 .start-container {
     color: $font-default-color;
+    padding-bottom: 10px;
     h2 {
         margin-top: 50px;
         font-size: 36px;
@@ -61,11 +62,12 @@
 }
 
 .btn-start {
-    font-size: 20px;
-    background-color: $btn-bg;
-    border-radius: 15px;
-    color: $btn-blue-font;
+    font-size: 20px !important;
+    background-color: $btn-start-bg;
+    border-radius: 10px;
+    color: $btn-start-font;
     text-decoration: none;
-    padding: calc(0.8rem + 0.4vw);
+    padding: calc(0.8rem + 0.4vw) 115px;
     margin: 20px 0;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
 }
