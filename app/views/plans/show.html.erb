@@ -4,7 +4,9 @@
     <div class="text-center card-header"> Meu Carrinho
     </div>
     <div class="card-body">
-      <%= "#{@plan.category} - #{humanized_money_with_symbol @plan.price} (início: #{@plan.created_at.strftime("%d/%m/%Y")})" %>
+      <p><%= "#{@plan.category} - (início: #{@plan.created_at.strftime("%d/%m/%Y")})" %></p>
+      <p><%= "Plano Mensal: #{humanized_money_with_symbol @plan.mensal_price}" %></p>
+      <p><%= "Valor Total: #{humanized_money_with_symbol @plan.price}" %></p>
       <% @plan.boxes.each do |box| %>
       <h5 class="card-title"><%= box.box_item.box_name %></h5>
         <ul>
