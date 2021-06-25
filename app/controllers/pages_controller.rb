@@ -31,7 +31,9 @@ class PagesController < ApplicationController
 
   def sort_my_boxes
     plans = []
-    current_user.plans.includes(boxes: [:box_item]).order(created_at: :desc).each do |plan|
+    current_user.plans.includes(:shipments, :order, boxes: [:box_item])
+                .where(order: { state: 'complete' })
+                .order(created_at: :desc).each do |plan|
       boxes = plan.boxes.each_with_object({}) do |box, hash|
         unless hash[box.box_item.box_name]
           box_name = BoxName.find_by(name: box.box_item.box_name)

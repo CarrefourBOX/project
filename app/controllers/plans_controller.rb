@@ -7,8 +7,9 @@ class PlansController < ApplicationController
   end
 
   def show
-    skip_authorization
     @plan = Plan.find(params[:id])
+    authorize @plan
+    @boxes = sort_boxes(@plan)
   end
 
   def create
@@ -71,6 +72,13 @@ class PlansController < ApplicationController
     BoxItem.all.each_with_object({}) do |item, hash|
       hash[item.box_name] = [] unless hash[item.box_name]
       hash[item.box_name] << item
+    end
+  end
+
+  def sort_boxes(plan)
+    plan.boxes.each_with_object({}) do |box, hash|
+      hash[box.box_item.box_name] = [] unless hash[box.box_item.box_name]
+      hash[box.box_item.box_name] << box.box_item.item_name
     end
   end
 end

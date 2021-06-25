@@ -4,15 +4,15 @@
   <p>Valor Total: <%= humanized_money_with_symbol plan.price %></p>
   <p>Data de contratacão: <%= plan.created_at.strftime("%d/%m/%Y") %></p>
   <p>Data de expiração: <%= plan.expires_at.strftime("%d/%m/%Y") %></p>
-  <% size = plan.shipments.size %>
-  <% if size == 0 %>
-  <% else %>
+  <% if plan.shipments.size.positive? %>
     <p>Envios:</p>
     <ul>
       <% plan.shipments.each do |shipment| %>
         <li class="fs-5"><%= shipment.created_at.strftime("%d/%m/%Y")%> - <%= link_to shipment.shipping_code, 'https://www2.correios.com.br/sistemas/rastreamento/' %></li>
       <% end %>
     </ul>
+  <% else %>
+    <span>Sua primeira caixa será enviada no próximo dia <b><%= plan.ship_day %></b></span>
   <% end %>
   <div class="text-center pb-3 cancel-link">
     <%= link_to 'Cancelar Assinatura', plan_path(plan), method: :delete, class: "text-danger", data: { confirm: 'Tem certeza?'} %>

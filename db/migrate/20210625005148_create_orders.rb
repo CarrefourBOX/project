@@ -1,6 +1,6 @@
 class CreateOrders < ActiveRecord::Migration[6.1]
   def change
-    create_table :orders do |t|
+    create_table :orders, id: :uuid do |t|
       t.string :state
       t.string :teddy_sku
       t.monetize :amount, currency: { present: false }

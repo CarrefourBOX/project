@@ -14,7 +14,10 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :orders, only: [:show, :create] do
+  resources :orders, only: %i[show create] do
+    member do
+      get 'confirm_payment', to: 'orders#confirm_payment', as: :confirm_payment
+    end
     resources :payments, only: :new
   end
   resources :box_names, only: %i[create destroy]

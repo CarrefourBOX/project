@@ -68,7 +68,7 @@ ActiveRecord::Schema.define(version: 2021_06_25_005148) do
     t.index ["plan_id"], name: "index_boxes_on_plan_id"
   end
 
-  create_table "orders", force: :cascade do |t|
+  create_table "orders", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "state"
     t.string "teddy_sku"
     t.integer "amount_cents", default: 0, null: false

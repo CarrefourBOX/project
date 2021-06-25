@@ -13,6 +13,7 @@ class Plan < ApplicationRecord
   belongs_to :user
   has_many :boxes, dependent: :destroy
   has_many :shipments, dependent: :destroy
+  has_one :order
 
   before_validation :calculate_price, :calculate_mensal_price, :calculate_shipment, :calculate_expiration, :set_ship_day
 
@@ -40,7 +41,7 @@ class Plan < ApplicationRecord
   end
 
   def calculate_mensal_price
-    self.mensal_price_cents = self.price_cents / CATEGORIES[category][1]
+    self.mensal_price_cents = price_cents / CATEGORIES[category][1]
   end
 
   def calculate_shipment
