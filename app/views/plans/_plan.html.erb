@@ -1,15 +1,22 @@
 <div class="plan-info pb-3" id="<%= dom_id plan %>">
   <p>Plano: <%= plan.category %></p>
-  <p>Valor: <%= humanized_money_with_symbol plan.price %></p>
+  <p>Valor Mensal: <%= humanized_money_with_symbol plan.mensal_price %></p>
+  <p>Valor Total: <%= humanized_money_with_symbol plan.price %></p>
   <p>Data de contratacão: <%= plan.created_at.strftime("%d/%m/%Y") %></p>
   <p>Data de expiração: <%= plan.expires_at.strftime("%d/%m/%Y") %></p>
-  <p>Envios:</p>
-  <ul>
-    <% plan.shipments.each do |shipment| %>
-      <li class="fs-5"><%= shipment.created_at.strftime("%d/%m/%Y")%> - <%= link_to shipment.shipping_code, 'https://www2.correios.com.br/sistemas/rastreamento/' %></li>
-    <% end %>
-  </ul>
-
+  <% size = plan.shipments.size %>
+  <% if size == 0 %>
+  <% else %>
+    <p>Envios:</p>
+    <ul>
+      <% plan.shipments.each do |shipment| %>
+        <li class="fs-5"><%= shipment.created_at.strftime("%d/%m/%Y")%> - <%= link_to shipment.shipping_code, 'https://www2.correios.com.br/sistemas/rastreamento/' %></li>
+      <% end %>
+    </ul>
+  <% end %>
+  <div class="text-center pb-3 cancel-link">
+    <%= link_to 'Cancelar Assinatura', plan_path(plan), method: :delete, class: "text-danger", data: { confirm: 'Tem certeza?'} %>
+  </div>
   <div class="text-center pb-3 cancel-link">
     <%= link_to "#{plan.auto_renew ? 'Cancelar' : 'Ativar'} Renovação Automática", toggle_auto_renew_plan_path(plan), method: :put, class: "text-danger", data: { confirm: 'Tem certeza?'} %>
   </div>
