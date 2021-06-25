@@ -51,6 +51,7 @@ gem 'money-rails'
 
 # Manages payments
 gem 'stripe'
+gem 'stripe_event'
 
 # Enables turbo (Hotwire) functionalities
 gem 'turbo-rails'

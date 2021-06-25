@@ -9,7 +9,6 @@ class PlansController < ApplicationController
   def show
     skip_authorization
     @plan = Plan.find(params[:id])
-    @plan.payment = true
   end
 
   def create
