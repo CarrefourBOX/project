@@ -19,6 +19,7 @@
         </div>
       <% end %>
       <%= render 'plans/plan', plan: plan[:data] %>
+      <%= button_to 'Cancelar Assinatura', plan_path(plan[:data]), method: :delete, class: 'btn btn-dark w-100' %>
     </div>
   <% end %>
 </div>

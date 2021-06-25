@@ -26,6 +26,19 @@ class PlansController < ApplicationController
     end
   end
 
+  def destroy
+    skip_authorization
+    @plan = Plan.find(params[:id])
+    @order = Order.find_by(plan: @plan)
+    if @order.nil?
+    else
+      @order.destroy
+    end
+    flash[:notice] = "Plano cancelado!"
+    @plan.destroy
+    redirect_to cancel_path
+  end
+
   def toggle_auto_renew
     @plan = Plan.find(params[:id])
     authorize @plan
