@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="row py-4">
+    <div class="col">
+      <h1>Receber no endereço:</h1>
+      <p><%= current_user.address %></p>
+      <button id="pagar" class="btn btn-primary">Pagar</button>
+      <script src="https://js.stripe.com/v3/"></script>
+      <script>
+        const paymentButton = document.getElementById('pagar');
+        paymentButton.addEventListener('click', () => {
+          const stripe = Stripe('<%= ENV['PUBLISHABLE_KEY'] %>');
+          stripe.redirectToCheckout({
+            sessionId: '<%= @order.checkout_session_id %>'
+          });
+        });
+      </script>
+    </div>
+  </div>
+</div>

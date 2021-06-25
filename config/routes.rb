@@ -13,12 +13,9 @@ Rails.application.routes.draw do
     end
   end
 
-  scope '/checkout' do
-    post 'create', to: 'checkout#create', as: 'checkout_create'
-    get 'cancel', to: 'checkout#cancel', as: 'checkout_cancel'
-    get 'success', to: 'checkout#success', as: 'checkout_success'
+  resources :orders, only: [:show, :create] do
+    resources :payments, only: :new
   end
-
   resources :box_names, only: %i[create destroy]
   resources :box_items, only: %i[new create destroy]
 end
