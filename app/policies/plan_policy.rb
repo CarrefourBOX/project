@@ -13,13 +13,13 @@ class PlanPolicy < ApplicationPolicy
     user == record.user || admin?
   end
 
+  def owner?
+    user == record.user
+  end
+
   private
 
   def admin?
     user.admin
-  end
-
-  def owner?
-    user == record.user
   end
 end

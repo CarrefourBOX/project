@@ -1,6 +1,7 @@
 <div class="plan-info pb-3" id="<%= dom_id plan %>">
   <p>Plano: <%= plan.category %></p>
-  <p>Valor: <%= humanized_money_with_symbol plan.price %></p>
+  <p>Valor total: <%= humanized_money_with_symbol plan.price %></p>
+  <p>Valor mensal: <%= humanized_money_with_symbol plan.mensal_price %></p>
   <p>Data de contratacão: <%= plan.created_at.strftime("%d/%m/%Y") %></p>
   <p>Data de expiração: <%= plan.expires_at.strftime("%d/%m/%Y") %></p>
   <p>Envios:</p>
