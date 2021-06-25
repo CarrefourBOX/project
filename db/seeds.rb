@@ -139,6 +139,7 @@ puts '=' * 30
 puts 'Creating plans'
 puts '=' * 30
 
+num_of_shipments = { 'Mensal' => 1, 'Trimestral' => 3, 'Semestral' => 6, 'Anual' => 12 }
 3.times do
   plan = Plan.create!(
     user: user,
@@ -154,18 +155,25 @@ puts '=' * 30
     items = BoxItem.where(box_name: box.name).sample(rand(1..4))
     items.each { |item| Box.create!(box_item: item, plan: plan) }
   end
-end
 
-puts ''
-puts '=' * 30
-puts 'Creating shipments'
-puts '=' * 30
-
-6.times do
-  shipment = Shipment.create!(
-    plan: Plan.all.sample
+  puts ''
+  puts '-' * 30
+  puts %(
+Created a #{plan.category} Plan on #{plan.created_at.strftime('%d/%m/%Y')}, for R$#{plan.price_cents / 100.to_f},
+with #{plan.boxes.map { |box| "BOX #{box.box_item.box_name}" }.uniq.join(', ')}.
   )
-  puts "Created shipment '#{shipment.shipping_code}'"
+
+  days_till_ship = plan.ship_day.to_i - plan.created_at.day
+  num_of_shipments[plan.category].times do |i|
+    ship_date = Time.at(plan.created_at + i.months) + days_till_ship.days
+    break if ship_date > Time.now
+
+    shipment = Shipment.create!(
+      plan: plan,
+      created_at: ship_date
+    )
+    puts "- Sent a shipment '#{shipment.shipping_code}' on #{shipment.created_at.strftime('%d/%m/%Y')}"
+  end
 end
 
 puts ''
