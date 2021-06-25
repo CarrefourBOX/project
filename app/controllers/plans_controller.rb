@@ -68,6 +68,17 @@ class PlansController < ApplicationController
     end
   end
 
+  def calculate_shipment
+    destination = Geocoder.coordinates(current_user.address)
+    carrefour = Geocoder.coordinates('Av. Dr. Mauro Lindemberg Monteiro, 322')
+    shipment_distance = Geocoder::Calculations.distance_between(carrefour, destination)
+    if shipment_distance < 10
+      self.shipment_cents = 1499
+    else
+      self.shipment_cents = 500 + shipment_distance.round * 50
+    end
+  end
+
   def sort_box_items
     BoxItem.all.each_with_object({}) do |item, hash|
       hash[item.box_name] = [] unless hash[item.box_name]

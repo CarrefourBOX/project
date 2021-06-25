@@ -44,10 +44,6 @@ class Plan < ApplicationRecord
     self.mensal_price_cents = price_cents / CATEGORIES[category][1]
   end
 
-  def calculate_shipment
-    self.shipment_cents = rand(10..20) * 99
-  end
-
   def calculate_expiration
     time = created_at || Time.now
     self.expires_at = Time.at(time) + CATEGORIES[category][1].months
