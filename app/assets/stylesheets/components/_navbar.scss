@@ -89,12 +89,14 @@
       align-items: center;
       gap: $md-gap;
       padding: $md-gap 0;
-      color: $text-gray;
+      color: $black;
       .fa-chevron-right {
         justify-self: flex-end;
+        font-size: $md-gap;
       }
       i:first-child {
         font-size: calc(1.2rem + 1.2vw);
+        color: $text-gray;
       }
       p {
         margin: 0;
