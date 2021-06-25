@@ -1,20 +1,24 @@
+
 <div class="row d-flex justify-content-center">
-      <div class="card text-dark bg-light mb-3">
-        <div class="text-center card-header"> Meu Carrinho
-        </div>
-        <div class="card-body">
-          <%= "#{@plan.category} - #{humanized_money_with_symbol @plan.price} (início: #{@plan.created_at.strftime("%d/%m/%Y")})" %>
-          <% @plan.boxes.each do |box| %>
-          <h5 class="card-title"><%= box.box_item.box_name %></h5>
-            <ul>
-              <div class="row">
-                <div class="col-6">
-                  <li class="card-text"><%= box.box_item.item_name %></li>
-                </div>
-              </div>
-            </ul>
-          <% end %>
-          <%= button_to 'Confirmar Pagamento', checkout_create_path, method: :post, params: {id: @plan.id}, remote: true %>
-        </div>
-      </div>
+  <div class="card text-dark bg-light mb-3">
+    <div class="text-center card-header"> Meu Carrinho
     </div>
+    <div class="card-body">
+      <%= "#{@plan.category} - #{humanized_money_with_symbol @plan.price} (início: #{@plan.created_at.strftime("%d/%m/%Y")})" %>
+      <% @plan.boxes.each do |box| %>
+      <h5 class="card-title"><%= box.box_item.box_name %></h5>
+        <ul>
+          <div class="row">
+            <div class="col-6">
+              <li class="card-text"><%= box.box_item.item_name %></li>
+            </div>
+          </div>
+        </ul>
+      <% end %>
+      <%= form_tag orders_path do %>
+        <%= hidden_field_tag 'plan_id', @plan.id %>
+        <%= submit_tag 'Próximo', class: 'btn btn-primary' %>
+      <% end %>
+    </div>
+  </div>
+</div>
