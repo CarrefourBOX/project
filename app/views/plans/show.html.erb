@@ -1,4 +1,3 @@
-
 <div class="row d-flex justify-content-center">
   <div class="card text-dark bg-light mb-3">
     <div class="text-center card-header"> Meu Carrinho
@@ -7,14 +6,16 @@
       <p><%= "#{@plan.category} - (início: #{@plan.created_at.strftime("%d/%m/%Y")})" %></p>
       <p><%= "Plano Mensal: #{humanized_money_with_symbol @plan.mensal_price}" %></p>
       <p><%= "Valor Total: #{humanized_money_with_symbol @plan.price}" %></p>
-      <% @plan.boxes.each do |box| %>
-      <h5 class="card-title"><%= box.box_item.box_name %></h5>
+      <% @boxes.each do |box, items| %>
+        <h5 class="card-title"><%= box %></h5>
         <ul>
-          <div class="row">
-            <div class="col-6">
-              <li class="card-text"><%= box.box_item.item_name %></li>
+          <% items.each do |item| %>
+            <div class="row">
+              <div class="col-6">
+                <li class="card-text"><%= item %></li>
+              </div>
             </div>
-          </div>
+          <% end %>
         </ul>
       <% end %>
       <%= form_tag orders_path do %>
