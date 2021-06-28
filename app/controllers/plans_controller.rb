@@ -3,6 +3,7 @@ class PlansController < ApplicationController
   before_action :skip_authorization, only: %i[new create show destroy shopcart]
 
   def new
+    @boxes = BoxName.all.map(&:name)
     @items = sort_box_items
   end
 

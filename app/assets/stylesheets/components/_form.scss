@@ -189,7 +189,7 @@ input.password {
     width: 100%;
     border-radius: .5rem;
     padding: $sm-gap;
-    border-color: $input-gray;
+    border: 1px solid $input-gray;
     &:not(:placeholder-shown), &:focus {
       & ~ label {
         top: -.5em;

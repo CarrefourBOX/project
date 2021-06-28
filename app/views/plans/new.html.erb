@@ -1,8 +1,18 @@
-<div class="container">
-  <h1 class='text-center pb-3'>Selecione suas preferências</h1>
+<div class="container" data-controller='new-plan'>
+  <h2 class='text-center pb-3'>Selecione suas preferências</h2>
 
-  <%= form_with(url: shopcart_path, local: true, html: {class: 'd-flex row row-cols-lg-auto g-3 align-items-center', 'data-turbo': false }) do %>
-    <div class="col-12">
+  <%= form_with(url: shopcart_path, local: true, html: {class: 'd-flex row row-cols-lg-auto g-3 align-items-center', 'data-turbo': false, data: { action: 'input->new_plan#updateNextBtn' } }) do %>
+    <div id="select-box" class="tab current-tab" data-new-plan-target='tab'>
+      <%= field_set_tag nil do %>
+        <% @boxes.each do |box| %>
+          <div>
+            <%= check_box_tag "box[#{box.downcase.gsub(' ', '_')}]", box.downcase.gsub(' ', '_'), data: { action: 'change->new_plan#showBoxOptions' } %>
+            <%= label_tag "box[#{box.downcase.gsub(' ', '-')}]", box, class:'' %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+    <div id='select-items' class="tab current-tab" data-new-plan-target='tab'>
       <% @items.each do |box, items| %>
         <%= field_set_tag do %>
           <h3>Box <%= box %></h3>
@@ -15,10 +25,7 @@
         <% end %>
         <hr>
       <% end %>
-      <div class="pb-3">
-        <%= select_tag "category", options_for_select(Plan::CATEGORIES.keys), class: 'form-select' %>
-      </div>
-      <%= submit_tag 'Assinar', class: 'btn btn-dark w-100' %>
     </div>
+      <button type='button' data-new-plan-target="nextBtn" disabled>Continuar</button>
   <% end %>
 </div>
