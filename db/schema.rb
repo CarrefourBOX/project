@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_25_175202) do
+ActiveRecord::Schema.define(version: 2021_06_28_131149) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -68,7 +68,7 @@ ActiveRecord::Schema.define(version: 2021_06_25_175202) do
     t.index ["plan_id"], name: "index_boxes_on_plan_id"
   end
 
-  create_table "orders", force: :cascade do |t|
+  create_table "orders", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "state"
     t.string "teddy_sku"
     t.integer "amount_cents", default: 0, null: false
@@ -95,6 +95,9 @@ ActiveRecord::Schema.define(version: 2021_06_25_175202) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "expires_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.text "address"
+    t.float "latitude"
+    t.float "longitude"
     t.index ["user_id"], name: "index_plans_on_user_id"
   end
 
@@ -103,8 +106,6 @@ ActiveRecord::Schema.define(version: 2021_06_25_175202) do
     t.string "shipping_code", default: "", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "user_address", default: "", null: false
-    t.string "carrefour_address", default: "", null: false
     t.index ["plan_id"], name: "index_shipments_on_plan_id"
   end
 

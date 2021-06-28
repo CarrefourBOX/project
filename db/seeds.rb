@@ -147,7 +147,8 @@ num_of_shipments = { 'Mensal' => 1, 'Trimestral' => 3, 'Semestral' => 6, 'Anual'
     category: Plan::CATEGORIES.keys.sample,
     auto_renew: true,
     quantity: rand(1..3),
-    created_at: rand(30..133).days.ago
+    created_at: rand(30..133).days.ago,
+    address: 'Ladeira da Glória, 26, Rio de Janeiro, RJ'
   )
 
   boxes = BoxName.all.sample(rand(1..3))

@@ -21,6 +21,10 @@ class Plan < ApplicationRecord
   monetize :mensal_price_cents, as: 'mensal_price'
   monetize :shipment_cents, as: 'shipment'
 
+  geocoded_by :address
+  after_validation :geocode
+
+
   validates :category, presence: true,
                        inclusion: { in: CATEGORIES.keys }
   validates :price_cents, presence: true
@@ -58,5 +62,16 @@ class Plan < ApplicationRecord
                     else
                       '10'
                     end
+  end
+
+  def calculate_shipment
+    destination = Geocoder.coordinates(self.address)
+    carrefour = Geocoder.coordinates('Av. Doutor Mauro Lindemberg Monteiro, 322')
+    shipment_distance = Geocoder::Calculations.distance_between(carrefour, destination)
+    if shipment_distance < 100
+      self.shipment_cents = 1499
+    else
+      self.shipment_cents = 1499 + shipment_distance.round
+    end
   end
 end

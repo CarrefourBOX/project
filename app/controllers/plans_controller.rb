@@ -16,6 +16,7 @@ class PlansController < ApplicationController
     skip_authorization
     @plan = Plan.new(quantity: params[:boxes].keys.size, category: params[:category])
     @plan.user = current_user
+    @plan.address = current_user.address
     if @plan.save
       create_boxes(@plan, params[:boxes])
       flash[:notice] = 'Plan created!'
@@ -65,17 +66,6 @@ class PlansController < ApplicationController
   def create_boxes(plan, boxes)
     boxes.each do |_k, v|
       v.each { |item| Box.create(plan: plan, box_item: BoxItem.find(item.to_i)) }
-    end
-  end
-
-  def calculate_shipment
-    destination = Geocoder.coordinates(current_user.address)
-    carrefour = Geocoder.coordinates('Av. Dr. Mauro Lindemberg Monteiro, 322')
-    shipment_distance = Geocoder::Calculations.distance_between(carrefour, destination)
-    if shipment_distance < 10
-      self.shipment_cents = 1499
-    else
-      self.shipment_cents = 500 + shipment_distance.round * 50
     end
   end
 
