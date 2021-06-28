@@ -45,18 +45,11 @@ ActiveRecord::Schema.define(version: 2021_06_25_005148) do
   end
 
   create_table "box_items", force: :cascade do |t|
-    t.string "box_name", default: "", null: false
-    t.string "item_name", default: "", null: false
+    t.bigint "carrefour_box_id", null: false
+    t.string "name", default: "", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "box_names", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.string "color", default: "", null: false
-    t.text "description", default: "", null: false
+    t.index ["carrefour_box_id"], name: "index_box_items_on_carrefour_box_id"
   end
 
   create_table "boxes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -68,13 +61,22 @@ ActiveRecord::Schema.define(version: 2021_06_25_005148) do
     t.index ["plan_id"], name: "index_boxes_on_plan_id"
   end
 
+  create_table "carrefour_boxes", force: :cascade do |t|
+    t.string "name"
+    t.string "color", default: "", null: false
+    t.text "description", default: "", null: false
+    t.jsonb "plans", default: {}, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "orders", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "state"
+    t.uuid "user_id", null: false
+    t.uuid "plan_id", null: false
+    t.string "status", default: "pending", null: false
     t.string "teddy_sku"
     t.integer "amount_cents", default: 0, null: false
     t.string "checkout_session_id"
-    t.uuid "user_id", null: false
-    t.uuid "plan_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["plan_id"], name: "index_orders_on_plan_id"
@@ -82,20 +84,22 @@ ActiveRecord::Schema.define(version: 2021_06_25_005148) do
   end
 
   create_table "plans", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.boolean "carrefour_card", default: false, null: false
-    t.string "category", null: false
+    t.uuid "user_id"
+    t.string "category", default: "", null: false
+    t.integer "quantity", default: 0, null: false
+    t.text "ship_day", default: "", null: false
     t.integer "price_cents", default: 0, null: false
     t.string "price_currency", default: "BRL", null: false
+    t.integer "monthly_price_cents", default: 0, null: false
+    t.string "monthly_price_currency", default: "BRL", null: false
     t.integer "shipment_cents", default: 0, null: false
     t.string "shipment_currency", default: "BRL", null: false
-    t.uuid "user_id"
+    t.boolean "carrefour_card", default: false, null: false
     t.boolean "auto_renew", default: true, null: false
-    t.integer "quantity", null: false
-    t.text "ship_day", default: "", null: false
+    t.boolean "active", default: true, null: false
+    t.datetime "expires_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.boolean "payment", default: false
-    t.datetime "expires_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["user_id"], name: "index_plans_on_user_id"
   end
 
@@ -128,6 +132,7 @@ ActiveRecord::Schema.define(version: 2021_06_25_005148) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "box_items", "carrefour_boxes"
   add_foreign_key "boxes", "box_items"
   add_foreign_key "boxes", "plans"
   add_foreign_key "orders", "plans"
