@@ -16,6 +16,12 @@
               <span><%= item.name %></span>
             <% end %>
           </div>
+          <div id="comment-container">
+            <label>
+              <h2>Feedback:</h2>
+              <%= render 'reviews/form', carrefour_box: box, review: @review %>
+            </label>
+          </div>
         </div>
       <% end %>
       <%= render 'plans/plan', plan: plan %>

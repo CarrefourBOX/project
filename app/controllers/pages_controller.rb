@@ -19,6 +19,7 @@ class PagesController < ApplicationController
     @plans = current_user.plans.includes(:order, :shipments,
                                          box_items: :carrefour_box).each_with_object({}) do |plan, hash|
       hash[plan] = plan.box_items.group_by(&:carrefour_box)
+    @review = Review.new
     end
   end
 
