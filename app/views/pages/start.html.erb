@@ -30,6 +30,23 @@
         <p><%= box.description %></p>
       </div>
 
+      <% if box.reviews.count > 0 %>
+        <div id="reviews">
+          <p>Opiniões dos usuários:</p>
+          <% box.reviews.last(1).reverse.each do |review| %>
+            <p><%= render 'reviews/show', review: review %></p>
+          <% end %>
+          <details>
+          <!-- printa os 4 ultimos -->
+            <% box.reviews.first((box.reviews.count)-4).each do |review| %>
+              <p><%= render 'reviews/show', review: review %></p>
+            <% end %>
+            <summary>Ver mais:</summary>
+          </details>
+        </div>
+      <% end %>
+
+
       <div class="row box-card-footer">
         <span>*Valor referente ao plano anual</span>
       </div>

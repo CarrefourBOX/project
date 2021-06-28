@@ -1,0 +1,11 @@
+<div class="comment">
+  <p>Comentário de <%= link_to review.user.first_name %> :</p>
+  <p>
+    <% (review.rating.to_i).times do %>
+      <i class="fas fa-star"></i>
+    <% end %>
+    <% (5 - review.rating.to_i).times do %>
+      <i class="far fa-star"></i>
+    <% end %></p>
+  <p><%= review.content %></p>
+</div>
