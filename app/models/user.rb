@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :boxes, through: :plans
   has_many :box_items, through: :boxes
   has_many :orders
+  has_many :reviews, dependent: :destroy
 
   # validations
   validates :first_name, :last_name, :birth_date, :cpf, :phone, presence: true, unless: :admin?
