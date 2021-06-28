@@ -11,7 +11,7 @@ class BoxItemsController < ApplicationController
 
     respond_to do |format|
       format.turbo_stream do
-        render turbo_stream: turbo_stream.append("#{@box_item.box_name.downcase.gsub(' ', '-')}-items",
+        render turbo_stream: turbo_stream.append("box-#{@box_item.carrefour_box.id}-items",
                                                  partial: 'box_items/item',
 
                                                  locals: { item: @box_item })
@@ -33,6 +33,6 @@ class BoxItemsController < ApplicationController
   private
 
   def box_item_params
-    params.require(:box_item).permit(:item_name, :box_name)
+    params.require(:box_item).permit(:name, :carrefour_box_id)
   end
 end

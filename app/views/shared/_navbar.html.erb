@@ -20,7 +20,7 @@
 
     <div id='navOptions' class='nav-menu collapse'>
       <div>
-        <% if current_user.admin %>
+        <% if current_user&.admin %>
           <%= link_to dashboard_path do %>
             <i class="fas fa-truck-loading"></i>
             <p>Administrar caixas</p>

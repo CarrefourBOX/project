@@ -1,0 +1,69 @@
+<div class="dashboard-form">
+  <h1 class="text-center py-1"><%= carrefour_box.id ? "Editar #{carrefour_box.name} BOX" : "Nova BOX" %></h1>
+
+  <%= form_with model: carrefour_box, local: true, html: {class: 'd-flex row row-cols-lg-auto g-3 align-items-center', 'data-turbo': false } do |f| %>
+    <div class="col-12">
+
+      <div class="pb-3">
+        <%= text_field_tag "carrefour_box[name]", carrefour_box.name, required: true, class: 'form-control w-100', placeholder: 'nome' %>
+      </div>
+
+      <div class="pb-3">
+        <%= text_area_tag "carrefour_box[description]", carrefour_box.name, required: true, class: 'form-control', placeholder: 'descrição' %>
+      </div>
+
+      <div class="row py-3">
+        <div class="input-group col d-flex justify-content-center align-items-center">
+          <%= color_field "carrefour_box[color]", carrefour_box.color, class: 'form-control form-control-color', value: '#112382', title: 'Escolha uma cor' %>
+          <%= label_tag "carrefour_box[color]", 'cor', class: 'ms-2' %>
+        </div>
+
+        <div data-controller="image-attachment" class="input-group col d-flex justify-content-center align-items-center">
+          <%= f.file_field :icon, id: "box-icon-input#{carrefour_box.id}", class: 'form-control form-control-color', class:'visually-hidden', data: { 'image-attachment-target': 'input', action: 'image-attachment#preview' } %>
+          <label for="<%= "box-icon-input#{carrefour_box.id}" %>" class="upload-label">
+            <% if carrefour_box.icon.attached? %>
+              <%= cl_image_tag(carrefour_box.icon.key, id: "box-icon-placeholder#{carrefour_box.id}", title: 'Escolha um ícone', class: 'icon-placeholder', data: {"image-attachment-target": "output"}) %>
+            <% else %>
+              <%= image_tag("img-placeholder", id: "box-icon-placeholder#{carrefour_box.id}", title: 'Escolha um ícone', class: 'icon-placeholder', data: {"image-attachment-target": "output"}) %>
+            <% end %>
+          </label>
+          <%= label_tag "carrefour_box[icon]", 'ícone', class: 'ms-2' %>
+        </div>
+      </div>
+
+      <div>
+        <%= label_tag "carrefour_box[plans][Mensal]", 'valor plano mensal', class: 'form-label' %>
+        <%= text_field_tag "carrefour_box[plans][Mensal]",
+          box_input_value(carrefour_box.plans["Mensal"]&.dig('price')),
+          placeholder: 'R$',
+          class: 'form-control',
+          data: { controller: 'money-input', action: 'input->money-input#format' } %>
+
+        <%= label_tag "carrefour_box[plans][Trimestral]", 'valor plano trimestral', class: 'form-label' %>
+        <%= text_field_tag "carrefour_box[plans][Trimestral]",
+          box_input_value(carrefour_box.plans["Trimestral"]&.dig('price')),
+          placeholder: 'R$',
+          class: 'form-control',
+          data: { controller: 'money-input', action: 'input->money-input#format' } %>
+
+        <%= label_tag "carrefour_box[plans][Semestral]", 'valor plano semestral', class: 'form-label' %>
+        <%= text_field_tag "carrefour_box[plans][Semestral]",
+          box_input_value(carrefour_box.plans["Semestral"]&.dig('price')),
+          placeholder: 'R$',
+          class: 'form-control',
+          data: { controller: 'money-input', action: 'input->money-input#format' } %>
+
+        <%= label_tag "carrefour_box[plans][Anual]", 'valor plano anual', class: 'form-label' %>
+        <%= text_field_tag "carrefour_box[plans][Anual]",
+          box_input_value(carrefour_box.plans["Anual"]&.dig('price')),
+          placeholder: 'R$',
+          class: 'form-control',
+          data: { controller: 'money-input', action: 'input->money-input#format' } %>
+      </div>
+
+      <div class="row d-flex justify-content-center align-items-center pt-3">
+        <%= submit_tag carrefour_box.id ? "Atualizar" : "Criar", class: 'btn-grape mx-auto w-50' %>
+      </div>
+    </div>
+  <% end %>
+</div>

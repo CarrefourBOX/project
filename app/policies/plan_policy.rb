@@ -10,7 +10,11 @@ class PlanPolicy < ApplicationPolicy
   end
 
   def toggle_auto_renew?
-    user == record.user || admin?
+    owner? || admin?
+  end
+
+  def destroy?
+    owner? || admin?
   end
 
   def owner?

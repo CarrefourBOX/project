@@ -5,7 +5,8 @@ puts '=' * 30
 Shipment.delete_all
 Box.delete_all
 BoxItem.delete_all
-BoxName.delete_all
+CarrefourBox.delete_all
+Order.delete_all
 Plan.delete_all
 User.delete_all
 
@@ -41,7 +42,7 @@ User.create!(
 
 puts ''
 puts '=' * 30
-puts 'Creating box names'
+puts 'Creating Carrefour Boxes'
 puts '=' * 30
 
 icon_urls = [
@@ -50,10 +51,16 @@ icon_urls = [
   'https://res.cloudinary.com/dezlaawpu/image/upload/v1624482281/carrefour_box/receita-certa.png'
 ]
 
-box1 = BoxName.create!(
+box1 = CarrefourBox.create!(
   name: 'Happy Hour',
   description: 'Receba em sua casa um KIT para curtir um momento de distração, com bebidas, salgados e aperitivos.',
-  color: '#7A0997'
+  color: '#7A0997',
+  plans: {
+    'Mensal' => { 'price' => 9990 },
+    'Trimestral' => { 'price' => 8990 },
+    'Semestral' => { 'price' => 7990 },
+    'Anual' => { 'price' => 6990 }
+  }
 )
 box1_icon = URI.open(icon_urls[0])
 box1.icon.attach(
@@ -63,10 +70,16 @@ box1.icon.attach(
 )
 puts "#{box1.name} Box created!"
 
-box2 = BoxName.create!(
+box2 = CarrefourBox.create!(
   name: 'Beleza e Cuidado',
   description: 'Que tal cuidar da sua beleza? Com o Box Beleza & Cuidado nunca foi tão facil e prático cuidar de você',
-  color: '#E1357D'
+  color: '#E1357D',
+  plans: {
+    'Mensal' => { 'price' => 9990 },
+    'Trimestral' => { 'price' => 8990 },
+    'Semestral' => { 'price' => 7990 },
+    'Anual' => { 'price' => 6990 }
+  }
 )
 box2_icon = URI.open(icon_urls[1])
 box2.icon.attach(
@@ -76,10 +89,16 @@ box2.icon.attach(
 )
 puts "#{box2.name} Box created!"
 
-box3 = BoxName.create!(
+box3 = CarrefourBox.create!(
   name: 'Receita Certa',
   description: 'Receba em sua residência todas os ingredientes para preparar sua receita diferente, tendo momentos agradáveis com seus familiares',
-  color: '#05977D'
+  color: '#05977D',
+  plans: {
+    'Mensal' => { 'price' => 9990 },
+    'Trimestral' => { 'price' => 8990 },
+    'Semestral' => { 'price' => 7990 },
+    'Anual' => { 'price' => 6990 }
+  }
 )
 box3_icon = URI.open(icon_urls[2])
 box3.icon.attach(
@@ -104,8 +123,8 @@ puts '-' * 30
 
 happy_hour.each do |item|
   BoxItem.create!(
-    box_name: box1.name,
-    item_name: item
+    carrefour_box: box1,
+    name: item
   )
   puts "<<- #{item}"
 end
@@ -116,8 +135,8 @@ puts '-' * 30
 
 beleza_cuidado.each do |item|
   BoxItem.create!(
-    box_name: box2.name,
-    item_name: item
+    carrefour_box: box2,
+    name: item
   )
   puts "<<- #{item}"
 end
@@ -128,8 +147,8 @@ puts '-' * 30
 
 receita_certa.each do |item|
   BoxItem.create!(
-    box_name: box3.name,
-    item_name: item
+    carrefour_box: box3,
+    name: item
   )
   puts "<<- #{item}"
 end
@@ -140,28 +159,33 @@ puts 'Creating plans'
 puts '=' * 30
 
 num_of_shipments = { 'Mensal' => 1, 'Trimestral' => 3, 'Semestral' => 6, 'Anual' => 12 }
+
 3.times do
+  boxes = CarrefourBox.all.sample(rand(1..3))
   plan = Plan.create!(
     user: user,
     carrefour_card: [true, false].sample,
     category: Plan::CATEGORIES.keys.sample,
     auto_renew: true,
-    quantity: rand(1..3),
+    quantity: boxes.size,
     created_at: rand(30..133).days.ago
   )
+  plan.update(active: plan.expires_at > Time.now)
 
-  boxes = BoxName.all.sample(rand(1..3))
   boxes.each do |box|
-    items = BoxItem.where(box_name: box.name).sample(rand(1..4))
+    items = box.box_items.sample(rand(1..4))
     items.each { |item| Box.create!(box_item: item, plan: plan) }
   end
 
-  Order.create!(plan: plan, amount: plan.price, state: 'complete', user: user, created_at: plan.created_at)
+  plan.calculate_total
+
+  Order.create!(plan: plan, amount: plan.price, status: 'complete', user: user, created_at: plan.created_at)
+
   puts ''
   puts '-' * 30
   puts %(
 Created a #{plan.category} Plan on #{plan.created_at.strftime('%d/%m/%Y')}, for R$#{plan.price_cents / 100.to_f},
-with #{plan.boxes.map { |box| "BOX #{box.box_item.box_name}" }.uniq.join(', ')}.
+with #{plan.boxes.map { |box| "BOX #{box.box_item.carrefour_box.name}" }.uniq.join(', ')}.
   )
 
   days_till_ship = plan.ship_day.to_i - plan.created_at.day
@@ -185,7 +209,7 @@ puts 'Normal user - email: test@test.com, password: senha123'
 puts '-' * 30
 puts "#{Plan.count} plans created..."
 puts '-' * 30
-puts "#{BoxName.count} boxes created..."
+puts "#{CarrefourBox.count} boxes created..."
 puts '-' * 30
 puts "#{Shipment.count} shipments created..."
 

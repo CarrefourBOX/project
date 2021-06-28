@@ -1,9 +1,9 @@
 class Shipment < ApplicationRecord
   include ShippingCodeGenerator
 
-  before_create :assign_shipping_code
-
   belongs_to :plan
+
+  before_create :assign_shipping_code
 
   private
 

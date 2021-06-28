@@ -1,24 +1,24 @@
 <div class="container my-box-container">
   <h1 class="pb-3">Meu BOX:</h1>
   <% counter = @plans.size %>
-  <% @plans.each_with_index do |plan, i| %>
+  <% @plans.each_with_index do |(plan, boxes), i| %>
     <div class="plan-card my-3">
       <div class="plan-card-head">
         <span>Assinatura <%= (counter - i).to_s.rjust(2, "0") %></span>
       </div>
-      <% plan[:boxes].each do |name, box| %>
-        <div class="box-items row mx-auto" style="background: rgba(<%= box['box'].color.match(/^#(..)(..)(..)$/).captures.map(&:hex).join(', ') %>, 0.25);">
+      <% boxes.each do |box, items| %>
+        <div class="box-items row mx-auto" style="background: rgba(<%= box.color.match(/^#(..)(..)(..)$/).captures.map(&:hex).join(', ') %>, 0.25);">
           <div class="col-6">
-            <span><b>BOX <%= name %>:</b></span>
+            <span><b>BOX <%= box.name %>:</b></span>
           </div>
           <div class="col-6">
-            <% box['items'].each do |item| %>
-              <span><%= item %></span>
+            <% items.each do |item| %>
+              <span><%= item.name %></span>
             <% end %>
           </div>
         </div>
       <% end %>
-      <%= render 'plans/plan', plan: plan[:data] %>
+      <%= render 'plans/plan', plan: plan %>
     </div>
   <% end %>
 </div>
