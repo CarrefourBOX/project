@@ -8,7 +8,7 @@ class OrdersController < ApplicationController
   def create
     plan = Plan.find(params[:plan_id])
     authorize plan, :owner?
-    @price = (plan.price + plan.shipment) / plan.quantity
+    @price = plan.price / plan.quantity
     @mensal_price_cents = (plan.mensal_price_cents + plan.shipment_cents) / plan.quantity
     order = Order.create!(plan: plan, amount: @price, state: 'pending', user: current_user)
 
