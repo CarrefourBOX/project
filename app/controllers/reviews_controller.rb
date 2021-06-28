@@ -16,7 +16,7 @@ class ReviewsController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html { render 'my_boxes/show' }
+        format.html { redirect_to my_boxes_path(anchor: "comment-container") }
         format.js # <-- idem
       end
     end
