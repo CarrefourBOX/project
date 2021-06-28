@@ -28,8 +28,15 @@
             </div>
 
             <%= turbo_frame_tag "box-#{box.id}-new-item", src: new_box_item_path({box_item: @box_item, carrefour_box_id: box.id}) %>
-            <p class="text-center"><%= link_to "apagar BOX", carrefour_box_path(box), method: :delete, class: 'btn-red text-center mt-3', data: { confirm: 'Tem certeza?' } %></p>
-            <p class="text-center"><%= link_to 'editar BOX', '#', class: 'btn-orange mx-auto w-50', data: { 'bs-toggle': 'modal', 'bs-target': "#editBox#{box.id}Modal" } %></p>
+
+            <div class="row mt-3">
+              <div class="col text-center">
+                <%= link_to 'editar BOX', '#', class: 'btn-grape', data: { 'bs-toggle': 'modal', 'bs-target': "#editBox#{box.id}Modal" } %>
+              </div>
+              <div class="col text-center">
+                <%= link_to "apagar BOX", carrefour_box_path(box), method: :delete, class: 'btn-red', data: { confirm: 'Tem certeza?' } %>
+              </div>
+            </div>
             <%= render 'carrefour_boxes/edit', carrefour_box: box %>
           </div>
         </div>
