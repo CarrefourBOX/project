@@ -1,30 +1,37 @@
 <div class="container dashboard-container">
-  <div class="dashboard-form">
-    <h1 class="text-center py-3">Adicionar nova caixa</h1>
+  <h1 class="text-center py-3">BOXes</h1>
+  <div class="accordion accordion-flush" id="accordionFlushExample">
+    <% @boxes.each do |box| %>
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="flush-heading-<%= box.id %>">
+          <button class="accordion-button collapsed" style="background-color:<%= box.color %> !important;" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-<%= box.id %>" aria-expanded="false" aria-controls="flush-collapse-<%= box.id %>">
+            <%= cl_image_tag box.icon.key, width: 35, class:'me-3' %><%= box.name %>
+          </button>
+        </h2>
+        <div id="flush-collapse-<%= box.id %>" class="accordion-collapse collapse" aria-labelledby="flush-heading-<%= box.id %>" data-bs-parent="#accordionFlushExample">
+          <div class="accordion-body">
+            <p><%= box.description %></p>
+            <hr>
+            <p>Valores:</p>
+            <div class="row">
+              <% box.plans.each do |k, v| %>
+                <div class="col-6">
+                  <p><%= k %>: R$<%= v['price'].to_s.insert(-3, ',') %></p>
+                </div>
+              <% end %>
+            </div>
+            <hr>
+            <div id=<%= "box-#{box.id}-items" %>>
+              <% box.box_items.each do |item|%>
+                <%= render 'box_items/item', item: item %>
+              <% end %>
+            </div>
 
-    <%= form_with model: @box_name, local: true, html: {class: 'd-flex row row-cols-lg-auto g-3 align-items-center', 'data-turbo': false, 'data-controller':'image-attachment' } do |f| %>
-      <div class="col-12">
-        <div class="pb-3">
-          <%= text_field_tag "box_name[name]", @box_name.name, required: true, class: 'form-control w-100', placeholder: 'nome' %>
-        </div>
-        <div class="pb-3">
-          <%= text_area_tag "box_name[description]", @box_name.name, required: true, class: 'form-control', placeholder: 'descrição' %>
-        </div>
-        <div class="row py-3">
-          <div class="input-group col d-flex justify-content-center align-items-center">
-            <%= color_field "box_name[color]", @box_name.color, class: 'form-control form-control-color', value: '#112382', title: 'Escolha uma cor' %>
-            <%= label_tag "box_name[color]", 'cor', class: 'ms-2' %>
+            <%= turbo_frame_tag "box-#{box.id}-new-item", src: new_box_item_path({box_item: @box_item, carrefour_box_id: box.id}) %>
+            <p class="text-center"><%= link_to "apagar BOX", carrefour_box_path(box), method: :delete, class: 'btn-red text-center mt-3', data: { confirm: 'Tem certeza?' } %></p>
+            <p class="text-center"><%= link_to 'editar BOX', '#', class: 'btn-orange mx-auto w-50', data: { 'bs-toggle': 'modal', 'bs-target': "#editBox#{box.id}Modal" } %></p>
+            <%= render 'carrefour_boxes/edit', carrefour_box: box %>
           </div>
-          <div class="input-group col d-flex justify-content-center align-items-center">
-            <%= f.file_field :icon, id:'icon-upload', required: true, class: 'form-control form-control-color', class:'visually-hidden', data: { 'image-attachment-target': 'input', action: 'image-attachment#preview' } %>
-            <label for="icon-upload" class="upload-label">
-              <%= image_tag("img-placeholder", title: 'Escolha um ícone', class: 'icon-placeholder', data: {"image-attachment-target": "output"}) %>
-            </label>
-            <%= label_tag "box_name[color]", 'ícone', class: 'ms-2' %>
-          </div>
-        </div>
-        <div class="row d-flex justify-content-center align-items-center pt-3">
-          <%= submit_tag "Criar caixa", class: 'btn btn-dark mx-auto w-50' %>
         </div>
       </div>
     <% end %>
@@ -32,31 +39,20 @@
 
   <hr>
 
-  <h1 class="text-center py-3">Suas caixas</h1>
-  <div class="accordion accordion-flush" id="accordionFlushExample">
-    <% @boxes.each do |key, values| %>
-      <div class="accordion-item">
-        <h2 class="accordion-header" id="flush-heading-<%= values['box_name'].id %>">
-          <button class="accordion-button collapsed" style="background-color:<%= values['box_name'].color %> !important;" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-<%= values['box_name'].id %>" aria-expanded="false" aria-controls="flush-collapse-<%= values['box_name'].id %>">
-            <%= cl_image_tag values['box_name'].icon.key, width: 35, class:'me-3' %><%= key %>
-          </button>
-        </h2>
-        <div id="flush-collapse-<%= values['box_name'].id %>" class="accordion-collapse collapse" aria-labelledby="flush-heading-<%= values['box_name'].id %>" data-bs-parent="#accordionFlushExample">
-          <div class="accordion-body">
-            <p><%= values['box_name'].description %></p>
-            <hr>
-            <div id=<%= "#{key.downcase.gsub(' ', '-')}-items" %>>
-              <% values['items'].each do |item|%>
-                <%= render 'box_items/item', item: item %>
-              <% end %>
-            </div>
-
-            <%= turbo_frame_tag "#{key.downcase.gsub(' ', '-')}-new-item", src: new_box_item_path({box_item: @box_item, key: key}) %>
-            <p class="text-center"><%= link_to "apagar caixa", box_name_path(values['box_name']), method: :delete, class: 'btn btn-danger text-center fs-5 mt-3', data: { confirm: 'Tem certeza?' } %></p>
-          </div>
-        </div>
-      </div>
-    <% end %>
+  <div class="text-center">
+    <%= link_to 'Nova BOX', '#', class: 'btn-orange mx-auto w-50', data: { 'bs-toggle': 'modal', 'bs-target': '#newBoxModal' } %>
   </div>
+</div>
 
+<div class="modal" id="newBoxModal" tabindex="-1" aria-labelledby="sessionHeaders" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <%= render 'carrefour_boxes/form', carrefour_box: @carrefour_box %>
+      </div>
+    </div>
+  </div>
 </div>

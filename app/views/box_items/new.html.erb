@@ -1,10 +1,10 @@
-<%= turbo_frame_tag "#{params[:key].downcase.gsub(' ', '-')}-new-item" do %>
+<%= turbo_frame_tag "box-#{params[:carrefour_box_id]}-new-item" do %>
   <p class="text-center">Adicionar um novo item:</p>
   <%= form_with(model: @box_item, local: true, html: {class: 'd-flex row row-cols-lg-auto g-3 align-items-center'},data: { controller: 'box-item', action: 'turbo:submit-end->box-item#reset', 'box-item-target': 'form' }) do %>
     <div class="col-12">
       <div class="input-group justify-content-center">
-        <%= hidden_field_tag "box_item[box_name]", params[:key], required: true, class: 'form-control', placeholder: 'nome' %>
-        <%= text_field_tag "box_item[item_name]", @box_item.item_name, required: true, class: 'form-control', placeholder: 'nome' %>
+        <%= hidden_field_tag "box_item[carrefour_box_id]", params[:carrefour_box_id], required: true, class: 'form-control', placeholder: 'nome' %>
+        <%= text_field_tag "box_item[name]", @box_item.name, required: true, class: 'form-control', placeholder: 'nome' %>
         <%= submit_tag "Adicionar item", class: 'btn btn-sm btn-dark fs-5' %>
       </div>
     </div>

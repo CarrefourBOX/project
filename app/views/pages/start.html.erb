@@ -16,8 +16,8 @@
               <span>Box</span>
             </div>
             <div class="col-8 d-flex justify-content-end card-price">
-              <span>R$ 89.90</span>
-              <span>R$ 69,90*</span>
+              <span>R$ <%= box.plans['Mensal']['price'].to_s.insert(-3, ',') %></span>
+              <span>R$ <%= box.plans['Anual']['price'].to_s.insert(-3, ',') %>*</span>
             </div>
           </div>
           <div class="row">
@@ -36,7 +36,7 @@
     </div>
   <% end %>
 
-  <div class='mt-5'><%= link_to 'Eu quero', new_plan_path, class: 'btn-start' %></div>
+  <div class='mt-5 mx-3'><%= link_to 'Eu quero', new_plan_path, class: 'btn-orange' %></div>
 
   <div class="img-ruler"></div>
 
@@ -61,7 +61,7 @@
   <p>Usando o cartão Carrefour você ganha ainda mais:</p>
   <p>Frete grátis</p>
 
-  <div class='mt-5'><%= link_to 'Eu quero', new_plan_path, class: 'btn-start' %></div>
+  <div class='mt-5 mx-3'><%= link_to 'Eu quero', new_plan_path, class: 'btn-orange' %></div>
 
   <div class="img-ruler"></div>
 </div>
