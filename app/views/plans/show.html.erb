@@ -5,8 +5,8 @@
     <div class="card-body">
       <p><%= "#{@plan.category} - (início: #{@plan.created_at.strftime("%d/%m/%Y")})" %></p>
       <p><%= "Plano Mensal: #{humanized_money_with_symbol @plan.mensal_price}" %></p>
-      <p><%= "Valor Total: #{humanized_money_with_symbol @plan.price}" %></p>
       <p><%= "Valor do Frete: #{humanized_money_with_symbol @plan.shipment}"%></p>
+      <p><%= "Valor Total: #{humanized_money_with_symbol @plan.mensal_price + @plan.shipment}" %></p>
       <% @boxes.each do |box, items| %>
         <h5 class="card-title"><%= box %></h5>
         <ul>
