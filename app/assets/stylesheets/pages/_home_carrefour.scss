@@ -15,7 +15,6 @@
   width: 100%;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  gap: $md-gap;
   overflow-y: scroll;
   padding: $md-gap;
   &::-webkit-scrollbar {
@@ -28,14 +27,14 @@
     & > div {
       box-shadow: 0 0.5rem 1rem 0.1rem rgba(0, 0, 0, .05);
       border-radius: 50%;
-      height: calc(4rem + 4vw);
-      width: calc(4rem + 4vw);
+      height: calc(3rem + 3vw);
+      width: calc(3rem + 3vw);
       display: flex;
       align-items: center;
       justify-content: center;
     }
     img {
-      width: calc(2.2rem + 2.2vw);
+      width: calc(1.75rem + 1.75vw);
     }
     i {
       font-size: $lg-gap;
@@ -43,8 +42,8 @@
     }
     span {
       color: $black;
-      font-size: calc(.8rem + .2vw);
-      width: calc(4.5rem + 4.5vw);
+      font-size: calc(.6rem + .6vw);
+      width: calc(4rem + 4vw);
       text-align: center;
     }
     &.purple {
@@ -99,13 +98,13 @@
         align-items: center;
         border-radius: 50%;
         background: $purple;
-        height: calc(3.5rem + 3.5vw);
-        width: calc(3.5rem + 3.5vw);
+        height: calc(2.75rem + 2.75vw);
+        width: calc(2.75rem + 2.75vw);
       }
       & > div {
         position: relative;
-        height: calc(4.5rem + 4.5vw);
-        width: calc(4.5rem + 4.5vw);
+        height: calc(3.5rem + 3.5vw);
+        width: calc(3.5rem + 3.5vw);
         &::before {
           content: "";
           position: absolute;
@@ -114,6 +113,9 @@
           height: 100%;
           border-radius: 50%;
           animation: rotate 6s linear infinite;
+        }
+        img {
+          width: calc(1.5rem + 1.5vw);
         }
       }
     }
@@ -144,7 +146,6 @@ a.link-row {
   }
   h4 {
     color: $nav-header-gray;
-    font-weight: 400;
   }
   span {
     color: $text-gray;
@@ -172,6 +173,7 @@ a.link-row {
   }
 }
 .user-activity {
+  margin-top: $lg-gap;
   & > div {
     border-radius: .5rem;
     box-shadow: 0 0.05rem 0.1rem 0.05rem rgba(0, 0, 0, 0.15);
@@ -182,20 +184,21 @@ a.link-row {
       margin-bottom: $sm-gap;
       p {
         color: #8999a8;
-        font-size: $md-gap;
+        font-size: calc(.8rem + .8vw);
         margin-bottom: 0;
       }
       strong {
         color: black;
-        font-size: calc(1.2rem + 1.2vw);
+        font-size: $md-gap;
         font-weight: 400;
         margin: 0 $xs-gap;
       }
       img {
-        height: calc(1.75rem + 1.75vw);
+        height: calc(1.5rem + 1.5vw);
       }
       a {
-        text-decoration: underline;
+        text-decoration: underline !important;
+        font-size: calc(.8rem + .4vw);
       }
     }
     &:last-child {
@@ -227,8 +230,6 @@ a.link-row {
   }
   h4 {
     color: $purple;
-    font-weight: 400;
-    font-size: $md-gap;
     margin: $md-gap 0;
   }
   hr {

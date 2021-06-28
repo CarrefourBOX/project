@@ -1,24 +1,23 @@
 class Plan < ApplicationRecord
   CATEGORIES = {
-    'Mensal' => [9990, 1],
-    'Trimestral' => [8990, 3],
-    'Semestral' => [7990, 6],
-    'Anual' => [6990, 12]
+    'Mensal' => 1,
+    'Trimestral' => 3,
+    'Semestral' => 6,
+    'Anual' => 12
   }.freeze
-
   DISCOUNTS = { 2 => 5, 3 => 10 }.freeze
-
-  SHIP_DAYS = %w[10 20 30].freeze
+  SHIP_DAYS = [10, 20, 30].freeze
 
   belongs_to :user
   has_many :boxes, dependent: :destroy
+  has_many :box_items, through: :boxes
   has_many :shipments, dependent: :destroy
-  has_one :order
+  has_one :order, dependent: :destroy
 
-  before_validation :calculate_price, :calculate_mensal_price, :calculate_shipment, :calculate_expiration, :set_ship_day
+  before_validation :set_ship_day, :calculate_expiration
 
   monetize :price_cents, as: 'price'
-  monetize :mensal_price_cents, as: 'mensal_price'
+  monetize :monthly_price_cents, as: 'monthly_price'
   monetize :shipment_cents, as: 'shipment'
 
   geocoded_by :address
@@ -26,41 +25,52 @@ class Plan < ApplicationRecord
 
 
   validates :category, presence: true,
-                       inclusion: { in: CATEGORIES.keys }
-  validates :price_cents, presence: true
-  validates :mensal_price_cents, presence: true
-  validates :shipment_cents, presence: true
-  validates :ship_day, presence: true,
-                       inclusion: { in: SHIP_DAYS }
+                       inclusion: { in: CATEGORIES }
+  validates :quantity, numericality: { greater_than_or_equal_to: 0 },
+                       allow_blank: true
+  validates :price_cents, numericality: { greater_than_or_equal_to: 0 },
+                          allow_blank: true
+  validates :monthly_price_cents, numericality: { greater_than_or_equal_to: 0 },
+                                  allow_blank: true
+  validates :shipment_cents, numericality: { greater_than_or_equal_to: 0 },
+                             allow_blank: true
   validates :carrefour_card, inclusion: { in: [true, false] }
   validates :auto_renew, inclusion: { in: [true, false] }
-  validates :quantity, presence: true
+  validates :active, inclusion: { in: [true, false] }
+
+  def calculate_total
+    price = calculate_total_price
+    update(
+      price_cents: price,
+      monthly_price_cents: price / CATEGORIES[category],
+      shipment_cents: calculate_shipment
+    )
+  end
 
   private
 
-  def calculate_price
-    total_price = (CATEGORIES[category][0] * CATEGORIES[category][1]) * quantity
+  def calculate_total_price
+    total_price = 0
+    box_items.includes(:carrefour_box).group_by(&:carrefour_box).each_key do |box|
+      total_price += box.plans[category]['price'] * CATEGORIES[category]
+    end
     discounts = quantity == 1 ? 0 : (total_price * DISCOUNTS[quantity]) / 100
-    self.price_cents = total_price - discounts
-  end
-
-  def calculate_mensal_price
-    self.mensal_price_cents = price_cents / CATEGORIES[category][1]
+    total_price - discounts
   end
 
   def calculate_expiration
     time = created_at || Time.now
-    self.expires_at = Time.at(time) + CATEGORIES[category][1].months
+    self.expires_at = Time.at(time) + CATEGORIES[category].months
   end
 
   def set_ship_day
     day = created_at ? created_at.day : Time.now.day
     self.ship_day = if day >= 9 && day <= 18
-                      '20'
+                      20
                     elsif day >= 19 && day <= 28
-                      '30'
+                      30
                     else
-                      '10'
+                      10
                     end
   end
 

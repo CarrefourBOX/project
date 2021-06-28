@@ -9,14 +9,14 @@ class OrdersController < ApplicationController
     plan = Plan.find(params[:plan_id])
     authorize plan, :owner?
     @price = plan.price / plan.quantity
-    @mensal_price_cents = (plan.mensal_price_cents + plan.shipment_cents) / plan.quantity
+    @monthly_price_cents = (plan.monthly_price_cents + plan.shipment_cents) / plan.quantity
     order = Order.create!(plan: plan, amount: @price, state: 'pending', user: current_user)
 
     session = Stripe::Checkout::Session.create(
       payment_method_types: ['card'],
       line_items: [{
-        name: 'Assinatura Carrefour BOX',
-        amount: @mensal_price_cents,
+        name: "Assinatura Carrefour BOX - Plano #{plan.category}",
+        amount: @monthly_price_cents,
         currency: 'brl',
         quantity: plan.quantity
       }],
@@ -29,7 +29,7 @@ class OrdersController < ApplicationController
 
   def confirm_payment
     authorize @order
-    @order.update(state: 'complete')
+    @order.update(status: 'complete')
     redirect_to @order
   end
 

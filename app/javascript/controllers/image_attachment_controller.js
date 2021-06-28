@@ -1,7 +1,10 @@
 import { Controller } from "stimulus";
 
 export default class extends Controller {
-    static targets = ["imgForm", "output", "input"];
+    static targets = ["output", "input"];
+    connect() {
+        console.log(this.outputTarget.id);
+    }
 
     preview() {
         const input = this.inputTarget;
@@ -16,9 +19,5 @@ export default class extends Controller {
 
             reader.readAsDataURL(input.files[0]);
         }
-    }
-
-    attachImage() {
-        this.imgFormTarget.requestSubmit();
     }
 }

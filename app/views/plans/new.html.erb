@@ -3,13 +3,13 @@
 
   <%= form_with(url: plans_path, local: true, html: {class: 'd-flex row row-cols-lg-auto g-3 align-items-center', 'data-turbo': false }) do %>
     <div class="col-12">
-      <% @items.each do |box, items| %>
+      <% @boxes.each do |box, items| %>
         <%= field_set_tag do %>
-          <h3>Box <%= box %></h3>
+          <h3>Box <%= box.name %></h3>
           <% items.each do |item| %>
             <div class="form-check">
-              <%= check_box_tag "boxes[#{box}][]", item.id, false, class: 'form-check-input' %>
-              <%= label_tag "boxes[#{box}]", item.item_name, class:'form-check-label' %>
+              <%= check_box_tag "boxes[#{box.name}][]", item.id, false, class: 'form-check-input' %>
+              <%= label_tag "boxes[#{box.name}]", item.name, class:'form-check-label' %>
             </div>
           <% end %>
         <% end %>
