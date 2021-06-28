@@ -23,7 +23,6 @@ class Plan < ApplicationRecord
   geocoded_by :address
   after_validation :geocode
 
-
   validates :category, presence: true,
                        inclusion: { in: CATEGORIES }
   validates :quantity, numericality: { greater_than_or_equal_to: 0 },
@@ -75,13 +74,9 @@ class Plan < ApplicationRecord
   end
 
   def calculate_shipment
-    destination = Geocoder.coordinates(self.address)
+    destination = Geocoder.coordinates(address)
     carrefour = Geocoder.coordinates('Av. Doutor Mauro Lindemberg Monteiro, 322')
     shipment_distance = Geocoder::Calculations.distance_between(carrefour, destination)
-    if shipment_distance < 100
-      self.shipment_cents = 1499
-    else
-      self.shipment_cents = 1499 + shipment_distance.round
-    end
+    shipment_distance < 100 ? 1499 : 1499 + shipment_distance.round
   end
 end

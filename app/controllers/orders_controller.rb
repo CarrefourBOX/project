@@ -10,7 +10,7 @@ class OrdersController < ApplicationController
     authorize plan, :owner?
     @price = plan.price / plan.quantity
     @monthly_price_cents = (plan.monthly_price_cents + plan.shipment_cents) / plan.quantity
-    order = Order.create!(plan: plan, amount: @price, state: 'pending', user: current_user)
+    order = Order.create!(plan: plan, amount: @price, status: 'pending', user: current_user)
 
     session = Stripe::Checkout::Session.create(
       payment_method_types: ['card'],

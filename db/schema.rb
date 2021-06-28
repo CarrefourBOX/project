@@ -100,7 +100,6 @@ ActiveRecord::Schema.define(version: 2021_06_28_131149) do
     t.datetime "expires_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.datetime "expires_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.text "address"
     t.float "latitude"
     t.float "longitude"
