@@ -33,15 +33,14 @@
       <% if box.reviews.count > 0 %>
         <div id="reviews">
           <p>Opiniões dos usuários:</p>
-          <% box.reviews.last(1).reverse.each do |review| %>
+          <% box.reviews.last(1).each do |review| %>
             <p><%= render 'reviews/show', review: review %></p>
           <% end %>
           <details>
-          <!-- printa os 4 ultimos -->
-            <% box.reviews.first((box.reviews.count)-4).each do |review| %>
+            <% box.reviews.first((box.reviews.count)-1).each do |review| %>
               <p><%= render 'reviews/show', review: review %></p>
             <% end %>
-            <summary>Ver mais:</summary>
+            <summary>Ver mais opiniões:</summary>
           </details>
         </div>
       <% end %>

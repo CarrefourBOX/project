@@ -17,10 +17,10 @@
             <% end %>
           </div>
           <div id="comment-container">
-            <label>
-              <h2>Feedback:</h2>
+            <details>
               <%= render 'reviews/form', carrefour_box: box, review: @review %>
-            </label>
+              <summary>Seu feedback:</summary>
+            </details>
           </div>
         </div>
       <% end %>
