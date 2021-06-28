@@ -169,6 +169,7 @@ num_of_shipments = { 'Mensal' => 1, 'Trimestral' => 3, 'Semestral' => 6, 'Anual'
     auto_renew: true,
     quantity: boxes.size,
     created_at: rand(30..133).days.ago
+    address: 'Ladeira da Glória, 26, Rio de Janeiro, RJ'
   )
   plan.update(active: plan.expires_at > Time.now)
 

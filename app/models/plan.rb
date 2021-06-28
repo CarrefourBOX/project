@@ -20,6 +20,10 @@ class Plan < ApplicationRecord
   monetize :monthly_price_cents, as: 'monthly_price'
   monetize :shipment_cents, as: 'shipment'
 
+  geocoded_by :address
+  after_validation :geocode
+
+
   validates :category, presence: true,
                        inclusion: { in: CATEGORIES }
   validates :quantity, numericality: { greater_than_or_equal_to: 0 },
@@ -54,10 +58,6 @@ class Plan < ApplicationRecord
     total_price - discounts
   end
 
-  def calculate_shipment
-    rand(10..20) * 99
-  end
-
   def calculate_expiration
     time = created_at || Time.now
     self.expires_at = Time.at(time) + CATEGORIES[category].months
@@ -72,5 +72,16 @@ class Plan < ApplicationRecord
                     else
                       10
                     end
+  end
+
+  def calculate_shipment
+    destination = Geocoder.coordinates(self.address)
+    carrefour = Geocoder.coordinates('Av. Doutor Mauro Lindemberg Monteiro, 322')
+    shipment_distance = Geocoder::Calculations.distance_between(carrefour, destination)
+    if shipment_distance < 100
+      self.shipment_cents = 1499
+    else
+      self.shipment_cents = 1499 + shipment_distance.round
+    end
   end
 end

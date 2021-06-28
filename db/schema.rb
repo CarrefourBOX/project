@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_25_005148) do
+ActiveRecord::Schema.define(version: 2021_06_28_131149) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -100,6 +100,10 @@ ActiveRecord::Schema.define(version: 2021_06_25_005148) do
     t.datetime "expires_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "expires_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.text "address"
+    t.float "latitude"
+    t.float "longitude"
     t.index ["user_id"], name: "index_plans_on_user_id"
   end
 
