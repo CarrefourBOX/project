@@ -1,10 +1,7 @@
-# encoding : utf-8
-
 MoneyRails.configure do |config|
-
   # To set the default currency
-  #
-  # config.default_currency = :usd
+
+  config.default_currency = :brl
 
   # Set default bank object
   #
@@ -71,7 +68,7 @@ MoneyRails.configure do |config|
   #
   # set to BigDecimal::ROUND_HALF_EVEN by default
   #
-  # config.rounding_mode = BigDecimal::ROUND_HALF_UP
+  config.rounding_mode = BigDecimal::ROUND_HALF_UP
 
   # Set default money format globally.
   # Default value is nil meaning "ignore this option".
@@ -113,8 +110,4 @@ MoneyRails.configure do |config|
   # Example:
   # config.raise_error_on_money_parsing = false
   Money.locale_backend = :currency
-
-  MoneyRails.configure do |config|
-    config.default_currency = :brl  # or :gbp, :usd, etc.
-  end
 end

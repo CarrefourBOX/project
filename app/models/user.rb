@@ -6,8 +6,8 @@ class User < ApplicationRecord
 
   has_many :plans, dependent: :destroy
   has_many :boxes, through: :plans
+  has_many :box_items, through: :boxes
   has_many :orders
-
 
   # validations
   validates :first_name, :last_name, :birth_date, :cpf, :phone, presence: true, unless: :admin?
@@ -17,18 +17,18 @@ class User < ApplicationRecord
   attr_writer :login
 
   def login
-    @login || self.cpf || self.email
+    @login || cpf || email
   end
 
   def name
-    "#{first_name.split.map(&:capitalize) * " "} #{last_name.split.map(&:capitalize) * " "}"
+    "#{first_name.split.map(&:capitalize) * ' '} #{last_name.split.map(&:capitalize) * ' '}"
   end
 
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
     if login = conditions.delete(:login)
-      where(conditions.to_h).where(["lower(cpf) = :value OR lower(email) = :value", { :value => login.downcase }]).first
-    elsif conditions.has_key?(:cpf) || conditions.has_key?(:email)
+      where(conditions.to_h).where(['lower(cpf) = :value OR lower(email) = :value', { value: login.downcase }]).first
+    elsif conditions.key?(:cpf) || conditions.key?(:email)
       where(conditions.to_h).first
     end
   end

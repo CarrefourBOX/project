@@ -1,4 +1,4 @@
-class BoxNamePolicy < ApplicationPolicy
+class CarrefourBoxPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       scope.all
@@ -10,6 +10,10 @@ class BoxNamePolicy < ApplicationPolicy
   end
 
   def destroy?
+    admin?
+  end
+
+  def update?
     admin?
   end
 
