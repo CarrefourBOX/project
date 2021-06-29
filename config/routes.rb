@@ -22,7 +22,7 @@ Rails.application.routes.draw do
     resources :payments, only: :new
   end
   resources :carrefour_boxes, only: %i[create destroy update] do
-    resources :reviews, only: %i[new create destroy]
+    resources :reviews, only: %i[new create update destroy]
   end
   resources :box_items, only: %i[new create destroy]
 end

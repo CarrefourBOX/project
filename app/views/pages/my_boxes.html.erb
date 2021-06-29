@@ -17,8 +17,15 @@
             <% end %>
           </div>
           <div id="comment-container">
-            <h6 class='mt-3'><small>Gostou do produto? Deixe aqui o seu comentário</small></h6>
-            <%= render 'reviews/form', carrefour_box: box, review: @review %>
+            <% if current_user.reviews.find_by(carrefour_box: box).nil? %>
+              <h6 class='mt-3'><small>Gostou do produto? Deixe aqui o seu comentário</small></h6>
+              <%= render 'reviews/form', carrefour_box: box, review: @review %>
+            <% else %>
+              <details>
+              <%= render 'reviews/edit', carrefour_box: box, review: current_user.reviews.find_by(carrefour_box: box) %>
+              <summary><small>Editar seu comentário</small></summary>
+              </details>
+            <% end %>
           </div>
         </div>
       <% end %>

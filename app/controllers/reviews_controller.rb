@@ -22,6 +22,13 @@ class ReviewsController < ApplicationController
     end
   end
 
+  def update
+    skip_authorization
+    @review = Review.find(params[:id])
+    @review.update(review_params)
+    redirect_to my_boxes_path
+  end
+
   private
 
   def review_params
