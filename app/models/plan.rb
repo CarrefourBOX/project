@@ -56,10 +56,7 @@ class Plan < ApplicationRecord
     if carrefour_card
       0
     else
-      location = ViaCep::Address.new(address)
-      destination = Geocoder.coordinates(location.street + ' ' + location.city + ' ' + location.state)
-      carrefour = Geocoder.coordinates('Av. Doutor Mauro Lindemberg Monteiro, 322')
-      shipment_distance = Geocoder::Calculations.distance_between(carrefour, destination)
+      shipment_distance = Geocoder::Calculations.distance_between(CARREFOUR_COORDS, address)
       shipment_distance < 100 ? 1499 : 1499 + shipment_distance.round
     end
   end
