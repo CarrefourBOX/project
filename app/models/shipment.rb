@@ -5,6 +5,10 @@ class Shipment < ApplicationRecord
 
   before_create :assign_shipping_code
 
+  monetize :shipping_cost_cents, as: :shipping_cost
+
+  validates :shipping_cost_cents, numericality: { greater_than_or_equal_to: 0 }
+
   private
 
   def assign_shipping_code

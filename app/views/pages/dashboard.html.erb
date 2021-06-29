@@ -14,11 +14,15 @@
             <hr>
             <p>Valores:</p>
             <div class="row">
-              <% box.plans.each do |k, v| %>
-                <div class="col-6">
-                  <p><%= k %>: R$<%= v['price'].to_s.insert(-3, ',') %></p>
-                </div>
-              <% end %>
+              <div class="col-4">
+                <p><b>P:</b> R$<%= box.plans['P']['price'].to_s.insert(-3, ',') %></p>
+              </div>
+              <div class="col-4">
+                <p><b>M:</b> R$<%= box.plans['M']['price'].to_s.insert(-3, ',') %></p>
+              </div>
+              <div class="col-4">
+                <p><b>G:</b> R$<%= box.plans['G']['price'].to_s.insert(-3, ',') %></p>
+              </div>
             </div>
             <hr>
             <div id=<%= "box-#{box.id}-items" %>>

@@ -1,72 +1,51 @@
 class Plan < ApplicationRecord
-  CATEGORIES = {
-    'Mensal' => 1,
-    'Trimestral' => 3,
-    'Semestral' => 6,
-    'Anual' => 12
-  }.freeze
   DISCOUNTS = { 2 => 5, 3 => 10 }.freeze
   SHIP_DAYS = [10, 20, 30].freeze
 
   belongs_to :user
+  belongs_to :address
   has_many :boxes, dependent: :destroy
   has_many :box_items, through: :boxes
   has_many :shipments, dependent: :destroy
-  has_one :order, dependent: :destroy
+  has_many :orders, dependent: :destroy
 
-  before_validation :set_ship_day, :calculate_expiration
+  before_validation :set_ship_day
 
-  monetize :price_cents, as: 'price'
-  monetize :monthly_price_cents, as: 'monthly_price'
-  monetize :shipment_cents, as: 'shipment'
+  monetize :price_cents, as: :price
+  monetize :shipment_cents, as: :shipment
+  monetize :total_price_cents, as: :total_price
 
-  geocoded_by :address
-  after_validation :geocode
-
-  validates :category, presence: true,
-                       inclusion: { in: CATEGORIES }
-  validates :quantity, numericality: { greater_than_or_equal_to: 0 },
-                       allow_blank: true
-  validates :price_cents, numericality: { greater_than_or_equal_to: 0 },
-                          allow_blank: true
-  validates :monthly_price_cents, numericality: { greater_than_or_equal_to: 0 },
-                                  allow_blank: true
-  validates :shipment_cents, numericality: { greater_than_or_equal_to: 0 },
-                             allow_blank: true
-  validates :carrefour_card, inclusion: { in: [true, false] }
-  validates :auto_renew, inclusion: { in: [true, false] }
-  validates :active, inclusion: { in: [true, false] }
+  validates :quantity, :total_price_cents, :price_cents, :shipment_cents,
+            numericality: { greater_than_or_equal_to: 0 }, allow_blank: true
+  validates :carrefour_card, :active, inclusion: { in: [true, false] }
 
   def calculate_total
-    price = calculate_total_price
+    shipping = calculate_shipment
+    subscription = calculate_subscription
     update(
-      price_cents: price,
-      monthly_price_cents: price / CATEGORIES[category],
-      shipment_cents: calculate_shipment
+      price_cents: subscription,
+      shipment_cents: shipping,
+      total_price_cents: subscription + shipping
     )
   end
 
   private
 
-  def calculate_total_price
-    total_price = 0
-    box_items.includes(:carrefour_box).group_by(&:carrefour_box).each_key do |box|
-      total_price += box.plans[category]['price'] * CATEGORIES[category]
+  def calculate_subscription
+    subscription = 0
+    boxes.includes(box_item: :carrefour_box)
+         .group_by { |box| box.box_item.carrefour_box }.each do |box, items|
+      subscription += box.plans[items.first.box_size]['price']
     end
-    discounts = quantity == 1 ? 0 : (total_price * DISCOUNTS[quantity]) / 100
-    total_price - discounts
-  end
-
-  def calculate_expiration
-    time = created_at || Time.now
-    self.expires_at = Time.at(time) + CATEGORIES[category].months
+    discounts = calculate_discount(subscription)
+    subscription - discounts
   end
 
   def set_ship_day
     day = created_at ? created_at.day : Time.now.day
-    self.ship_day = if day >= 9 && day <= 18
+    self.ship_day = if day >= 6 && day <= 15
                       20
-                    elsif day >= 19 && day <= 28
+                    elsif day >= 16 && day <= 25
                       30
                     else
                       10
@@ -74,9 +53,23 @@ class Plan < ApplicationRecord
   end
 
   def calculate_shipment
-    destination = Geocoder.coordinates(address)
-    carrefour = Geocoder.coordinates('Av. Doutor Mauro Lindemberg Monteiro, 322')
-    shipment_distance = Geocoder::Calculations.distance_between(carrefour, destination)
-    shipment_distance < 100 ? 1499 : 1499 + shipment_distance.round
+    if carrefour_card
+      0
+    else
+      destination = Geocoder.coordinates(address.full_address)
+      carrefour = Geocoder.coordinates('Av. Doutor Mauro Lindemberg Monteiro, 322')
+      shipment_distance = Geocoder::Calculations.distance_between(carrefour, destination)
+      shipment_distance < 100 ? 1499 : 1499 + shipment_distance.round
+    end
+  end
+
+  def calculate_discount(subscription)
+    if quantity == 1
+      0
+    elsif quantity > 3
+      (subscription * 10) / 100
+    else
+      (subscription * DISCOUNTS[quantity]) / 100
+    end
   end
 end

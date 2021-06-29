@@ -32,30 +32,23 @@
       </div>
 
       <div>
-        <%= label_tag "carrefour_box[plans][Mensal]", 'valor plano mensal', class: 'form-label' %>
-        <%= text_field_tag "carrefour_box[plans][Mensal]",
-          box_input_value(carrefour_box.plans["Mensal"]&.dig('price')),
+        <%= label_tag "carrefour_box[plans][P]", 'valor BOX P', class: 'form-label' %>
+        <%= text_field_tag "carrefour_box[plans][P]",
+          box_input_value(carrefour_box.plans["P"]&.dig('price')),
           placeholder: 'R$',
           class: 'form-control',
           data: { controller: 'money-input', action: 'input->money-input#format' } %>
 
-        <%= label_tag "carrefour_box[plans][Trimestral]", 'valor plano trimestral', class: 'form-label' %>
-        <%= text_field_tag "carrefour_box[plans][Trimestral]",
-          box_input_value(carrefour_box.plans["Trimestral"]&.dig('price')),
+        <%= label_tag "carrefour_box[plans][M]", 'valor BOX M', class: 'form-label' %>
+        <%= text_field_tag "carrefour_box[plans][M]",
+          box_input_value(carrefour_box.plans["M"]&.dig('price')),
           placeholder: 'R$',
           class: 'form-control',
           data: { controller: 'money-input', action: 'input->money-input#format' } %>
 
-        <%= label_tag "carrefour_box[plans][Semestral]", 'valor plano semestral', class: 'form-label' %>
-        <%= text_field_tag "carrefour_box[plans][Semestral]",
-          box_input_value(carrefour_box.plans["Semestral"]&.dig('price')),
-          placeholder: 'R$',
-          class: 'form-control',
-          data: { controller: 'money-input', action: 'input->money-input#format' } %>
-
-        <%= label_tag "carrefour_box[plans][Anual]", 'valor plano anual', class: 'form-label' %>
-        <%= text_field_tag "carrefour_box[plans][Anual]",
-          box_input_value(carrefour_box.plans["Anual"]&.dig('price')),
+        <%= label_tag "carrefour_box[plans][G]", 'valor BOX G', class: 'form-label' %>
+        <%= text_field_tag "carrefour_box[plans][G]",
+          box_input_value(carrefour_box.plans["G"]&.dig('price')),
           placeholder: 'R$',
           class: 'form-control',
           data: { controller: 'money-input', action: 'input->money-input#format' } %>

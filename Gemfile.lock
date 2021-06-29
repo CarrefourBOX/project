@@ -114,6 +114,8 @@ GEM
       railties (>= 3.2)
     erubi (1.10.0)
     execjs (2.8.1)
+    faker (2.18.0)
+      i18n (>= 1.6, < 2)
     ffi (1.15.3)
     font-awesome-sass (5.15.1)
       sassc (>= 1.11)
@@ -312,6 +314,7 @@ DEPENDENCIES
   devise
   devise-i18n
   dotenv-rails
+  faker
   font-awesome-sass
   geocoder
   inline_svg

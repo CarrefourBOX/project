@@ -66,6 +66,9 @@ gem 'cloudinary'
 # Gem for shipping using geocoder
 gem 'geocoder'
 
+# Fake data generation
+gem 'faker'
+
 group :development, :test do
   gem 'dotenv-rails'
   gem 'pry-byebug'

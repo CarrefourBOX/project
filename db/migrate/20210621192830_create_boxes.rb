@@ -3,6 +3,7 @@ class CreateBoxes < ActiveRecord::Migration[6.1]
     create_table :boxes, id: :uuid do |t|
       t.references :plan, type: :uuid, null: false, foreign_key: true
       t.references :box_item, null: false, foreign_key: true
+      t.string :box_size, null: false, default: ''
 
       t.timestamps
     end
