@@ -13,7 +13,7 @@ Rails.application.routes.draw do
       put '/toggle_auto_renew', to: 'plans#toggle_auto_renew', as: :toggle_auto_renew
     end
   end
-  get :shopcart, to: 'plans#shopcart'
+  post :shopcart, to: 'plans#shopcart'
 
   resources :orders, only: %i[show create] do
     member do

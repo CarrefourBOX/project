@@ -1,0 +1,11 @@
+.item-option, .box-options {
+  &:not(.selected) {
+    display: none;
+  }
+}
+#plan-values {
+  & > div {
+    display: flex;
+    justify-content: space-between;
+  }
+}

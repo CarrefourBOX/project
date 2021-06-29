@@ -4,7 +4,7 @@ export default class extends InputController {
 	static targets = [ 'tab', 'nextBtn', 'form', 'passwordInput', 'passwordConfirmationInput' ];
 
 	initialize = () => {
-		// this.showCurrentTab();
+		this.showCurrentTab();
 	}
 
 	showCurrentTab = () => {

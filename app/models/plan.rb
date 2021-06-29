@@ -5,12 +5,12 @@ class Plan < ApplicationRecord
     'Semestral' => 6,
     'Anual' => 12
   }.freeze
-  DISCOUNTS = { 2 => 5, 3 => 10 }.freeze
   SHIP_DAYS = [10, 20, 30].freeze
 
   belongs_to :user
   has_many :boxes, dependent: :destroy
   has_many :box_items, through: :boxes
+  has_many :carrefour_boxes, through: :box_items
   has_many :shipments, dependent: :destroy
   has_one :order, dependent: :destroy
 
@@ -34,6 +34,14 @@ class Plan < ApplicationRecord
   validates :auto_renew, inclusion: { in: [true, false] }
   validates :active, inclusion: { in: [true, false] }
 
+  def self.discount_hash
+    { 2 => 0.05, 3 => 0.1 }.freeze
+  end
+
+  def self.discounts(num)
+    Plan.discount_hash.keys.include?(num) ? (1 - Plan.discount_hash[num]) : 1
+  end
+
   def calculate_total
     price = calculate_total_price
     update(
@@ -50,8 +58,7 @@ class Plan < ApplicationRecord
     box_items.includes(:carrefour_box).group_by(&:carrefour_box).each_key do |box|
       total_price += box.plans[category]['price'] * CATEGORIES[category]
     end
-    discounts = quantity == 1 ? 0 : (total_price * DISCOUNTS[quantity]) / 100
-    total_price - discounts
+    total_price * Plan.discounts(quantity)
   end
 
   def calculate_shipment

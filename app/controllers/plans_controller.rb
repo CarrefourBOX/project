@@ -3,16 +3,16 @@ class PlansController < ApplicationController
   before_action :skip_authorization, only: %i[new create show destroy shopcart]
 
   def new
-    @boxes = BoxName.all.map(&:name)
-    @items = sort_box_items
+    @plan = Plan.new
+    @carrefour_boxes = CarrefourBox.includes(:box_items).where.not(box_items: { id: nil })
     @boxes = BoxItem.includes(:carrefour_box).group_by(&:carrefour_box)
-  end
-
-  def shopcart
-    @plan = if cookies[:plan_params]
-              Plan.new(quantity: cookies[:plan_params][:boxes].keys.size,
-                       category: cookies[:plan_params][:category])
-            end
+    # @items = BoxItem.where(id: )
+    respond_to do |format|
+      format.json do
+        render json: { content: render_to_string(partial: 'plans/select_items', formats: :html, layout: false) }
+      end
+      format.html
+    end
   end
 
   def show
