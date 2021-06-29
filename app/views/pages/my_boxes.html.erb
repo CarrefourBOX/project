@@ -17,10 +17,8 @@
             <% end %>
           </div>
           <div id="comment-container">
-            <details>
-              <%= render 'reviews/form', carrefour_box: box, review: @review %>
-              <summary>Seu feedback:</summary>
-            </details>
+            <h6 class='mt-3'><small>Gostou do produto? Deixe aqui o seu comentário</small></h6>
+            <%= render 'reviews/form', carrefour_box: box, review: @review %>
           </div>
         </div>
       <% end %>
