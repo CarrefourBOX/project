@@ -21,7 +21,7 @@ class PlansController < ApplicationController
   def create
     @plan = Plan.new(quantity: params[:boxes]&.keys&.size, category: params[:category])
     @plan.user = current_user
-    @plan.address = current_user.address
+    @plan.address = params[:CEP]
     if @plan.quantity && @plan.save
       create_plan_boxes(@plan, params[:boxes])
       @plan.calculate_total

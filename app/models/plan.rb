@@ -74,7 +74,8 @@ class Plan < ApplicationRecord
   end
 
   def calculate_shipment
-    destination = Geocoder.coordinates(address)
+    location = ViaCep::Address.new(address)
+    destination = Geocoder.coordinates(location.street + ' ' + location.city + ' ' + location.state)
     carrefour = Geocoder.coordinates('Av. Doutor Mauro Lindemberg Monteiro, 322')
     shipment_distance = Geocoder::Calculations.distance_between(carrefour, destination)
     shipment_distance < 100 ? 1499 : 1499 + shipment_distance.round

@@ -18,6 +18,9 @@
       <div class="pb-3">
         <%= select_tag "category", options_for_select(Plan::CATEGORIES.keys), class: 'form-select' %>
       </div>
+      <div class="pb-3">
+        <%= text_field_tag "CEP", params[:CEP], required: true, class: 'form-control', placeholder: 'CEP' %>
+      </div>
       <%= submit_tag 'Assinar', class: 'btn btn-dark w-100' %>
     </div>
   <% end %>
