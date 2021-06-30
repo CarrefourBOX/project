@@ -47,7 +47,6 @@ admin_user = User.create!(
   birth_date: Date.new(2001, 0o1, 0o1),
   cpf: '85574090015',
   phone: '(11) 9678-2345',
-  address: ', , , ',
   admin: true
 )
 

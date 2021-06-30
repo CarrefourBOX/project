@@ -1,6 +1,6 @@
 class PlansController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[new shopcart]
-  before_action :skip_authorization, only: %i[new create show destroy shopcart]
+  before_action :skip_authorization, only: %i[new create]
 
   def new
     @boxes = BoxItem.includes(:carrefour_box).group_by(&:carrefour_box)
@@ -19,14 +19,16 @@ class PlansController < ApplicationController
   end
 
   def create
-    @plan = Plan.new(quantity: params[:boxes]&.keys&.size, category: params[:category])
+    quantity = params[:boxes].select { |_k, v| v[:box_size].present? && v[:items].present? }.keys.count
+    @plan = Plan.new(quantity: quantity)
     @plan.user = current_user
-    @plan.address = params[:CEP]
+    @plan.address = current_user.addresses.where(main: true).first
     if @plan.quantity && @plan.save
+      current_user.plans.where.not(id: @plan.id).destroy_all
       create_plan_boxes(@plan, params[:boxes])
       @plan.calculate_total
       flash[:notice] = 'Plano criado!'
-      redirect_to plan_path(@plan)
+      redirect_to my_boxes_path
     else
       @boxes = BoxItem.includes(:carrefour_box).group_by(&:carrefour_box)
       flash[:notice] = 'Escolha pelo menos uma BOX'
@@ -35,6 +37,7 @@ class PlansController < ApplicationController
   end
 
   def destroy
+    @plan = Plan.find(params[:id])
     authorize @plan
     @plan = Plan.find(params[:id])
     flash[:notice] = 'Plano cancelado!' if @plan.destroy
@@ -65,7 +68,15 @@ class PlansController < ApplicationController
 
   def create_plan_boxes(plan, boxes)
     boxes.each do |_k, v|
-      v.each { |item| Box.create(plan: plan, box_item: BoxItem.find(item.to_i)) }
+      next unless v[:box_size].present?
+
+      box_size = v[:box_size]
+      v[:items].each do |item|
+        box = Box.create!(plan: plan, box_item: BoxItem.find(item.to_i), box_size: box_size)
+        puts '======'
+        puts 'created box'
+        p box
+      end
     end
   end
 end

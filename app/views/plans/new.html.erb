@@ -8,18 +8,18 @@
           <h3>Box <%= box.name %></h3>
           <% items.each do |item| %>
             <div class="form-check">
-              <%= check_box_tag "boxes[#{box.name}][]", item.id, false, class: 'form-check-input' %>
+              <%= check_box_tag "boxes[#{box.name}][items][]", item.id, false, class: 'form-check-input' %>
               <%= label_tag "boxes[#{box.name}]", item.name, class:'form-check-label' %>
             </div>
           <% end %>
+          <div class="pb-3">
+            <%= select_tag "boxes[#{box.name}][box_size]", options_for_select(box.plans.keys), class: 'form-select', prompt: 'selecione um tamanho' %>
+          </div>
         <% end %>
         <hr>
       <% end %>
       <div class="pb-3">
-        <%= select_tag "category", options_for_select(Plan::CATEGORIES.keys), class: 'form-select' %>
-      </div>
-      <div class="pb-3">
-        <%= text_field_tag "CEP", params[:CEP], required: true, class: 'form-control', placeholder: 'CEP' %>
+        <%# text_field_tag "CEP", params[:CEP], required: true, class: 'form-control', placeholder: 'CEP' %>
       </div>
       <%= submit_tag 'Assinar', class: 'btn btn-dark w-100' %>
     </div>

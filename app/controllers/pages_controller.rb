@@ -16,10 +16,26 @@ class PagesController < ApplicationController
 
   def my_boxes
     authorize :page
-    @plans = current_user.plans.includes(:order, :shipments,
-                                         box_items: :carrefour_box).each_with_object({}) do |plan, hash|
-      hash[plan] = plan.box_items.group_by(&:carrefour_box)
+    # @plan = Plan.includes(:orders, :shipments, :address).where(user: current_user).first
+    @plan = current_user.plans.includes(:orders, :shipments, :address).order(:created_at).last
+    return unless @plan
+
+    @boxes = @plan.box_items.group_by(&:carrefour_box)
+    @sizes = @plan.boxes.includes(box_item: :carrefour_box).group_by(&:box_size).each_with_object({}) do |(size, boxes), hash|
+      boxes.each do |box|
+        hash[box.box_item.carrefour_box.name] = size unless hash[box.box_item.carrefour_box.name]
+      end
     end
+
+    # Plan.includes(:orders, :shipments, :address,
+    #                        box_items: :carrefour_box).where(user: current_user).each_with_object({}) do |plan, hash|
+    #   hash[plan] = plan.box_items.group_by(&:carrefour_box)
+    # end
+  end
+
+  def my_addresses
+    @addresses = current_user.addresses.order(main: :desc)
+    @address = Address.new
   end
 
   private

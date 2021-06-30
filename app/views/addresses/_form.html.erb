@@ -1,0 +1,47 @@
+<div class="address-form">
+  <h1 class="text-center py-1"><%= address.id ? "Editar #{address.name}" : "Novo endereço" %></h1>
+
+  <%= form_with model: address, local: true, html: {class: 'd-flex row row-cols-lg-auto g-3 align-items-center', 'data-turbo': false } do |f| %>
+    <div class="col-12">
+
+      <div class="pb-3">
+        <%= text_field_tag "address[name]", address.name, required: true, class: 'form-control w-100', placeholder: 'nome' %>
+      </div>
+
+      <div class="pb-3">
+        <%= text_field_tag "address[cep]", address.cep, required: true, class: 'form-control w-100', placeholder: 'CEP' %>
+      </div>
+
+      <div class="pb-3">
+        <%= text_field_tag "address[street]", address.street, required: true, class: 'form-control', placeholder: 'rua', style:'resize:none;' %>
+      </div>
+
+      <div class="row g-3 pb-3">
+        <div class="col">
+          <%= text_field_tag "address[number]", address.number, required: true, class: 'form-control', placeholder: 'número', style:'resize:none;' %>
+        </div>
+
+        <div class="col">
+          <%= text_field_tag "address[complements]", address.complements, class: 'form-control', placeholder: 'complemento', style:'resize:none;' %>
+        </div>
+      </div>
+
+      <div class="pb-3">
+        <%= text_field_tag "address[city]", address.city, required: true, class: 'form-control', placeholder: 'cidade', style:'resize:none;' %>
+      </div>
+
+      <div class="pb-3">
+        <%= text_field_tag "address[state]", address.state, required: true, class: 'form-control', placeholder: 'estado', style:'resize:none;' %>
+      </div>
+
+      <div class="pb-3 form-check">
+        <%= check_box_tag "address[main]", true, address.main, class: 'form-check-input' %>
+        <%= label_tag "address[main]", 'Tornar principal', checked: false, class: 'form-check-label' %>
+      </div>
+
+      <div class="row d-flex justify-content-center align-items-center pt-3">
+        <%= submit_tag address.id ? "Atualizar" : "Adicionar", class: 'btn-dark-blue mx-auto w-50' %>
+      </div>
+    </div>
+  <% end %>
+</div>
