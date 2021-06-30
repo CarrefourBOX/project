@@ -5,51 +5,38 @@
   <!-- cards -->
 
   <% @boxes.each do |box| %>
-    <div class="box-card" style="background-color: <%= box.color %>">
-      <div class="d-flex">
-        <div class="col-2 d-flex align-items-center justify-content-center">
-          <%= cl_image_tag box.icon.key, width: 35, class:'me-3' %>
-        </div>
-        <div class="col ms-1">
-          <div class="row pb-0 d-flex justify-content-between align-items-center">
-            <div class="col-3">
-              <span>Box</span>
+    <%= link_to review_path(box) do %>
+      <div class="box-card" style="background-color: <%= box.color %>">
+        <%= link_to 'Eu quero', new_plan_path%>
+        <div class="d-flex">
+          <div class="col-2 d-flex align-items-center justify-content-center">
+            <%= cl_image_tag box.icon.key, width: 35, class:'me-3' %>
+          </div>
+          <div class="col ms-1">
+            <div class="row pb-0 d-flex justify-content-between align-items-center">
+              <div class="col-3">
+                <span>Box</span>
+              </div>
+              <div class="col-8 d-flex justify-content-end card-price">
+                <span>R$ <%= box.plans['Mensal']['price'].to_s.insert(-3, ',') %></span>
+                <span>R$ <%= box.plans['Anual']['price'].to_s.insert(-3, ',') %>*</span>
+              </div>
             </div>
-            <div class="col-8 d-flex justify-content-end card-price">
-              <span>R$ <%= box.plans['Mensal']['price'].to_s.insert(-3, ',') %></span>
-              <span>R$ <%= box.plans['Anual']['price'].to_s.insert(-3, ',') %>*</span>
+            <div class="row">
+              <span class="fs-3"><%= box.name %></span>
             </div>
           </div>
-          <div class="row">
-            <span class="fs-3"><%= box.name %></span>
-          </div>
+        </div>
+
+        <div>
+          <p><%= box.description %></p>
+        </div>
+
+        <div class="row box-card-footer">
+          <span>*Valor referente ao plano anual</span>
         </div>
       </div>
-
-      <div>
-        <p><%= box.description %></p>
-      </div>
-
-      <% if box.reviews.count > 0 %>
-        <div id="reviews">
-          <p>Opiniões dos usuários:</p>
-          <% box.reviews.last(1).each do |review| %>
-            <p><%= render 'reviews/show', review: review %></p>
-          <% end %>
-          <details>
-            <% box.reviews.first((box.reviews.count)-1).each do |review| %>
-              <p><%= render 'reviews/show', review: review %></p>
-            <% end %>
-            <summary>Ver mais opiniões:</summary>
-          </details>
-        </div>
-      <% end %>
-
-
-      <div class="row box-card-footer">
-        <span>*Valor referente ao plano anual</span>
-      </div>
-    </div>
+    <% end %>
   <% end %>
 
   <div class='mt-5 mx-3'><%= link_to 'Eu quero', new_plan_path, class: 'btn-orange' %></div>

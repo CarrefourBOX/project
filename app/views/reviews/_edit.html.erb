@@ -1,7 +1,7 @@
 <div class="text-align">
   <%= simple_form_for review, url: carrefour_box_review_path(carrefour_box.id, review.id) do |f| %>
     <%= f.input :content, label: false %>
-    <%= f.input :rating, collection: (1..5).to_a, label: "Uma nota de 0 a 5:", class: 'review_form' %>
-    <%= f.submit "Reenviar comentário", class: 'btn btn-dark w-50 mt-2' %>
+    <%= f.input :rating, collection: (1..5).to_a %>
+    <%= f.submit class: 'd-none' %>
   <% end %>
 </div>
