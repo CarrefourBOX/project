@@ -22,7 +22,6 @@
 .btn-orange {
     display: inline-block;
     width: 100%;
-    background: $blue;
     border: 0;
     border-radius: 0.5rem;
     color: white;
@@ -36,8 +35,7 @@
 
 .btn-red {
     display: inline-block;
-    width: 50%;
-    background: $blue;
+    width: 100%;
     border: 0;
     border-radius: 0.5rem;
     color: white;
@@ -52,14 +50,27 @@
 .btn-grape {
     display: inline-block;
     width: 100%;
-    background: $blue;
     border: 0;
     border-radius: 0.5rem;
     color: white;
     font-size: calc(0.8rem + 0.2rem);
-    padding: calc(0.8rem + 0.8vw);
+    padding: calc(0.8rem + 0.4vw);
     box-shadow: 0 0.1rem 0.2rem 0.01rem rgba(0, 0, 0, 0.3);
     text-align: center;
     transition: box-shadow 0.5s;
     background: $btn-dash-grape;
+}
+
+.btn-dark-blue {
+    display: inline-block;
+    width: 75%;
+    border: 0;
+    border-radius: 0.5rem;
+    color: white;
+    font-size: calc(0.8rem + 0.2rem);
+    padding: 0.4rem;
+    box-shadow: 0 0.1rem 0.2rem 0.01rem rgba(0, 0, 0, 0.3);
+    text-align: center;
+    transition: box-shadow 0.5s;
+    background: $home-dark-blue;
 }

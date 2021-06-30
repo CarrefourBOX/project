@@ -28,6 +28,9 @@
               <%= label_tag "box_item_#{item.id}", item.name, class:'form-check-label' %>
             </div>
           <% end %>
+          <div class="pb-3">
+            <%= select_tag "boxes[#{box.name}][box_size]", options_for_select(box.plans.keys), class: 'form-select', prompt: 'selecione um tamanho' %>
+          </div>
         <% end %>
       <% end %>
     </div>

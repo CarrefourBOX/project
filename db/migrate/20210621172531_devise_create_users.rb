@@ -37,7 +37,6 @@ class DeviseCreateUsers < ActiveRecord::Migration[6.1]
       t.date :birth_date
       t.string :cpf, null: false, default: ''
       t.string :phone, null: false, default: ''
-      t.string :address, null: false, default: ''
       t.boolean :admin, null: false, default: false
 
       t.timestamps null: false

@@ -7,17 +7,15 @@
         line-height: 48px;
     }
     p {
-        padding-bottom: 5px;
-        font-size: 27px;
+        font-size: calc(0.8rem + 0.4vw);
         line-height: 36px;
-        padding: 0 10px;
     }
     .plan-card {
         background: #ffffff;
         border: 1px solid #000000;
         border-radius: 15px;
         .box-items {
-            font-size: 22px;
+            font-size: calc(0.8rem + 0.4vw);
             line-height: 27px;
             width: 100%;
             margin: 10px 0;
@@ -27,10 +25,9 @@
             }
         }
         .plan-card-head {
-            font-family: BenchNine;
             font-style: normal;
             font-weight: bold;
-            font-size: 27px;
+            font-size: calc(0.8rem + 0.4vw);
             line-height: 36px;
             background: black;
             color: white;
@@ -42,7 +39,7 @@
         }
         .plan-info {
             padding: 0 10px;
-            font-size: 25px;
+            font-size: calc(0.8rem + 0.4vw);
             line-height: 30px;
             a {
                 font-family: inherit;
@@ -55,6 +52,14 @@
                 line-height: 18px;
                 text-decoration: none;
             }
+        }
+    }
+    .box-info {
+        padding: 10px;
+        p {
+            font-size: calc(0.8rem + 0.4vw) !important;
+            padding: 0 !important;
+            line-height: calc(0.8rem + 0.4vw) !important;
         }
     }
 }

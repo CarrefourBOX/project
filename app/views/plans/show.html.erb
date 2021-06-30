@@ -3,8 +3,6 @@
     <div class="text-center card-header"> Meu Carrinho
     </div>
     <div class="card-body">
-      <p><%= "#{@plan.category} - (início: #{@plan.created_at.strftime("%d/%m/%Y")})" %></p>
-      <p><%= "Plano Mensal: #{humanized_money_with_symbol @plan.monthly_price}" %></p>
       <p><%= "Valor do Frete: #{humanized_money_with_symbol @plan.shipment}"%></p>
       <p><%= "Valor Total: #{humanized_money_with_symbol @plan.price}" %></p>
       <% @plan.box_items.group_by(&:carrefour_box).each do |box, items| %>

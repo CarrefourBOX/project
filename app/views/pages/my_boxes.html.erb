@@ -1,12 +1,13 @@
 <div class="container my-box-container">
   <h1 class="pb-3">Meu BOX:</h1>
-  <% counter = @plans.size %>
-  <% @plans.each_with_index do |(plan, boxes), i| %>
-    <div class="plan-card my-3">
-      <div class="plan-card-head">
-        <span>Assinatura <%= (counter - i).to_s.rjust(2, "0") %></span>
-      </div>
-      <% boxes.each do |box, items| %>
+  <div class="plan-card my-3">
+    <div class="plan-card-head">
+      <span>Assinatura</span>
+    </div>
+
+    <% if @plan %>
+      <% @boxes.each do |box, items| %>
+        <hr>
         <div class="box-items row mx-auto" style="background: rgba(<%= box.color.match(/^#(..)(..)(..)$/).captures.map(&:hex).join(', ') %>, 0.25);">
           <div class="col-6">
             <span><b>BOX <%= box.name %>:</b></span>
@@ -17,8 +18,38 @@
             <% end %>
           </div>
         </div>
+        <div class="box-info">
+          <p>Data de contratacão: <%= @plan.created_at.strftime("%d/%m/%Y") %></p>
+          <p>Tamanho: <%= @sizes[box.name] %></p>
+          <p>Valor: R$<%= box.plans[@sizes[box.name]]['price'].to_s.insert(-3, ',') %></p>
+        </div>
       <% end %>
-      <%= render 'plans/plan', plan: plan %>
-    </div>
-  <% end %>
+      <hr>
+      <div class="plan-info pb-3">
+        <p>Valor Total: <%= humanized_money_with_symbol @plan.price %></p>
+
+        <p>Endereço de envio: <%= @plan.address.full_address %></p>
+        <% if @plan.shipments.size.positive? %>
+          <p>Envios:</p>
+          <ul>
+            <% @plan.shipments.each do |shipment| %>
+              <li class="fs-5"><%= shipment.created_at.strftime("%d/%m/%Y")%> - <%= link_to shipment.shipping_code, 'https://www2.correios.com.br/sistemas/rastreamento/' %></li>
+            <% end %>
+          </ul>
+        <% else %>
+          <span>Sua primeira caixa será enviada no próximo dia <b><%= @plan.ship_day %></b></span>
+        <% end %>
+        <div class="text-center pb-3 cancel-link">
+          <%= link_to 'Cancelar Assinatura', plan_path(@plan), method: :delete, class: "text-danger", data: { confirm: 'Tem certeza?'} %>
+        </div>
+        <div class="text-center pb-3 cancel-link">
+        </div>
+      </div>
+    <% else %>
+      <div class="box-info">
+        <p>Você ainda não possui nenhuma box!</p>
+        <p>Clique <%= link_to 'aqui', new_plan_path %> para contratar</p>
+      </div>
+    <% end %>
+  </div>
 </div>
