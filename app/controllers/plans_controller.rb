@@ -28,7 +28,7 @@ class PlansController < ApplicationController
       create_plan_boxes(@plan, params[:boxes])
       @plan.calculate_total
       flash[:notice] = 'Plano criado!'
-      redirect_to my_boxes_path
+      redirect_to @plan
     else
       @boxes = BoxItem.includes(:carrefour_box).group_by(&:carrefour_box)
       flash[:notice] = 'Escolha pelo menos uma BOX'
