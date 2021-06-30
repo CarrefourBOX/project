@@ -19,6 +19,7 @@ export default class extends Controller {
 			document.querySelector(`.tab${currentHash}`).classList.add('current-tab');
 		}
     this.loadSessionBoxInfo();
+    this.updateBtnSubmit();
   }
 
 
@@ -138,8 +139,10 @@ export default class extends Controller {
   updateBtnSubmit = () => {
     if (this.tabTargets[this.tabTargets.length - 1].classList.contains('current-tab')) {
 			this.nextBtnTarget.setAttribute('type', 'submit');
+      this.nextBtnTarget.form.setAttribute("action", '/plans');
 		} else {
 			this.nextBtnTarget.setAttribute('type', 'button');
+      this.nextBtnTarget.form.setAttribute("action", '/shopcart');
 		}
   }
 
