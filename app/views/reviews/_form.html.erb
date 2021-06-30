@@ -1,7 +1,7 @@
 <div class="text-align">
   <%= simple_form_for [ carrefour_box, review ] do |f| %>
     <%= f.input :content, label: false %>
-    <%= f.input :rating, collection: (1..5).to_a, label: "Avalie" %>
+    <%= f.input :rating, collection: (1..5).to_a, label: false, class: "bg-white" %>
     <%= f.submit "enviar comentário", class: 'btn btn-dark w-50 mt-2' %>
   <% end %>
 </div>

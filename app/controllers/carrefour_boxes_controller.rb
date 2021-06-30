@@ -47,6 +47,6 @@ class CarrefourBoxesController < ApplicationController
     @carrefour_box.reviews.each do |review|
       @full_rating += review.rating
     end
-    @rating = @full_rating / @carrefour_box.reviews.count
+    @rating = @full_rating.to_f / @carrefour_box.reviews.count
   end
 end

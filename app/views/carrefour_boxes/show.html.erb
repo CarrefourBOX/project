@@ -28,12 +28,16 @@
 </div>
 <div id="reviews">
   <p class="m-4">Avaliações:
-    <% (@rating).times do %>
+    <% (@rating.floor).times do %>
       <i class="fas fa-star"></i>
     <% end %>
-    <% (5 - @rating).times do %>
-      <i class="far fa-star"></i>
-    <% end %></p>
+    <% if (@rating - @rating.floor) > 0.0 and (@rating - @rating.floor) < 1.0 %>
+      <i class="fas fa-star-half"></i>
+    <% else %>
+      <% (5 - @rating.ceil).times do %>
+        <i class="far fa-star"></i>
+      <% end %>
+    <% end %>
   </p>
   <% @carrefour_box.reviews.each do |review| %>
     <p><%= render 'reviews/show', review: review %></p>

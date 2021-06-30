@@ -16,14 +16,16 @@
               <span><%= item.name %></span>
             <% end %>
           </div>
-          <div id="comment-container">
+          <div class="comment-container">
             <% if current_user.reviews.find_by(carrefour_box: box).nil? %>
-              <h6 class='mt-3'><small>Gostou do produto? Deixe aqui o seu comentário</small></h6>
-              <%= render 'reviews/form', carrefour_box: box, review: @review %>
+              <details>
+                <%= render 'reviews/form', carrefour_box: box, review: @review %>
+                <summary><small>Deixe aqui seu comentário</small></summary>
+              </details>
             <% else %>
               <details>
-              <%= render 'reviews/edit', carrefour_box: box, review: current_user.reviews.find_by(carrefour_box: box) %>
-              <summary><small>Editar seu comentário</small></summary>
+                <%= render 'reviews/edit', carrefour_box: box, review: current_user.reviews.find_by(carrefour_box: box) %>
+                <summary><small>Editar seu comentário</small></summary>
               </details>
             <% end %>
           </div>
