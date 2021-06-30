@@ -15,6 +15,11 @@ class PlansController < ApplicationController
     end
   end
 
+  def shopcart
+    # session[:box_items_cart] = params[:box_items]
+    puts 'bacon'
+  end
+
   def show
     @plan = Plan.includes(box_items: :carrefour_box).find(params[:id])
     authorize @plan

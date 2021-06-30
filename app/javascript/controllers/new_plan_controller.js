@@ -6,58 +6,81 @@ export default class extends MultistepController {
 	connect = () => {
     this.loadRightTab();
     this.updateNextBtn();
+    this.setEvents();
 	}
+
+  setEvents = () => {
+    const selectBoxTab = document.getElementById('select-box');
+    const selectBoxItemsTab = document.getElementById('select-items');
+    const selectBoxSizes = document.getElementById('select-category');
+
+    selectBoxTab.querySelectorAll('input').forEach(input => {
+      input.setAttribute('data-action', 'change->new-plan#updateBoxOptions');
+    })
+    selectBoxItemsTab.querySelectorAll('input').forEach(input => {
+      input.setAttribute('data-action', 'change->new-plan#updateSelectedItems');
+    })
+    selectBoxSizes.querySelectorAll('select').forEach(input => {
+      input.setAttribute('data-action', 'change->new-plan#calculatePlanPrice');
+    })
+  }
 
   loadRightTab = () => {
     const currentTab = document.querySelector('.tab.current-tab');
+    const currentTabIndex = this.tabTargets.indexOf(currentTab);
+    const initialTab = document.getElementById('select-box');
+    if (currentTab !== initialTab) {
+      if (initialTab.querySelectorAll('input:checked').length === 0) {
+        history.pushState(null, null, `${window.location.pathname}#${this.tabTargets[0].id}`);
+      } else {
+  
+      }
+    }
+    if (currentTabIndex !== 0 && this.tabTargets[this.tabTargets.indexOf(currentTab)])
     if (currentTab.querySelectorAll('input[type="checkbox"]').length === 0) {
-      history.pushState(null, null, `${window.location.pathname}#${this.tabTargets[0].id}`);
     }
     this.showCurrentTab();
   }
 
-  submitForm = (e) => {
-    Rails.fire(e.currentTarget, 'submit');
+  submitForm = (target) => {
+    Rails.fire(target, 'submit');
   }
 
   updateBoxOptions = (e) => {
-    const form = e.currentTarget;
-    const inputs = form.querySelectorAll('input[type="checkbox"]');
+    const input = e.currentTarget;
 
-    inputs.forEach(input => {
-      const fieldTarget = document.getElementById(`box_${input.value}_items`);
-      const boxDivTarget = document.getElementById(`box_${input.value}`);
-      if (input.checked) {
-        fieldTarget.classList.add('selected');
-        boxDivTarget.classList.add('selected');
-      } else {
-        fieldTarget.classList.remove('selected');
-        boxDivTarget.classList.remove('selected');
-      }
-    })
-    document.getElementById('discount').dataset.boxesSelected = form.querySelectorAll('input:checked').length;
+    const fieldTarget = document.getElementById(`box_${input.value}_items`);
+    const boxDivTarget = document.getElementById(`box_${input.value}`);
+    if (input.checked) {
+      fieldTarget.classList.add('selected');
+      boxDivTarget.classList.add('selected');
+    } else {
+      fieldTarget.classList.remove('selected');
+      boxDivTarget.classList.remove('selected');
+    }
+
+    document.getElementById('discount').dataset.boxesSelected = document.querySelectorAll('#select-box input:checked').length;
     this.updateNextBtn();
     this.calculatePlanPrice();
+    this.submitForm(input.form);
   }
 
   updateSelectedItems = (e) => {
-    const form = e.currentTarget;
-    const inputs = form.querySelectorAll('input[type="checkbox"]');
-    inputs.forEach(input => {
-      const itemRow = document.getElementById(`item_${input.value}`);
-      if (input.checked) {
-        if (itemRow === null) {
-          const option = document.createElement('li');
-          option.id = `item_${input.value}`;
-          option.innerText = input.dataset.item;
-          document.getElementById(`box_${input.dataset.box}`).querySelector('ul').appendChild(option);
-        }
-      } else {
-        if (itemRow !== null) {
-          itemRow.remove();
-        }
+    const input = e.currentTarget;
+    const itemRow = document.getElementById(`item_${input.value}`);
+
+    if (input.checked) {
+      if (itemRow === null) {
+        const option = document.createElement('li');
+        option.id = `item_${input.value}`;
+        option.innerText = input.dataset.item;
+        document.getElementById(`box_${input.dataset.box}`).querySelector('ul').appendChild(option);
       }
-    })
+    } else {
+      if (itemRow !== null) {
+        itemRow.remove();
+      }
+    }
     this.updateNextBtn();
   }
 

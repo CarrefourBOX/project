@@ -1,8 +1,8 @@
 <div class="container" data-controller='new-plan'>
   <h2 class='text-center pb-3'>Selecione suas preferências</h2>
 
+  <%= form_with(url: shopcart_path, html: { class: 'f-column', data: { remote: true } }) do |f| %>
     <div id="select-box" class="tab current-tab" data-new-plan-target='tab'>
-      <%= form_with(url: new_plan_path, method: :get, html: { class: 'd-flex row row-cols-lg-auto g-3 align-items-center', data: { action: 'change->new-plan#updateBoxOptions' }} ) do |f| %>
         <%= field_set_tag do %>
           <% @carrefour_boxes.each do |box| %>
             <div>
@@ -11,56 +11,49 @@
             </div>
           <% end %>
         <% end %>
-      <% end %>
     </div>
     <div id='select-items' class="tab" data-new-plan-target='tab'>
-      <%= form_with(url: new_plan_path, method: :get, html: { class: 'd-flex row row-cols-lg-auto g-3 align-items-center', data: { action: 'change->new-plan#updateSelectedItems' }} ) do |f| %>
-        <% @boxes.each do |box, items| %>
-          <%= field_set_tag nil, id: "box_#{box.id}_items", class: 'item-option' do %>
-            <h3>Box <%= box.name %></h3>
-            <% items.each do |item| %>
-              <div class="form-check">
-                <%= check_box_tag "box_items[#{box.name}][]", item.id, false, class: 'form-check-input', id: "box_item_#{item.id}", data: { box: item.carrefour_box.id, item: item.name } %>
-                <%= label_tag "box_item_#{item.id}", item.name, class:'form-check-label' %>
-              </div>
-            <% end %>
+      <% @boxes.each do |box, items| %>
+        <%= field_set_tag nil, id: "box_#{box.id}_items", class: 'item-option' do %>
+          <h3>Box <%= box.name %></h3>
+          <% items.each do |item| %>
+            <div class="form-check">
+              <%= check_box_tag "box_items[#{box.name}][]", item.id, false, class: 'form-check-input', id: "box_item_#{item.id}", data: { box: item.carrefour_box.id, item: item.name } %>
+              <%= label_tag "box_item_#{item.id}", item.name, class:'form-check-label' %>
+            </div>
           <% end %>
         <% end %>
       <% end %>
     </div>
     <div id='select-category' class="tab" data-new-plan-target='tab'>
       <div data-new-plan-target="selectedOptions">
-        <%= form_with(url: new_plan_path, method: :get, html: { class: 'd-flex row row-cols-lg-auto g-3 align-items-center', data: { action: 'change->new-plan#calculatePlanPrice' } }) do |f| %>
-          <% @carrefour_boxes.each do |box| %>
-            <div id="box_<%= box.id %>" data-plan="<%= box.plans %>" class="box-options">
-              <div style="background-color: <%= box.color %>;">
-                <%= cl_image_tag box.icon.key, width: 35, class:'me-3' %>
+        <% @carrefour_boxes.each do |box| %>
+          <div id="box_<%= box.id %>" data-plan="<%= box.plans %>" class="box-options">
+            <div style="background-color: <%= box.color %>;">
+              <%= cl_image_tag box.icon.key, width: 35, class:'me-3' %>
+              <div>
+                <p>
+                  <%= box.name %>
+                </p>
+                <p></p>
                 <div>
-                  <p>
-                    <%= box.name %>
-                  </p>
-                  <p></p>
-                  <div>
-                    <%= select_tag "carrefour_box_plans", options_for_select(box.plans.map { |x| [x[0], x[1]["price"]] }) %>
-                    <button type="button">
-                      <i class="far fa-trash-alt"></i>
-                      <span class="visibility-hidden">Excluir box</span>
-                    </button>
-                  </div>
+                  <%= select_tag "plan[carrefour_box][]", options_for_select(box.plans.map { |x| [x[0], x[1]["price"]] }), id: "carrefour_box_category_#{box.id}" %>
+                  <button type="button">
+                    <i class="far fa-trash-alt"></i>
+                    <span class="visibility-hidden">Excluir box</span>
+                  </button>
                 </div>
               </div>
-              <ul>
-              </ul>
             </div>
-          <% end %>
+            <ul>
+            </ul>
+          </div>
         <% end %>
       </div>
       <div id="plan-delivery-fee">
-        <%= form_with(url: new_plan_path, html: { class: 'd-flex row row-cols-lg-auto g-3 align-items-center', data: { controller: 'input', remote: 'true', action: 'ajax:success->new-plan#updateDeliveryFee' } }) do |f| %>
           <%= label_tag "cep-input", "Calcule o frete" %>
-          <%= text_field_tag "cep-input[]", "", data: { mask: 'cep' } %>
-          <%= submit_tag "Calcular" %>
-        <% end %>
+          <%= text_field_tag "cep-input[]", "", data: { mask: 'cep' }, form: 'form-delivery-fee' %>
+          <%= submit_tag "Calcular", form: 'form-delivery-fee' %>
       </div>
 
       <div id="plan-values">
@@ -85,5 +78,8 @@
         </div>
       </div>
     </div>
-    <button type='button' data-new-plan-target="nextBtn" data-action='new-plan#nextTab' form="box_items_form">Continuar</button>
-  </div>
+    <button type='button' data-new-plan-target="nextBtn" data-action='new-plan#nextTab'>Continuar</button>
+  <% end %>
+  <%= form_with(url: new_plan_path, html: { class: 'd-flex row row-cols-lg-auto g-3 align-items-center', data: { controller: 'input', remote: 'true', action: 'ajax:success->new-plan#updateDeliveryFee', id: 'form-delivery-fee' } }) do |f| %>
+  <% end %>
+</div>
