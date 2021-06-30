@@ -1,72 +1,81 @@
-import MultistepController from "./multistep_controller";
+import { Controller } from "stimulus";
 
-export default class extends MultistepController {
-	static targets = ['tab', 'selectedOptions'];
+export default class extends Controller {
+	static targets = ['tab', 'selectedOptions', 'nextBtn'];
 
 	connect = () => {
     this.loadRightTab();
-    this.updateNextBtn();
-    this.setEvents();
 	}
 
-  setEvents = () => {
-    const selectBoxTab = document.getElementById('select-box');
-    const selectBoxItemsTab = document.getElementById('select-items');
-    const selectBoxSizes = document.getElementById('select-category');
-
-    selectBoxTab.querySelectorAll('input').forEach(input => {
-      input.setAttribute('data-action', 'change->new-plan#updateBoxOptions');
-    })
-    selectBoxItemsTab.querySelectorAll('input').forEach(input => {
-      input.setAttribute('data-action', 'change->new-plan#updateSelectedItems');
-    })
-    selectBoxSizes.querySelectorAll('select').forEach(input => {
-      input.setAttribute('data-action', 'change->new-plan#calculatePlanPrice');
-    })
+  showCurrentTab = () => {
+    const currentHash = window.location.hash;
+		this.tabTargets.forEach(el => {
+			el.classList.remove('current-tab');
+		})
+		if (currentHash === "") {
+			this.tabTargets[0].classList.add('current-tab');
+      history.pushState(null, null, `${window.location.pathname}#select-box`);
+		} else {
+			document.querySelector(`.tab${currentHash}`).classList.add('current-tab');
+		}
+    this.loadSessionBoxInfo();
   }
 
+
   loadRightTab = () => {
-    const currentTab = document.querySelector('.tab.current-tab');
-    const currentTabIndex = this.tabTargets.indexOf(currentTab);
+    const currentHash = window.location.hash;
     const initialTab = document.getElementById('select-box');
-    if (currentTab !== initialTab) {
+    const secondTab = document.getElementById('select-items');
+
+    this.loadSessionBoxInfo();
+
+    if (currentHash !== "" && currentHash !== '#select-box') {
       if (initialTab.querySelectorAll('input:checked').length === 0) {
-        history.pushState(null, null, `${window.location.pathname}#${this.tabTargets[0].id}`);
-      } else {
-  
+        history.pushState(null, null, `${window.location.pathname}#select-box`);
+      } else if (Array.from(secondTab.querySelectorAll('fieldset.selected')).map((fieldset) => { return fieldset.querySelector('input:checked') }).includes(null)) {
+        history.pushState(null, null, `${window.location.pathname}#select-items`);
       }
-    }
-    if (currentTabIndex !== 0 && this.tabTargets[this.tabTargets.indexOf(currentTab)])
-    if (currentTab.querySelectorAll('input[type="checkbox"]').length === 0) {
     }
     this.showCurrentTab();
   }
 
-  submitForm = (target) => {
-    Rails.fire(target, 'submit');
+  submitForm = (e) => {
+    this.loadSessionBoxInfo();
+    Rails.fire(e.currentTarget, 'submit');
   }
 
-  updateBoxOptions = (e) => {
-    const input = e.currentTarget;
-
+  showBoxOptions = (input) => {
     const fieldTarget = document.getElementById(`box_${input.value}_items`);
     const boxDivTarget = document.getElementById(`box_${input.value}`);
     if (input.checked) {
       fieldTarget.classList.add('selected');
+      fieldTarget.querySelectorAll('input[type="checkbox"]').forEach(input => {input.removeAttribute('disabled')});
       boxDivTarget.classList.add('selected');
+      boxDivTarget.querySelector('select').removeAttribute('disabled');
     } else {
       fieldTarget.classList.remove('selected');
+      fieldTarget.querySelectorAll('input[type="checkbox"]').forEach(input => {input.setAttribute('disabled', '')});
       boxDivTarget.classList.remove('selected');
+      boxDivTarget.querySelector('select').setAttribute('disabled', '');
     }
 
     document.getElementById('discount').dataset.boxesSelected = document.querySelectorAll('#select-box input:checked').length;
-    this.updateNextBtn();
-    this.calculatePlanPrice();
-    this.submitForm(input.form);
   }
 
-  updateSelectedItems = (e) => {
-    const input = e.currentTarget;
+  loadSessionBoxInfo = () => {
+    const firstTabCheckboxes = document.querySelectorAll('#select-box input[type="checkbox"]');
+    firstTabCheckboxes.forEach(input => {
+      this.showBoxOptions(input);
+    })
+
+    const secondTabCheckboxes = document.querySelectorAll('#select-items input[type="checkbox"]:not([disabled])');
+    secondTabCheckboxes.forEach(input => {
+      this.showSelectedItems(input);
+    })
+    this.updateNextBtn();
+    this.calculatePlanPrice();
+  }
+  showSelectedItems = (input) => {
     const itemRow = document.getElementById(`item_${input.value}`);
 
     if (input.checked) {
@@ -81,11 +90,6 @@ export default class extends MultistepController {
         itemRow.remove();
       }
     }
-    this.updateNextBtn();
-  }
-
-  updateBoxValues = () => {
-    console.log('pudim')
   }
 
   calculatePlanPrice = () => {
@@ -99,20 +103,20 @@ export default class extends MultistepController {
     // check if user got a discount
     const discountDiv = document.getElementById('discount');
     const discountObj = JSON.parse(discountDiv.dataset.discount.replace(/(\d)=>/g, '"$1": '));
-    const maxBoxNumDiscount = Math.max.apply(null, Object.keys(discountObj).map(v => { parseInt(v) }));
+    const maxBoxNumDiscount = Math.max.apply(null, Object.keys(discountObj).map(v => { return parseInt(v) }));
     const numSelectedBoxes = parseInt(discountDiv.dataset.boxesSelected);
     let discount = 0;
     if (numSelectedBoxes >= maxBoxNumDiscount) {
       discount = discountObj[`${maxBoxNumDiscount}`];
-    } else if (Object.keys(discountObj).map(v => { parseInt(v) }).includes(numSelectedBoxes)) {
+    } else if (Object.keys(discountObj).map(v => { return parseInt(v) }).includes(numSelectedBoxes)) {
       discount = discountObj[`${numSelectedBoxes}`];
     }
     // calculate the totalValue based on previous values
-    const totalValue = (boxesPrice.reduce((a, b) => a + b, 0) * (1 + discount)) + deliveryFee;
+    const totalValue = (boxesPrice.reduce((a, b) => a + b, 0) * (1 - discount)) + deliveryFee;
 
     // placing all values in its place
     document.querySelector("#subtotal span").innerText = this.monetize(boxesPrice.reduce((a, b) => a + b, 0));
-    document.querySelector("#discount span").innerText = `${discount}%`;
+    document.querySelector("#discount span").innerText = `${discount * 100}%`;
     if (document.getElementById('delivery-fee').dataset.price) {
       document.querySelector("#delivery-fee span").innerText = this.monetize(deliveryFee);
     }
@@ -158,7 +162,6 @@ export default class extends MultistepController {
   }
 
   isTabValid = () => {
-    const currentTab = document.querySelector('.tab.current-tab');
     const tabFielsets = $('fieldset:visible');
     const fieldsetsChecked = [];
     tabFielsets.each(function() {

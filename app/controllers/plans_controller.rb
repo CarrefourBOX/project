@@ -16,8 +16,25 @@ class PlansController < ApplicationController
   end
 
   def shopcart
+    boxesInfo = {}
+    if params[:carrefour_box]
+      params[:carrefour_box].each do |box|
+        boxesInfo[box] = { size_price: params[:box_size][box] }
+        if params[:box_items] && params[:box_items].has_key?(box)
+          boxesInfo[box]["items"] = params[:box_items][box]
+        else
+          boxesInfo[box].delete("items")
+        end
+      end
+      session["boxes"] = boxesInfo
+    else
+      session.delete('boxes')
+    end
+    puts session["boxes"]
+    # binding.pry
+    # params[:carrefour_box] ? session[:box_cart]
+    # params[:box_items] ? (session[:box][:items] = params[:box_items]) : session[:box].delete(:box_items)
     # session[:box_items_cart] = params[:box_items]
-    puts 'bacon'
   end
 
   def show

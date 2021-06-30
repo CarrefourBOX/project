@@ -1,12 +1,12 @@
 <div class="container" data-controller='new-plan'>
   <h2 class='text-center pb-3'>Selecione suas preferências</h2>
 
-  <%= form_with(url: shopcart_path, html: { class: 'f-column', data: { remote: true } }) do |f| %>
-    <div id="select-box" class="tab current-tab" data-new-plan-target='tab'>
+  <%= form_with(url: shopcart_path, html: { class: 'f-column', data: { remote: true, action: 'change->new-plan#submitForm' } }) do |f| %>
+    <div id="select-box" class="tab" data-new-plan-target='tab'>
         <%= field_set_tag do %>
           <% @carrefour_boxes.each do |box| %>
             <div>
-              <%= check_box_tag "plan[carrefour_box][]", box.id, false, id: "plan_carrefour_box_#{box.id}" %>
+              <%= check_box_tag "carrefour_box[]", box.id, session["boxes"] ? session["boxes"].has_key?(box.id.to_s) : false, id: "plan_carrefour_box_#{box.id}" %>
               <%= label_tag "plan_carrefour_box_#{box.id}", box.name %>
             </div>
           <% end %>
@@ -18,7 +18,13 @@
           <h3>Box <%= box.name %></h3>
           <% items.each do |item| %>
             <div class="form-check">
-              <%= check_box_tag "box_items[#{box.name}][]", item.id, false, class: 'form-check-input', id: "box_item_#{item.id}", data: { box: item.carrefour_box.id, item: item.name } %>
+              <%= check_box_tag "box_items[#{box.id}][]", 
+                                item.id, 
+                                session["boxes"] && session["boxes"].has_key?(box.id.to_s) && session["boxes"][box.id.to_s].has_key?("items") && session["boxes"][box.id.to_s]["items"] != nil && session["boxes"][box.id.to_s]["items"].include?(item.id.to_s), 
+                                class: 'form-check-input', 
+                                id: "box_item_#{item.id}", 
+                                data: { box: item.carrefour_box.id, item: item.name }, 
+                                disabled: '' %>
               <%= label_tag "box_item_#{item.id}", item.name, class:'form-check-label' %>
             </div>
           <% end %>
@@ -37,7 +43,7 @@
                 </p>
                 <p></p>
                 <div>
-                  <%= select_tag "plan[carrefour_box][]", options_for_select(box.plans.map { |x| [x[0], x[1]["price"]] }), id: "carrefour_box_category_#{box.id}" %>
+                  <%= select_tag "box_size[#{box.id}]", options_for_select(box.plans.map { |x| [x[0], x[1]["price"]] }), id: "carrefour_box_category_#{box.id}", disabled: session["boxes"] ? !session["boxes"].has_key?(box.id.to_s) : true %>
                   <button type="button">
                     <i class="far fa-trash-alt"></i>
                     <span class="visibility-hidden">Excluir box</span>
