@@ -168,7 +168,8 @@ num_of_shipments = { 'Mensal' => 1, 'Trimestral' => 3, 'Semestral' => 6, 'Anual'
     category: Plan::CATEGORIES.keys.sample,
     auto_renew: true,
     quantity: boxes.size,
-    created_at: rand(30..133).days.ago
+    created_at: rand(30..133).days.ago,
+    address: 'Rua Jericó, 193, São Paulo, SP'
   )
   plan.update(active: plan.expires_at > Time.now)
 
