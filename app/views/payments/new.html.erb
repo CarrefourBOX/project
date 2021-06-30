@@ -2,7 +2,7 @@
   <div class="row py-4">
     <div class="col">
       <h1>Receber no endereço:</h1>
-      <p><%= current_user.address %></p>
+      <p><%= current_user.addresses.where(main: true).first.full_address %></p>
       <button id="pagar" class="btn btn-primary">Pagar</button>
       <script src="https://js.stripe.com/v3/"></script>
       <script>

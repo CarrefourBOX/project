@@ -8,17 +8,17 @@ class OrdersController < ApplicationController
   def create
     plan = Plan.find(params[:plan_id])
     authorize plan, :owner?
-    # @price = plan.price / plan.quantity
-    # @monthly_price_cents = plan.monthly_price_cents / plan.quantity
+    @price = plan.total_price_cents
+    # @monthly_price_cents = (plan.monthly_price_cents + plan.shipment_cents) / plan.quantity
     order = Order.create!(plan: plan, amount: @price, status: 'pending', user: current_user)
 
     session = Stripe::Checkout::Session.create(
       payment_method_types: ['card'],
       line_items: [{
-        name: "Assinatura Carrefour BOX - Plano #{plan.category}",
-        amount: plan.monthly_price_cents,
+        name: 'Assinatura Carrefour BOX',
+        amount: @price,
         currency: 'brl',
-        quantity: plan.quantity
+        quantity: 1
       }],
       success_url: confirm_payment_order_url(order),
       cancel_url: plan_url(plan)

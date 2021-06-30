@@ -5,6 +5,7 @@ class CreateCarrefourBoxes < ActiveRecord::Migration[6.1]
       t.string :color, null: false, default: ''
       t.text :description, null: false, default: ''
       t.jsonb :plans, null: false, default: {}
+      t.float :average_rating, precision: 2, scale: 1
 
       t.timestamps
     end

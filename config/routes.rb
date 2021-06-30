@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get 'start', to: 'pages#start', as: :start
   get 'dashboard', to: 'pages#dashboard', as: :dashboard
   get 'my_boxes', to: 'pages#my_boxes', as: :my_boxes
+  get 'my_addresses', to: 'pages#my_addresses', as: :my_addresses
   get 'cancel', to: 'pages#cancel', as: :cancel
 
   resources :plans, only: %i[new create show destroy], shallow: true do
@@ -25,4 +26,5 @@ Rails.application.routes.draw do
     resources :reviews, only: %i[new create update destroy]
   end
   resources :box_items, only: %i[new create destroy]
+  resources :addresses, only: %i[create update destroy]
 end
