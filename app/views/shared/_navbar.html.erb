@@ -20,22 +20,26 @@
 
     <div id='navOptions' class='nav-menu collapse'>
       <div>
-        <% if current_user&.admin %>
-          <%= link_to dashboard_path do %>
-            <i class="fas fa-truck-loading"></i>
-            <p>Administrar caixas</p>
+        <% if current_user %>
+          <% if current_user&.admin %>
+            <%= link_to dashboard_path do %>
+              <i class="fas fa-truck-loading"></i>
+              <p>Administrar caixas</p>
+              <i aria-hidden="true" class="fas fa-chevron-right"></i>
+            <% end %>
+          <% end %>
+          <%= link_to new_plan_path do %>
+            <i class="fas fa-store"></i>
+            <p>Adquirir nova caixa</p>
             <i aria-hidden="true" class="fas fa-chevron-right"></i>
           <% end %>
-        <% end %>
-        <%= link_to new_plan_path do %>
-          <i class="fas fa-store"></i>
-          <p>Adquirir nova caixa</p>
-          <i aria-hidden="true" class="fas fa-chevron-right"></i>
-        <% end %>
-        <%= link_to my_boxes_path do %>
-          <i class="fas fa-boxes"></i>
-          <p>Minhas caixas</p>
-          <i aria-hidden="true" class="fas fa-chevron-right"></i>
+          <%= link_to my_boxes_path do %>
+            <i class="fas fa-boxes"></i>
+            <p>Minhas caixas</p>
+            <i aria-hidden="true" class="fas fa-chevron-right"></i>
+          <% end %>
+        <% else %>
+          <%= link_to 'Entrar', '#', data: { 'bs-toggle': 'modal', 'bs-target': '#sessionModal' } %>
         <% end %>
       </div>
     </div>

@@ -8,6 +8,7 @@ BoxItem.delete_all
 CarrefourBox.delete_all
 Order.delete_all
 Plan.delete_all
+Address.delete_all
 User.delete_all
 
 puts ''
@@ -22,23 +23,48 @@ user = User.create!(
   first_name: 'John',
   last_name: 'Doe',
   birth_date: Date.new(2001, 0o1, 0o1),
-  cpf: '12123123123',
+  cpf: '61132741017',
   phone: '(11) 9876-5432',
-  address: 'Rua Jericó, 193, São Paulo, SP',
   admin: false
 )
 
-User.create!(
+Address.create!(
+  user: user,
+  name: 'casa',
+  cep: '05435-040',
+  street: 'Rua Jericó',
+  number: '193',
+  state: 'SP',
+  city: 'São Paulo',
+  main: true
+)
+
+admin_user = User.create!(
   email: 'admin@test.com',
   password: 'senha123',
   first_name: 'Jane',
   last_name: 'Doe',
   birth_date: Date.new(2001, 0o1, 0o1),
-  cpf: '32321321321',
+  cpf: '85574090015',
   phone: '(11) 9678-2345',
-  address: 'Ladeira da Glória, 26, Rio de Janeiro, RJ',
   admin: true
 )
+
+Address.create!(
+  user: admin_user,
+  name: 'casa',
+  cep: '22211-120',
+  street: 'Ladeira da Glória',
+  number: '26',
+  state: 'RJ',
+  city: 'Rio de Janeiro',
+  main: true
+)
+
+puts ''
+puts '=' * 30
+puts 'Creating Fake users'
+puts '=' * 30
 
 puts ''
 puts '=' * 30
@@ -56,10 +82,9 @@ box1 = CarrefourBox.create!(
   description: 'Receba em sua casa um KIT para curtir um momento de distração, com bebidas, salgados e aperitivos.',
   color: '#7A0997',
   plans: {
-    'Mensal' => { 'price' => 9990 },
-    'Trimestral' => { 'price' => 8990 },
-    'Semestral' => { 'price' => 7990 },
-    'Anual' => { 'price' => 6990 }
+    'P' => { 'price' => 7990 },
+    'M' => { 'price' => 8990 },
+    'G' => { 'price' => 9990 }
   }
 )
 box1_icon = URI.open(icon_urls[0])
@@ -75,10 +100,9 @@ box2 = CarrefourBox.create!(
   description: 'Que tal cuidar da sua beleza? Com o Box Beleza & Cuidado nunca foi tão facil e prático cuidar de você',
   color: '#E1357D',
   plans: {
-    'Mensal' => { 'price' => 9990 },
-    'Trimestral' => { 'price' => 8990 },
-    'Semestral' => { 'price' => 7990 },
-    'Anual' => { 'price' => 6990 }
+    'P' => { 'price' => 7990 },
+    'M' => { 'price' => 8990 },
+    'G' => { 'price' => 9990 }
   }
 )
 box2_icon = URI.open(icon_urls[1])
@@ -94,10 +118,9 @@ box3 = CarrefourBox.create!(
   description: 'Receba em sua residência todas os ingredientes para preparar sua receita diferente, tendo momentos agradáveis com seus familiares',
   color: '#05977D',
   plans: {
-    'Mensal' => { 'price' => 9990 },
-    'Trimestral' => { 'price' => 8990 },
-    'Semestral' => { 'price' => 7990 },
-    'Anual' => { 'price' => 6990 }
+    'P' => { 'price' => 7990 },
+    'M' => { 'price' => 8990 },
+    'G' => { 'price' => 9990 }
   }
 )
 box3_icon = URI.open(icon_urls[2])
@@ -155,62 +178,67 @@ end
 
 puts ''
 puts '=' * 30
-puts 'Creating plans'
+puts 'Creating test user plan'
 puts '=' * 30
 
-num_of_shipments = { 'Mensal' => 1, 'Trimestral' => 3, 'Semestral' => 6, 'Anual' => 12 }
+boxes = CarrefourBox.all.sample(rand(2..3))
+plan = Plan.create!(
+  user: user,
+  quantity: boxes.size,
+  address: user.addresses.first,
+  carrefour_card: false,
+  active: true,
+  created_at: rand(30..133).days.ago
+)
 
-3.times do
-  boxes = CarrefourBox.all.sample(rand(1..3))
-  plan = Plan.create!(
-    user: user,
-    carrefour_card: [true, false].sample,
-    category: Plan::CATEGORIES.keys.sample,
-    auto_renew: true,
-    quantity: boxes.size,
-    created_at: rand(30..133).days.ago,
-    address: 'Rua Jericó, 193, São Paulo, SP'
-  )
-  plan.update(active: plan.expires_at > Time.now)
+boxes.each do |box|
+  box_size = Box::BOX_SIZES.sample
+  items = box.box_items.sample(rand(1..4))
+  items.each { |item| Box.create!(box_item: item, plan: plan, box_size: box_size) }
+end
 
-  boxes.each do |box|
-    items = box.box_items.sample(rand(1..4))
-    items.each { |item| Box.create!(box_item: item, plan: plan) }
-  end
+plan.calculate_total
 
-  plan.calculate_total
+Order.create!(plan: plan, amount: plan.total_price, status: 'complete', user: user, created_at: plan.created_at)
 
-  Order.create!(plan: plan, amount: plan.price, status: 'complete', user: user, created_at: plan.created_at)
-
-  puts ''
-  puts '-' * 30
-  puts %(
-Created a #{plan.category} Plan on #{plan.created_at.strftime('%d/%m/%Y')}, for R$#{plan.price_cents / 100.to_f},
+puts ''
+puts '-' * 30
+puts %(
+Created a plan on #{plan.created_at.strftime('%d/%m/%Y')}, for R$#{plan.price_cents / 100.to_f},
 with #{plan.boxes.map { |box| "BOX #{box.box_item.carrefour_box.name}" }.uniq.join(', ')}.
   )
 
-  days_till_ship = plan.ship_day.to_i - plan.created_at.day
-  num_of_shipments[plan.category].times do |i|
-    ship_date = Time.at(plan.created_at + i.months) + days_till_ship.days
-    break if ship_date > Time.now
+days_till_ship = plan.ship_day - plan.created_at.day
+ship_date = plan.created_at + days_till_ship.days
 
-    shipment = Shipment.create!(
-      plan: plan,
-      created_at: ship_date
-    )
-    puts "- Sent a shipment on #{shipment.created_at.strftime('%d/%m/%Y')}, code: '#{shipment.shipping_code}' "
-  end
+loop do
+  shipment = Shipment.create!(
+    plan: plan,
+    created_at: ship_date,
+    shipping_cost: plan.shipment
+  )
+  puts "- Sent a shipment on #{shipment.created_at.strftime('%d/%m/%Y')}, code: '#{shipment.shipping_code}' "
+  ship_date += 1.month
+  break unless plan.active && ship_date < Time.now
 end
 
 puts ''
 puts '=' * 30
-puts "#{User.count} users created..."
+puts 'Creating fake users and plans'
+puts '=' * 30
+FakeUserGenerator.generate_fake_users
+
+puts ''
+puts '=' * 30
+puts 'Test users:'
 puts 'Admin - email: admin@test.com, password: senha123'
 puts 'Normal user - email: test@test.com, password: senha123'
 puts '-' * 30
-puts "#{Plan.count} plans created..."
+puts "#{User.count} users created..."
 puts '-' * 30
-puts "#{CarrefourBox.count} boxes created..."
+puts "#{CarrefourBox.count} BOXes created..."
+puts '-' * 30
+puts "#{Plan.count} plans created..."
 puts '-' * 30
 puts "#{Shipment.count} shipments created..."
 

@@ -1,14 +1,16 @@
 .dashboard-container {
     font-size: 22px;
     margin: 10px 15px;
+    padding-bottom: 15px;
     a {
         color: white;
     }
     color: $font-default-color;
     .accordion-button {
         color: white;
-        font-size: 27px;
-        border-radius: 10px !important;
+        font-size: calc(1rem + 0.2rem);
+        border-radius: 0.5rem !important;
+        box-shadow: 0 0.1rem 0.2rem 0.01rem rgba(0, 0, 0, 0.3);
         &:not(.collapsed) {
             color: white;
         }
@@ -25,7 +27,7 @@
     .accordion-body {
         margin-top: 10px;
         p {
-            font-size: 20px;
+            font-size: calc(0.8rem + 0.2rem);
         }
     }
     .accordion-item {
@@ -33,11 +35,7 @@
         margin-bottom: 10px;
     }
     .form-control {
-        font-size: 22px;
-    }
-    .btn {
-        font-size: 27px;
-        box-shadow: 0 0.05rem 0.1rem 0.05rem rgba(0, 0, 0, 0.15);
+        font-size: calc(0.8rem + 0.2rem);
     }
 }
 
@@ -63,27 +61,17 @@
     border-radius: 10px !important;
     color: $black;
     box-shadow: 0 0.05rem 0.1rem 0.05rem rgba(0, 0, 0, 0.15);
-    .form-control {
-        border-radius: 0.25rem !important;
+    .form-control input {
+        border-radius: 0.5rem !important;
+        width: 100%;
+        border-radius: 0.5rem;
+        padding: calc(0.5rem + 0.5vw);
+        border-color: #878787;
+        font-size: calc(0.8rem + 0.8vw);
     }
 }
 
-.session {
-    img {
-        height: calc(8rem + 8vw);
-    }
-    .btn-blue {
-        margin-bottom: $md-gap;
-    }
-    p {
-        color: $nav-header-gray;
-    }
-}
-
-#page-container {
-    .session {
-        p {
-            font-size: calc(1rem + 0.2vw);
-        }
-    }
+.btn-grape,
+.btn-red {
+    margin-bottom: $md-gap;
 }

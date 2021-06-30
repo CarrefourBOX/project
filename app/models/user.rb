@@ -5,6 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :plans, dependent: :destroy
+  has_many :addresses, dependent: :destroy
   has_many :boxes, through: :plans
   has_many :box_items, through: :boxes
   has_many :orders

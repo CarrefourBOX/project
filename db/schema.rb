@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_28_140655) do
+ActiveRecord::Schema.define(version: 2021_06_25_005148) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -44,6 +44,24 @@ ActiveRecord::Schema.define(version: 2021_06_28_140655) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "addresses", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id"
+    t.string "name", default: "", null: false
+    t.boolean "main", default: false, null: false
+    t.string "cep", default: "", null: false
+    t.string "street", default: "", null: false
+    t.string "number", default: "", null: false
+    t.string "complements"
+    t.string "state", default: "", null: false
+    t.string "city", default: "", null: false
+    t.string "full_address", default: "", null: false
+    t.float "latitude"
+    t.float "longitude"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_addresses_on_user_id"
+  end
+
   create_table "box_items", force: :cascade do |t|
     t.bigint "carrefour_box_id", null: false
     t.string "name", default: "", null: false
@@ -55,6 +73,7 @@ ActiveRecord::Schema.define(version: 2021_06_28_140655) do
   create_table "boxes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "plan_id", null: false
     t.bigint "box_item_id", null: false
+    t.string "box_size", default: "", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["box_item_id"], name: "index_boxes_on_box_item_id"
@@ -85,41 +104,28 @@ ActiveRecord::Schema.define(version: 2021_06_28_140655) do
 
   create_table "plans", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id"
-    t.string "category", default: "", null: false
-    t.integer "quantity", default: 0, null: false
-    t.text "ship_day", default: "", null: false
+    t.uuid "address_id"
+    t.integer "quantity", default: 1, null: false
+    t.integer "ship_day", default: 1, null: false
     t.integer "price_cents", default: 0, null: false
     t.string "price_currency", default: "BRL", null: false
-    t.integer "monthly_price_cents", default: 0, null: false
-    t.string "monthly_price_currency", default: "BRL", null: false
     t.integer "shipment_cents", default: 0, null: false
     t.string "shipment_currency", default: "BRL", null: false
+    t.integer "total_price_cents", default: 0, null: false
+    t.string "total_price_currency", default: "BRL", null: false
     t.boolean "carrefour_card", default: false, null: false
-    t.boolean "auto_renew", default: true, null: false
     t.boolean "active", default: true, null: false
-    t.datetime "expires_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.text "address"
-    t.float "latitude"
-    t.float "longitude"
+    t.index ["address_id"], name: "index_plans_on_address_id"
     t.index ["user_id"], name: "index_plans_on_user_id"
-  end
-
-  create_table "reviews", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.integer "rating"
-    t.text "content"
-    t.bigint "carrefour_box_id", null: false
-    t.uuid "user_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["carrefour_box_id"], name: "index_reviews_on_carrefour_box_id"
-    t.index ["user_id"], name: "index_reviews_on_user_id"
   end
 
   create_table "shipments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "plan_id"
     t.string "shipping_code", default: "", null: false
+    t.integer "shipping_cost_cents", default: 0, null: false
+    t.string "shipping_cost_currency", default: "BRL", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["plan_id"], name: "index_shipments_on_plan_id"
@@ -136,7 +142,6 @@ ActiveRecord::Schema.define(version: 2021_06_28_140655) do
     t.date "birth_date"
     t.string "cpf", default: "", null: false
     t.string "phone", default: "", null: false
-    t.string "address", default: "", null: false
     t.boolean "admin", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -146,13 +151,13 @@ ActiveRecord::Schema.define(version: 2021_06_28_140655) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "addresses", "users"
   add_foreign_key "box_items", "carrefour_boxes"
   add_foreign_key "boxes", "box_items"
   add_foreign_key "boxes", "plans"
   add_foreign_key "orders", "plans"
   add_foreign_key "orders", "users"
+  add_foreign_key "plans", "addresses"
   add_foreign_key "plans", "users"
-  add_foreign_key "reviews", "carrefour_boxes"
-  add_foreign_key "reviews", "users"
   add_foreign_key "shipments", "plans"
 end
