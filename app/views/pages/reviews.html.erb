@@ -1,6 +1,0 @@
-<div id="reviews">
-  <p>Opiniões dos usuários:</p>
-  <% box.reviews.first(box.reviews.count).each do |review| %>
-    <p><%= render 'reviews/show', review: review %></p>
-  <% end %>
-</div>

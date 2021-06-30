@@ -1,5 +1,10 @@
 class CarrefourBoxesController < ApplicationController
-  before_action :set_carrefour_box, only: %i[update destroy]
+  before_action :set_carrefour_box, only: %i[show update destroy]
+  before_action :rating, only: :show
+
+  def show
+    skip_authorization
+  end
 
   def create
     @carrefour_box = CarrefourBox.new(carrefour_box_params)
@@ -35,5 +40,13 @@ class CarrefourBoxesController < ApplicationController
 
   def set_carrefour_box
     @carrefour_box = CarrefourBox.find(params[:id])
+  end
+
+  def rating
+    @full_rating = 0
+    @carrefour_box.reviews.each do |review|
+      @full_rating += review.rating
+    end
+    @rating = @full_rating / @carrefour_box.reviews.count
   end
 end

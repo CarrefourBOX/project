@@ -1,7 +1,5 @@
-<div class="comment">
-  <p>Comentário de <%= link_to review.user.first_name %> :</p>
-  <p>
-    <% (review.rating.to_i).times do %>
+<div class="box-card" style="background-color: <%= review.carrefour_box.color %>">
+  <p>Comentário de <%= review.user.first_name %> :   <% (review.rating.to_i).times do %>
       <i class="fas fa-star"></i>
     <% end %>
     <% (5 - review.rating.to_i).times do %>
