@@ -2,6 +2,7 @@ puts '=' * 30
 puts 'Cleaning DB...'
 puts '=' * 30
 
+Review.delete_all
 Shipment.delete_all
 Box.delete_all
 BoxItem.delete_all
@@ -28,7 +29,7 @@ user = User.create!(
   admin: false
 )
 
-User.create!(
+admin = User.create!(
   email: 'admin@test.com',
   password: 'senha123',
   first_name: 'Jane',
@@ -200,6 +201,32 @@ with #{plan.boxes.map { |box| "BOX #{box.box_item.carrefour_box.name}" }.uniq.jo
     puts "- Sent a shipment on #{shipment.created_at.strftime('%d/%m/%Y')}, code: '#{shipment.shipping_code}' "
   end
 end
+
+puts ''
+puts '=' * 30
+
+review = Review.create!(
+  user: user,
+  carrefour_box: box1,
+  content: "Ótimos produtos, preços e entregas",
+  rating: 4,
+)
+
+review = Review.create!(
+  user: user,
+  carrefour_box: box2,
+  content: "Adorei os produtos e descobri novas marcas e gostos que nunca iria experimentar",
+  rating: 5,
+)
+
+review = Review.create!(
+  user: admin,
+  carrefour_box: box2,
+  content: "Preço justo, entrega na quantidade perfeita e ótima qualidade",
+  rating: 4,
+)
+
+puts "#{Review.count} Reviews created..."
 
 puts ''
 puts '=' * 30
