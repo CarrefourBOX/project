@@ -30,11 +30,6 @@ class PlansController < ApplicationController
     else
       session.delete('boxes')
     end
-    puts session["boxes"]
-    # binding.pry
-    # params[:carrefour_box] ? session[:box_cart]
-    # params[:box_items] ? (session[:box][:items] = params[:box_items]) : session[:box].delete(:box_items)
-    # session[:box_items_cart] = params[:box_items]
   end
 
   def show

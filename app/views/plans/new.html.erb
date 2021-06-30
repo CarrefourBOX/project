@@ -44,7 +44,7 @@
                 <p></p>
                 <div>
                   <%= select_tag "box_size[#{box.id}]", options_for_select(box.plans.map { |x| [x[0], x[1]["price"]] }), id: "carrefour_box_category_#{box.id}", disabled: session["boxes"] ? !session["boxes"].has_key?(box.id.to_s) : true %>
-                  <button type="button">
+                  <button type="button" data-action="new-plan#deleteBox" data-box-target="<%= box.id %>">
                     <i class="far fa-trash-alt"></i>
                     <span class="visibility-hidden">Excluir box</span>
                   </button>

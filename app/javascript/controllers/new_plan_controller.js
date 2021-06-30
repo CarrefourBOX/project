@@ -173,4 +173,8 @@ export default class extends Controller {
     })
     return !fieldsetsChecked.includes(false);
   }
+
+  deleteBox = (e) => {
+    document.getElementById(`plan_carrefour_box_${e.currentTarget.dataset.boxTarget}`).click();
+  }
 }
