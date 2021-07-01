@@ -18,7 +18,7 @@ export default class extends InputController {
 			document.querySelector(`.tab${currentHash}`).classList.add('current-tab');
 			this.updateBtnSubmit();
 		}
-		$(this.formTarget).validate();
+		if (this.hasFormTarget) { $(this.formTarget).validate(); }
 		this.updateNextBtn();
 	}
 

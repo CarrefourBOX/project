@@ -1,39 +1,66 @@
 class PlansController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[new shopcart update]
-  before_action :skip_authorization, only: %i[new create update]
+  before_action :skip_authorization, only: %i[new create update shopcart]
 
   def new
+    @plan = Plan.new
+    @carrefour_boxes = CarrefourBox.includes(:box_items).where.not(box_items: { id: nil })
     @boxes = BoxItem.includes(:carrefour_box).group_by(&:carrefour_box)
   end
 
   def shopcart
-    @plan = if cookies[:plan_params]
-              Plan.new(quantity: cookies[:plan_params][:boxes].keys.size,
-                       category: cookies[:plan_params][:category])
-            end
+    boxesInfo = {}
+    if params[:carrefour_box]
+      params[:carrefour_box].each do |box|
+        boxesInfo[box] = { size_price: params[:box_size][box] }
+        if params[:box_items] && params[:box_items].has_key?(box)
+          boxesInfo[box]["items"] = params[:box_items][box]
+        else
+          boxesInfo[box].delete("items")
+        end
+      end
+      session["boxes"] = boxesInfo
+    else
+      session.delete('boxes')
+    end
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.replace(:nav, partial: 'shared/navbar')
+      end
+    end
+  end
+
+  def create
+    if session["boxes"].blank?
+      flash[:notice] = 'Escolha pelo menos uma BOX'
+      redirect_to new_plan_path
+      return
+    elsif session['boxes'].values.any? { |h| h["items"].nil? }
+      flash[:notice] = 'Selecione pelo menos um item para todas BOX selecionadas'
+      redirect_to new_plan_path(anchor: 'select-items')
+      return
+    end
+
+    quantity = session["boxes"].keys.count
+    @plan = Plan.new(quantity: quantity)
+    @plan.user = current_user
+    @plan.address = current_user.addresses.where(main: true).first
+    return unless @plan.quantity && @plan.save
+
+    current_user.plans.where.not(id: @plan.id).destroy_all
+
+    session["boxes"].each do |k, v|
+      create_plan_boxes(@plan, k, v)
+    end
+
+    @plan.calculate_total
+    flash[:notice] = 'Plano criado!'
+    redirect_to @plan
   end
 
   def show
     @plan = Plan.includes(box_items: :carrefour_box).find(params[:id])
     authorize @plan
-  end
-
-  def create
-    quantity = params[:boxes].select { |_k, v| v[:box_size].present? && v[:items].present? }.keys.count
-    @plan = Plan.new(quantity: quantity)
-    @plan.user = current_user
-    @plan.address = current_user.addresses.where(main: true).first
-    if @plan.quantity && @plan.save
-      current_user.plans.where.not(id: @plan.id).destroy_all
-      create_plan_boxes(@plan, params[:boxes])
-      @plan.calculate_total
-      flash[:notice] = 'Plano criado!'
-      redirect_to @plan
-    else
-      @boxes = BoxItem.includes(:carrefour_box).group_by(&:carrefour_box)
-      flash[:notice] = 'Escolha pelo menos uma BOX'
-      render :new
-    end
   end
 
   def update
@@ -71,17 +98,10 @@ class PlansController < ApplicationController
 
   private
 
-  def create_plan_boxes(plan, boxes)
-    boxes.each do |_k, v|
-      next unless v[:box_size].present?
-
-      box_size = v[:box_size]
-      v[:items].each do |item|
-        box = Box.create!(plan: plan, box_item: BoxItem.find(item.to_i), box_size: box_size)
-        puts '======'
-        puts 'created box'
-        p box
-      end
+  def create_plan_boxes(plan, box, box_params)
+    box_size = CarrefourBox.find(box.to_i).plans.select { |_k, v| v["price"] == box_params["size_price"].to_i }.keys.first
+    box_params["items"].each do |item|
+      Box.create(plan: plan, box_item: BoxItem.find(item.to_i), box_size: box_size)
     end
   end
 
