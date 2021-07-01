@@ -98,9 +98,12 @@
   margin: $sm-gap 0;
   ul {
     list-style: none;
-    padding: $md-gap;
-    margin: 0;
-    border-radius: inherit;
+    padding: 0 $md-gap;
+    border-left: 4px solid;
+    margin: $md-gap 0;
+  }
+  li {
+    padding: $xs-gap 0;
   }
   p {
     margin-bottom: 0;
@@ -109,9 +112,23 @@
 .selected-box-infos {
   display: flex;
   align-items: center;
-  border-radius: inherit;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
+  img {
+    width: calc(3rem + 3vw);
+    margin-right: $md-gap;
+  }
+  select {
+    border-radius: 50rem;
+    border: none;
+    box-shadow: 0 0.04rem 0.1rem 0.1rem rgba(0, 0, 0, .13);
+    background: none;
+    padding: $xs-gap $sm-gap;
+  }
+  strong, h4 {
+    font-size: calc(1rem + 1vw);
+  }
+  strong {
+    line-height: 2em;
+  }
 }
 
 .rounded-form-group {
