@@ -37,15 +37,33 @@
     }
   }
   .menu-btn {
-    margin-right: $md-gap;
     svg {
-      width: calc(1.2rem + 1.2vw);
+      width: calc(1.5rem + 1.5vw);
       height: auto;
+    }
+    & ~ .shopcart {
+      margin-left: $md-gap;
     }
   }
   .shopcart {
+    position: relative;
     svg {
-      height: $md-gap;
+      height: calc(1.2rem + 1.2vw);
+    }
+    &::after {
+      content: attr(data-boxes-selected);
+      position: absolute;
+      border-radius: 50%;
+      background: $home-blue;
+      display: flex;
+      right: -.6rem;
+      top: -.6rem;
+      height: 1.3rem;
+      width: 1.3rem;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-weight: 500;
     }
   }
   .my_boxes {

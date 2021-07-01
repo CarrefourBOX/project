@@ -28,12 +28,16 @@ class ApplicationController < ActionController::Base
   protected
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit :sign_up, keys: %i[first_name last_name cpf phone birth_date]
+    devise_parameter_sanitizer.permit :sign_up, keys: %i[email login first_name last_name cpf phone birth_date]
     devise_parameter_sanitizer.permit :sign_in, keys: %i[login encrypted_password]
   end
 
   def after_sign_in_path_for(resource)
     request.referrer || root_path
+  end
+
+  def after_sign_up_path_for(resource)
+    root_path
   end
   
   # Uncomment and add keys if user model has additional attributes

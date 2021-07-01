@@ -48,6 +48,10 @@ export default class extends Controller {
         var im = new Inputmask('(99) 9{4,5}-9999');
         im.mask(target);
         break;
+      case 'cep':
+        var im = new Inputmask('99999-999');
+        im.mask(target);
+        break;
     }
   }
 }
