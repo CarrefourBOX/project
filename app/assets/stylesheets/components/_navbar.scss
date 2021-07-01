@@ -41,15 +41,12 @@
       width: calc(1.5rem + 1.5vw);
       height: auto;
     }
-    & ~ .shopcart.show {
+    & ~ .shopcart {
       margin-left: $md-gap;
     }
   }
   .shopcart {
     position: relative;
-    &:not(.show) {
-      display: none;
-    }
     svg {
       height: calc(1.2rem + 1.2vw);
     }

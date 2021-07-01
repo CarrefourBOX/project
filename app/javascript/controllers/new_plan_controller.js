@@ -182,5 +182,9 @@ export default class extends Controller {
 
   deleteBox = (e) => {
     document.getElementById(`plan_carrefour_box_${e.currentTarget.dataset.boxTarget}`).click();
+
+    if (document.getElementById('select-box').querySelector('input:checked') === null) {
+      this.loadRightTab();
+    }
   }
 }
