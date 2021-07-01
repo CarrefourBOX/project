@@ -31,5 +31,3 @@ import ("@client-side-validations/client-side-validations");
 import ("../plugins/simple-form.bootstrap4");
 import { initTooltips } from "../components/init_tooltips";
 initTooltips();
-import { initStarRating } from "../plugins/init_star_rating";
-document.addEventListener("turbo:load", function() { initStarRating(); });
