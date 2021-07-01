@@ -1,6 +1,6 @@
 class PlansController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[new shopcart]
-  before_action :skip_authorization, only: %i[new create]
+  skip_before_action :authenticate_user!, only: %i[new shopcart update]
+  before_action :skip_authorization, only: %i[new create update]
 
   def new
     @boxes = BoxItem.includes(:carrefour_box).group_by(&:carrefour_box)
@@ -34,6 +34,11 @@ class PlansController < ApplicationController
       flash[:notice] = 'Escolha pelo menos uma BOX'
       render :new
     end
+  end
+
+  def update
+    @plan = Plan.find(params[:id])
+    @plan.update(plan_params)
   end
 
   def destroy
@@ -78,5 +83,9 @@ class PlansController < ApplicationController
         p box
       end
     end
+  end
+
+  def plan_params
+    params.require(:plan).permit(:carrefour_card)
   end
 end
