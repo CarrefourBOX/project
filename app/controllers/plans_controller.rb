@@ -1,6 +1,6 @@
 class PlansController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[new shopcart]
-  before_action :skip_authorization, only: %i[new create shopcart]
+  skip_before_action :authenticate_user!, only: %i[new shopcart update]
+  before_action :skip_authorization, only: %i[new create update shopcart]
 
   def new
     @plan = Plan.new
@@ -63,6 +63,11 @@ class PlansController < ApplicationController
     authorize @plan
   end
 
+  def update
+    @plan = Plan.find(params[:id])
+    @plan.update(plan_params)
+  end
+
   def destroy
     @plan = Plan.find(params[:id])
     authorize @plan
@@ -98,5 +103,9 @@ class PlansController < ApplicationController
     box_params["items"].each do |item|
       Box.create(plan: plan, box_item: BoxItem.find(item.to_i), box_size: box_size)
     end
+  end
+
+  def plan_params
+    params.require(:plan).permit(:carrefour_card)
   end
 end

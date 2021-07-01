@@ -17,6 +17,7 @@ class PagesController < ApplicationController
   def my_boxes
     authorize :page
     # @plan = Plan.includes(:orders, :shipments, :address).where(user: current_user).first
+    @review = Review.new
     @plan = current_user.plans.includes(:orders, :shipments, :address).order(:created_at).last
     return unless @plan
 

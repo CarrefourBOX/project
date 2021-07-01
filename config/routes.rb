@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   get 'my_addresses', to: 'pages#my_addresses', as: :my_addresses
   get 'cancel', to: 'pages#cancel', as: :cancel
 
-  resources :plans, only: %i[new create show destroy], shallow: true do
+  resources :plans, only: %i[new create show destroy update], shallow: true do
     member do
       put '/toggle_auto_renew', to: 'plans#toggle_auto_renew', as: :toggle_auto_renew
     end
