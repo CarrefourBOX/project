@@ -1,7 +1,7 @@
 import { Controller } from "stimulus";
 
 export default class extends Controller {
-	static targets = ['tab', 'selectedOptions', 'nextBtn'];
+	static targets = ['tab', 'selectedOptions', 'nextBtn', 'form'];
 
 	connect = () => {
     this.loadRightTab();
@@ -19,7 +19,6 @@ export default class extends Controller {
 			document.querySelector(`.tab${currentHash}`).classList.add('current-tab');
 		}
     this.loadSessionBoxInfo();
-    this.updateBtnSubmit();
   }
 
 
@@ -139,10 +138,8 @@ export default class extends Controller {
   updateBtnSubmit = () => {
     if (this.tabTargets[this.tabTargets.length - 1].classList.contains('current-tab')) {
 			this.nextBtnTarget.setAttribute('type', 'submit');
-      this.nextBtnTarget.form.setAttribute("action", '/plans');
 		} else {
 			this.nextBtnTarget.setAttribute('type', 'button');
-      this.nextBtnTarget.form.setAttribute("action", '/shopcart');
 		}
   }
 
@@ -155,12 +152,15 @@ export default class extends Controller {
   }
 
   nextTab = (e) => {
-		if (e.currentTarget.type == 'button') { e.preventDefault(); };
+		e.preventDefault();
     const currentTab = document.querySelector('.tab.current-tab');
 		const nextTabIndex = this.tabTargets.indexOf(currentTab) + 1;
     if (this.isTabValid() && nextTabIndex < this.tabTargets.length) {
       history.pushState(null, null, `${window.location.pathname}#${this.tabTargets[nextTabIndex].id}`);
       this.showCurrentTab();
+    } else {
+      this.formTarget.action = "/plans";
+      this.formTarget.submit();
     }
   }
 

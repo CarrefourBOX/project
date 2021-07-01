@@ -1,36 +1,35 @@
 <div class="container" data-controller='new-plan'>
   <h2 class='text-center pb-3'>Selecione suas preferências</h2>
 
-  <%= form_with(url: shopcart_path, html: { class: 'f-column', data: { remote: true, action: 'change->new-plan#submitForm' } }) do |f| %>
+  <%= form_with(url: shopcart_path, html: { class: 'f-column', data: { remote: true, action: 'change->new-plan#submitForm', 'new-plan-target': 'form' } }) do |f| %>
     <div id="select-box" class="tab" data-new-plan-target='tab'>
-        <%= field_set_tag do %>
+        <%= field_set_tag nil, class: 'checkbox-fieldset' do %>
           <% @carrefour_boxes.each do |box| %>
-            <div>
+            <%= label_tag "plan_carrefour_box_#{box.id}" do %>
               <%= check_box_tag "carrefour_box[]", box.id, session["boxes"] ? session["boxes"].has_key?(box.id.to_s) : false, id: "plan_carrefour_box_#{box.id}" %>
-              <%= label_tag "plan_carrefour_box_#{box.id}", box.name %>
-            </div>
+              <%= cl_image_tag box.icon.key, width: 35, style: "filter: opacity(0.5) drop-shadow(0 0 0 #{box.color}) drop-shadow(0 0 0 #{box.color})" %>
+              <span style="color: <%= box.color %>"><%= box.name %></span>
+              <div class="custom-checkbox" style="border-color: <%= box.color %>"></div>
+            <% end %>
           <% end %>
         <% end %>
     </div>
     <div id='select-items' class="tab" data-new-plan-target='tab'>
       <% @boxes.each do |box, items| %>
-        <%= field_set_tag nil, id: "box_#{box.id}_items", class: 'item-option' do %>
+        <%= field_set_tag nil, id: "box_#{box.id}_items", class: 'item-option items-fieldset' do %>
           <h3>Box <%= box.name %></h3>
           <% items.each do |item| %>
-            <div class="form-check">
+            <div>
               <%= check_box_tag "box_items[#{box.id}][]", 
                                 item.id, 
-                                session["boxes"] && session["boxes"].has_key?(box.id.to_s) && session["boxes"][box.id.to_s].has_key?("items") && session["boxes"][box.id.to_s]["items"] != nil && session["boxes"][box.id.to_s]["items"].include?(item.id.to_s), 
-                                class: 'form-check-input', 
+                                session["boxes"] && session["boxes"].has_key?(box.id.to_s) && session["boxes"][box.id.to_s].has_key?("items") && session["boxes"][box.id.to_s]["items"] != nil && session["boxes"][box.id.to_s]["items"].include?(item.id.to_s),
                                 id: "box_item_#{item.id}", 
                                 data: { box: item.carrefour_box.id, item: item.name }, 
                                 disabled: '' %>
-              <%= label_tag "box_item_#{item.id}", item.name, class:'form-check-label' %>
+              <span class="checkmark" style="color: <%= box.color %>"></span>
+              <%= label_tag "box_item_#{item.id}", item.name %>
             </div>
           <% end %>
-          <div class="pb-3">
-            <%= select_tag "boxes[#{box.name}][box_size]", options_for_select(box.plans.keys), class: 'form-select', prompt: 'selecione um tamanho' %>
-          </div>
         <% end %>
       <% end %>
     </div>
@@ -87,7 +86,7 @@
         </div>
       </div>
     </div>
-    <button type='button' data-new-plan-target="nextBtn" data-action='new-plan#nextTab'>Continuar</button>
+    <button type='button' data-new-plan-target="nextBtn" data-action='new-plan#nextTab' class="btn-blue-rounded">Continuar</button>
   <% end %>
   <%= form_with(url: new_plan_path, html: { class: 'd-flex row row-cols-lg-auto g-3 align-items-center', data: { controller: 'input', remote: 'true', action: 'ajax:success->new-plan#updateDeliveryFee', id: 'form-delivery-fee' } }) do |f| %>
   <% end %>
