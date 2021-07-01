@@ -37,6 +37,15 @@ class Plan < ApplicationRecord
     )
   end
 
+  def calculate_shipment
+    if carrefour_card
+      0
+    else
+      shipment_distance = Geocoder::Calculations.distance_between(CARREFOUR_COORDS, address)
+      shipment_distance < 100 ? 1499 : 1499 + shipment_distance.round
+    end
+  end
+
   private
 
   def calculate_subscription
@@ -56,14 +65,5 @@ class Plan < ApplicationRecord
                     else
                       10
                     end
-  end
-
-  def calculate_shipment
-    if carrefour_card
-      0
-    else
-      shipment_distance = Geocoder::Calculations.distance_between(CARREFOUR_COORDS, address)
-      shipment_distance < 100 ? 1499 : 1499 + shipment_distance.round
-    end
   end
 end

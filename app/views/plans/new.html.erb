@@ -80,7 +80,7 @@
           <p>Descontos</p>
           <span>-</span>
         </div>
-        <div id="delivery-fee">
+        <div id="delivery-fee" data-price="<%= Plan.new(address: User.last.addresses.find_by(main: true)).calculate_shipment if user_signed_in? %>">
           <p>Taxa de entrega</p>
           <span>-</span>
         </div>

@@ -85,7 +85,6 @@ ActiveRecord::Schema.define(version: 2021_06_28_140655) do
     t.string "color", default: "", null: false
     t.text "description", default: "", null: false
     t.jsonb "plans", default: {}, null: false
-    t.float "average_rating"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
