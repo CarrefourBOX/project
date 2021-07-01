@@ -9,8 +9,7 @@
           <span>Box</span>
         </div>
         <div class="col-8 d-flex justify-content-end card-price">
-          <span>R$ <%= @carrefour_box.plans['Mensal']['price'].to_s.insert(-3, ',') %></span>
-          <span>R$ <%= @carrefour_box.plans['Anual']['price'].to_s.insert(-3, ',') %>*</span>
+          <span>R$ <%= @carrefour_box.plans['P']['price'].to_s.insert(-3, ',') %>*</span>
         </div>
       </div>
       <div class="row">
@@ -23,7 +22,7 @@
     <p><%= @carrefour_box.description %></p>
   </div>
   <div class="row box-card-footer">
-    <span>*Valor referente ao plano anual</span>
+    <span>*Valor referente ao BOX pequeno</span>
   </div>
 </div>
 <div id="reviews">
