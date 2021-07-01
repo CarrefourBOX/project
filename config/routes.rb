@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   get 'my_boxes', to: 'pages#my_boxes', as: :my_boxes
   get 'my_addresses', to: 'pages#my_addresses', as: :my_addresses
   get 'cancel', to: 'pages#cancel', as: :cancel
+  get 'user_terms', to: 'pages#user_terms', as: :user_terms
+  get 'cancel_terms', to: 'pages#cancel_terms', as: :cancel_terms
 
   resources :plans, only: %i[new create show destroy], shallow: true do
     member do

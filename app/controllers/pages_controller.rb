@@ -7,6 +7,10 @@ class PagesController < ApplicationController
     @boxes = CarrefourBox.all
   end
 
+  def user_terms; end
+
+  def cancel_terms; end
+
   def dashboard
     authorize :page
     @carrefour_box = CarrefourBox.new
@@ -18,6 +22,7 @@ class PagesController < ApplicationController
     authorize :page
     # @plan = Plan.includes(:orders, :shipments, :address).where(user: current_user).first
     @plan = current_user.plans.includes(:orders, :shipments, :address).order(:created_at).last
+    @review = Review.new
     return unless @plan
 
     @boxes = @plan.box_items.group_by(&:carrefour_box)
