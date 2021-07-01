@@ -6,7 +6,7 @@ class PlansController < ApplicationController
     @plan = Plan.new
     @carrefour_boxes = CarrefourBox.includes(:box_items).where.not(box_items: { id: nil })
     @boxes = BoxItem.includes(:carrefour_box).group_by(&:carrefour_box)
-    # @items = BoxItem.where(id: )
+
     respond_to do |format|
       format.json do
         render json: { content: render_to_string(partial: 'plans/select_items', formats: :html, layout: false) }
@@ -29,6 +29,11 @@ class PlansController < ApplicationController
       session["boxes"] = boxesInfo
     else
       session.delete('boxes')
+    end
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.replace(:nav, partial: 'shared/navbar')
+      end
     end
   end
 

@@ -12,7 +12,10 @@
         <%= inline_svg_tag 'icons/hamburger.svg' %>
         <p class="visibility-hidden">Menu de opções box surpresa</p>
       </button>
-      <%= link_to shopcart_path, class: 'shopcart' do %>
+      <%= link_to new_plan_path(anchor: session["boxes"].values.select { |box_values| box_values.has_key?("items") && box_values["items"].blank? }.any? ? 'select-items' : 'select-category'), 
+                  class: "shopcart #{"show" if session["boxes"]}", 
+                  id: 'shopcart-link', 
+                  data: { 'boxes-selected': session["boxes"] ? session["boxes"].keys.count : "" } do %>
         <%= inline_svg_tag 'icons/cart.svg', aria: { hidden: true } %>
         <p class="visibility-hidden">Carrinho de compras</p>
       <% end %>

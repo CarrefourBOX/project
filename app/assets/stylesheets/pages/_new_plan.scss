@@ -96,6 +96,7 @@
 .box-options {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   margin: $sm-gap 0;
+  padding: 0 $sm-gap;
   ul {
     list-style: none;
     padding: 0 $md-gap;
@@ -133,8 +134,8 @@
     line-height: 2em;
   }
   & > div {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     width: 100%;
   }
 }
@@ -176,4 +177,14 @@
 }
 #discount {
   color: #890596;
+}
+#plan-values {
+  margin-bottom: $md-gap;
+}
+.new-plan {
+  margin: 0 $md-gap;
+  h2 {
+    margin: $md-gap 0 $lg-gap;
+    font-weight: 400;
+  }
 }
