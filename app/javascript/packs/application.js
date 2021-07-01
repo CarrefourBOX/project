@@ -32,8 +32,5 @@ import ("../plugins/simple-form.bootstrap4");
 import { initTooltips } from "../components/init_tooltips";
 initTooltips();
 
-$(document).on("ajax:error", function(xhr, status, error){
-  if(xhr.status === "401") {
-    console.log('pudim')  
-  }
-});
+import { initStarRating } from "../plugins/init_star_rating";
+document.addEventListener("turbo:load", function() { initStarRating(); });

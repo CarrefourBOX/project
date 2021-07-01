@@ -16,13 +16,11 @@ module FakeUserGenerator
     { cpf: '80739146033', street: 'Rua Conceição Veloso', number: '54', state: 'SP', city: 'São Paulo' },
     { cpf: '64075496040', street: 'Rua Araújo', number: '124', state: 'SP', city: 'São Paulo' },
     { cpf: '41234003023', street: 'Rua Antônio Lobo', number: '33', state: 'SP', city: 'São Paulo' },
-    { cpf: '42102137058', street: 'Rua Dr. José Paulo', number: '103', state: 'SP', city: 'São Paulo' },
+    { cpf: '42102137058', street: 'Rua Doutor José Paulo', number: '103', state: 'SP', city: 'São Paulo' },
     { cpf: '46393911026', street: 'Rua Oscar Freire', number: '1052', state: 'SP', city: 'São Paulo' },
     { cpf: '84632949019', street: 'Rua Fidalga', number: '531', state: 'SP', city: 'São Paulo' },
     { cpf: '18311781095', street: 'Avenida Brigadeiro Faria Lima', number: '2902', state: 'SP', city: 'São Paulo' },
     { cpf: '30509986013', street: 'Rua Gomes de Carvalho', number: '1705', state: 'SP', city: 'São Paulo' },
-    { cpf: '50654765006', street: 'Largo da Matriz de Nossa Senhora do Ó', number: '168', state: 'SP',
-      city: 'São Paulo' },
     { cpf: '12474739025', street: 'Rua Flórida', number: '1488', state: 'SP', city: 'São Paulo' }
   ].freeze
 
@@ -42,7 +40,7 @@ module FakeUserGenerator
         admin: false
       )
 
-      Address.create!(
+      address = Address.create!(
         user: user,
         name: 'casa',
         cep: '05435-040',
@@ -83,7 +81,7 @@ module FakeUserGenerator
         break unless plan.active && ship_date < Time.now
       end
 
-      puts "Created '#{user.first_name} #{user.last_name}'"
+      puts "Created '#{user.first_name} #{user.last_name}' with address: #{address.full_address}"
     end
   end
 end

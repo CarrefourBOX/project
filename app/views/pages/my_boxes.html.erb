@@ -17,6 +17,19 @@
               <span><%= item.name %></span>
             <% end %>
           </div>
+          <div class="comment-container">
+            <% if current_user.reviews.find_by(carrefour_box: box).nil? %>
+              <details>
+                <%= render 'reviews/form', carrefour_box: box, review: @review %>
+                <summary><small>Deixe aqui seu comentário</small></summary>
+              </details>
+            <% else %>
+              <details>
+                <%= render 'reviews/edit', carrefour_box: box, review: current_user.reviews.find_by(carrefour_box: box) %>
+                <summary><small>Editar seu comentário</small></summary>
+              </details>
+            <% end %>
+          </div>
         </div>
         <div class="box-info">
           <p>Data de contratacão: <%= @plan.created_at.strftime("%d/%m/%Y") %></p>

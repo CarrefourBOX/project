@@ -2,9 +2,11 @@ puts '=' * 30
 puts 'Cleaning DB...'
 puts '=' * 30
 
+Review.delete_all
 Shipment.delete_all
 Box.delete_all
 BoxItem.delete_all
+Review.delete_all
 CarrefourBox.delete_all
 Order.delete_all
 Plan.delete_all
@@ -223,10 +225,30 @@ loop do
 end
 
 puts ''
-puts '=' * 30
 puts 'Creating fake users and plans'
 puts '=' * 30
 FakeUserGenerator.generate_fake_users
+
+Review.create!(
+  user: User.all.sample,
+  carrefour_box: box1,
+  content: 'Ótimos produtos, preços e entregas',
+  rating: 4
+)
+
+Review.create!(
+  user: User.all.sample,
+  carrefour_box: box2,
+  content: 'Adorei os produtos e descobri novas marcas e gostos que nunca iria experimentar',
+  rating: 5
+)
+
+Review.create!(
+  user: User.all.sample,
+  carrefour_box: box2,
+  content: 'Preço justo, entrega na quantidade perfeita e ótima qualidade',
+  rating: 4
+)
 
 puts ''
 puts '=' * 30
@@ -239,6 +261,8 @@ puts '-' * 30
 puts "#{CarrefourBox.count} BOXes created..."
 puts '-' * 30
 puts "#{Plan.count} plans created..."
+puts '-' * 30
+puts "#{Review.count} Reviews created..."
 puts '-' * 30
 puts "#{Shipment.count} shipments created..."
 
