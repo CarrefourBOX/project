@@ -18,6 +18,9 @@
           <% end %>
         </ul>
       <% end %>
+      <%= simple_form_for @plan, url: plan_path(@plan.id) do |f| %>
+        <%= f.input :carrefour_card, as: :boolean, label: 'Pagar com cartão carrefour', input_html: { onchange:"this.form.submit()" } %>
+      <% end %>
       <%= form_tag orders_path do %>
         <%= hidden_field_tag 'plan_id', @plan.id %>
         <%= submit_tag 'Próximo', class: 'btn btn-primary' %>
