@@ -123,12 +123,25 @@
     background: none;
     padding: $xs-gap $sm-gap;
   }
+  label {
+    font-size: calc(.8rem + .4vw);
+  }
   strong, h4 {
     font-size: calc(1rem + 1vw);
   }
   strong {
     line-height: 2em;
   }
+  & > div {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+}
+.box-tools {
+  display: grid;
+  justify-items: flex-end;
+  gap: $sm-gap;
 }
 
 .rounded-form-group {
@@ -154,4 +167,7 @@
 }
 #plan-delivery-fee {
   margin: $lg-gap 0;
+  label {
+    margin: $sm-gap;
+  }
 }

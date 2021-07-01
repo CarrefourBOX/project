@@ -40,10 +40,15 @@
             <div class='selected-box-infos'>
               <%= cl_image_tag box.icon.key, width: 35, style: "filter: opacity(0.5) drop-shadow(0 0 0 #{box.color}) drop-shadow(0 0 0 #{box.color});" %>
               <div>
-                <h4 style="color: <%= box.color %>;"><%= box.name %></h4>
-                <strong class="box-price"></strong>
                 <div>
-                  <%= select_tag "box_size[#{box.id}]", options_for_select(box.plans.map { |x| [x[0], x[1]["price"]] }), id: "carrefour_box_category_#{box.id}", disabled: session["boxes"] ? !session["boxes"].has_key?(box.id.to_s) : true %>
+                  <h4 style="color: <%= box.color %>;"><%= box.name %></h4>
+                  <strong class="box-price"></strong>
+                </div>
+                <div class="box-tools">
+                  <div class='f-column'>
+                    <%= label_tag "carrefour_box_category_#{box.id}", 'Tamanho da box' %>
+                    <%= select_tag "box_size[#{box.id}]", options_for_select(box.plans.map { |x| [x[0], x[1]["price"]] }), id: "carrefour_box_category_#{box.id}", disabled: session["boxes"] ? !session["boxes"].has_key?(box.id.to_s) : true %>
+                  </div>
                   <button type="button" data-action="new-plan#deleteBox" data-box-target="<%= box.id %>" class="trash-btn">
                     <i class="far fa-trash-alt"></i>
                     <span class="visibility-hidden">Excluir box</span>
