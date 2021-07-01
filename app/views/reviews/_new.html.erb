@@ -1,0 +1,13 @@
+<div class="container">
+  <h1 style="color: <%= carrefour_box.color %>" class="text-center py-1">BOX <%= carrefour_box.name %></h1>
+
+  <%= form_with(model: [carrefour_box, review], local: true, html: {class: 'd-flex row row-cols-lg-auto g-3 align-items-center review-form', 'data-turbo': false }) do %>
+    <div class="pb-1">
+      <%= text_area_tag "review[content]", review.content, placeholder: 'Deixe um comentário', class: 'form-control', style: 'resize: none;' %>
+    </div>
+    <div class="pb-3">
+      <%= select_tag "review[rating]", options_for_select((1..5).to_a), class: 'form-select', prompt: 'selecione um tamanho', id: "rating-#{carrefour_box.id}" , data: {controller: 'review'} %>
+    </div>
+    <%= submit_tag 'Avaliar', class: 'btn w-100', style:"background: #{carrefour_box.color}" %>
+  <% end %>
+</div>
