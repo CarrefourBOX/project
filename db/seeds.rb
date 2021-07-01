@@ -232,105 +232,21 @@ FakeUserGenerator.generate_fake_users
 Review.create!(
   user: User.all.sample,
   carrefour_box: box1,
-  content: 'Amei o produto, ansiosa pela próxima entrega.',
-  rating: 5
-)
-
-Review.create!(
-  user: User.all.sample,
-  carrefour_box: box1,
-  content: 'Gostei dos produtos, mas a cerveja era de trigo.',
-  rating: 3
-)
-
-Review.create!(
-  user: User.all.sample,
-  carrefour_box: box1,
-  content: 'Ótima experiência, produtos bem selecionados',
-  rating: 4
-)
-
-Review.create!(
-  user: User.all.sample,
-  carrefour_box: box1,
-  content: 'Adorei tudo. BOX aprovado.',
-  rating: 4
-)
-
-Review.create!(
-  user: User.all.sample,
-  carrefour_box: box1,
-  content: 'Adorei, até alterei o tamanho para vir mais itens.',
-  rating: 5
-)
-
-Review.create!(
-  user: User.all.sample,
-  carrefour_box: box2,
-  content: 'Adorei os produtos, vou usar todos com certeza.',
-  rating: 5
-)
-
-Review.create!(
-  user: User.all.sample,
-  carrefour_box: box2,
-  content: 'Amei os produtos.',
-  rating: 5
-)
-
-Review.create!(
-  user: User.all.sample,
-  carrefour_box: box2,
-  content: 'Agora vou ter bons produtos para cuidar de mim.',
+  content: 'Ótimos produtos, preços e entregas',
   rating: 4
 )
 
 Review.create!(
   user: User.all.sample,
   carrefour_box: box2,
-  content: 'Ótimos produtos.',
-  rating: 4
+  content: 'Adorei os produtos e descobri novas marcas e gostos que nunca iria experimentar',
+  rating: 5
 )
 
 Review.create!(
   user: User.all.sample,
   carrefour_box: box2,
-  content: 'Entrega feita como programado, mas não gostei do esmalte',
-  rating: 3
-)
-
-Review.create!(
-  user: User.all.sample,
-  carrefour_box: box3,
-  content: 'Escolha de receitas aprovadas',
-  rating: 5
-)
-
-Review.create!(
-  user: User.all.sample,
-  carrefour_box: box3,
-  content: 'Adorei as receitas, ansiosa pela próxima surpresa',
-  rating: 5
-)
-
-Review.create!(
-  user: User.all.sample,
-  carrefour_box: box3,
-  content: 'Adorei, ingredientes todos corretos e receita ficou ótima',
-  rating: 4
-)
-
-Review.create!(
-  user: User.all.sample,
-  carrefour_box: box3,
-  content: 'Receita foi um pouco complicada de executar',
-  rating: 3
-)
-
-Review.create!(
-  user: User.all.sample,
-  carrefour_box: box3,
-  content: 'Boas receitas, superindico este BOX',
+  content: 'Preço justo, entrega na quantidade perfeita e ótima qualidade',
   rating: 4
 )
 
