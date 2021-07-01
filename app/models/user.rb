@@ -23,7 +23,7 @@ class User < ApplicationRecord
   end
 
   def name
-    "#{first_name.split.map(&:capitalize) * ' '} #{last_name.split.map(&:capitalize) * ' '}"
+    "#{first_name.capitalize} #{last_name.capitalize}"
   end
 
   def self.find_for_database_authentication(warden_conditions)
