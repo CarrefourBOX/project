@@ -35,6 +35,9 @@
     }
     img {
       width: calc(1.75rem + 1.75vw);
+      &.lg {
+        width: $lg-gap;
+      }
     }
     i {
       font-size: $lg-gap;

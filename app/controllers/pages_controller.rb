@@ -17,6 +17,7 @@ class PagesController < ApplicationController
   def my_box
     authorize :page
     # @plan = Plan.includes(:orders, :shipments, :address).where(user: current_user).first
+    @review = Review.new
     @plan = current_user.plans.includes(:orders, :shipments, :address).order(:created_at).last
     return unless @plan
 
@@ -26,8 +27,6 @@ class PagesController < ApplicationController
         hash[box.box_item.carrefour_box.name] = size unless hash[box.box_item.carrefour_box.name]
       end
     end
-
-    @review = Review.new
     # Plan.includes(:orders, :shipments, :address,
     #                        box_items: :carrefour_box).where(user: current_user).each_with_object({}) do |plan, hash|
     #   hash[plan] = plan.box_items.group_by(&:carrefour_box)

@@ -9,7 +9,7 @@ export default class extends Controller {
 	}
 
   initSlick = () => {
-    $('.carousel').slick({
+    $('.carousel').not('.slick-initialized').slick({
       dots: true,
       autoplay: true,
       arrows: false,
