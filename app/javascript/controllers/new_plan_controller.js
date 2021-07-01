@@ -116,6 +116,9 @@ export default class extends Controller {
 
     // placing all values in its place
     document.querySelector("#subtotal span").innerText = this.monetize(boxesPrice.reduce((a, b) => a + b, 0));
+    selectedBoxes.forEach(box => {
+      box.querySelector('.box-price').innerText = this.monetize(parseInt(box.querySelector('select').value));
+    })
     document.querySelector("#discount span").innerText = `${discount * 100}%`;
     if (document.getElementById('delivery-fee').dataset.price) {
       document.querySelector("#delivery-fee span").innerText = this.monetize(deliveryFee);

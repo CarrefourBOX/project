@@ -62,6 +62,15 @@
   border-radius: .75rem;
   margin-bottom: $md-gap;
   padding: $sm-gap;
+  & > div {
+    margin: $xs-gap 0;
+    margin-left: $xs-gap;
+  }
+  legend {
+    font-weight: 500;
+    color: white;
+    border-radius: inherit;
+  }
   .checkmark {
     &::before {
       content: '\f0c8';
@@ -82,4 +91,50 @@
   label {
     margin-left: $xs-gap;
   }
+}
+
+.box-options {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  margin: $sm-gap 0;
+  ul {
+    list-style: none;
+    padding: $md-gap;
+    margin: 0;
+    border-radius: inherit;
+  }
+  p {
+    margin-bottom: 0;
+  }
+}
+.selected-box-infos {
+  display: flex;
+  align-items: center;
+  border-radius: inherit;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.rounded-form-group {
+  display: grid;
+  grid-template-columns: 70% 30%;
+  input[type="text"] {
+    border: 1px solid $black;
+    border-radius: 10rem 0 0 10rem;
+    border-right: none;
+    padding: $xs-gap $md-gap;
+    outline: none;
+  }
+  input[type="submit"] {
+    border: 1px solid $black;
+    right: 0;
+    border-radius: 0 10rem 10rem 0;
+    border-left: none;
+    padding: $sm-gap;
+    background: none;
+    font-weight: 500;
+    color: $dark-blue;
+  }
+}
+#plan-delivery-fee {
+  margin: $lg-gap 0;
 }

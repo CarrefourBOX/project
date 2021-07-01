@@ -7,7 +7,7 @@
   &:not(.home) {
     padding-top: $nav-height;
   }
-  padding-bottom: calc(#{$menu-height} + 3%);
+  padding-bottom: calc(#{$menu-height} + 3rem + 3vw);
 }
 .container-pad {
   margin: 0 $md-gap;

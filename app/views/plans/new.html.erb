@@ -17,7 +17,7 @@
     <div id='select-items' class="tab" data-new-plan-target='tab'>
       <% @boxes.each do |box, items| %>
         <%= field_set_tag nil, id: "box_#{box.id}_items", class: 'item-option items-fieldset' do %>
-          <h3>Box <%= box.name %></h3>
+          <legend style="color: <%= box.color %>">Box <%= box.name %></legend>
           <% items.each do |item| %>
             <div>
               <%= check_box_tag "box_items[#{box.id}][]", 
@@ -36,17 +36,17 @@
     <div id='select-category' class="tab" data-new-plan-target='tab'>
       <div data-new-plan-target="selectedOptions">
         <% @carrefour_boxes.each do |box| %>
-          <div id="box_<%= box.id %>" data-plan="<%= box.plans %>" class="box-options">
-            <div style="background-color: <%= box.color %>;">
-              <%= cl_image_tag box.icon.key, width: 35, class:'me-3' %>
+          <div id="box_<%= box.id %>" data-plan="<%= box.plans %>" class="box-options" >
+            <div class='selected-box-infos'>
+              <%= cl_image_tag box.icon.key, width: 35 %>
               <div>
                 <p>
                   <%= box.name %>
                 </p>
-                <p></p>
+                <strong class="box-price"></strong>
                 <div>
                   <%= select_tag "box_size[#{box.id}]", options_for_select(box.plans.map { |x| [x[0], x[1]["price"]] }), id: "carrefour_box_category_#{box.id}", disabled: session["boxes"] ? !session["boxes"].has_key?(box.id.to_s) : true %>
-                  <button type="button" data-action="new-plan#deleteBox" data-box-target="<%= box.id %>">
+                  <button type="button" data-action="new-plan#deleteBox" data-box-target="<%= box.id %>" class="trash-btn">
                     <i class="far fa-trash-alt"></i>
                     <span class="visibility-hidden">Excluir box</span>
                   </button>
@@ -60,8 +60,10 @@
       </div>
       <div id="plan-delivery-fee">
           <%= label_tag "cep-input", "Calcule o frete" %>
-          <%= text_field_tag "cep-input[]", "", data: { mask: 'cep' }, form: 'form-delivery-fee' %>
-          <%= submit_tag "Calcular", form: 'form-delivery-fee' %>
+          <div class='rounded-form-group'>
+            <%= text_field_tag "cep-input[]", "", data: { mask: 'cep' }, form: 'form-delivery-fee' %>
+            <%= submit_tag "Calcular", form: 'form-delivery-fee' %>
+          </div>
       </div>
 
       <div id="plan-values">
