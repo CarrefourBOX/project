@@ -1,6 +1,28 @@
 #alerts {
-  position: absolute;
-  bottom: 0;
-  right: 0;
+  position: fixed;
+  top: 10px;
+  right: 5%;
+  width: calc(100vw - 10%);
+  max-width: 100%;
   z-index: 10000;
+  font-size: calc(.8rem + .2vw);
+  .alert {
+    background: rgba(0, 0, 0, .8);
+    padding: $sm-gap $md-gap;
+    color: white;
+    &::before {
+      font-family: "Font Awesome 5 Free";
+      font-weight: 900;
+      margin-right: $xs-gap;
+    }
+    & ~ .alert {
+      margin-top: $xs-gap;
+    }
+  }
+  .warning {
+    &::before {
+      content: "\f06a";
+      color: white;
+    }
+  }
 }
