@@ -1,8 +1,8 @@
 <div class="container" data-controller='new-plan'>
-  <h2 class='text-center pb-3'>Selecione suas preferências</h2>
 
   <%= form_with(url: shopcart_path, html: { class: 'f-column', data: { remote: true, action: 'change->new-plan#submitForm', 'new-plan-target': 'form' } }) do |f| %>
     <div id="select-box" class="tab" data-new-plan-target='tab'>
+      <h2>Selecione quais caixas deseja</h2>
         <%= field_set_tag nil, class: 'checkbox-fieldset' do %>
           <% @carrefour_boxes.each do |box| %>
             <%= label_tag "plan_carrefour_box_#{box.id}" do %>
@@ -15,6 +15,7 @@
         <% end %>
     </div>
     <div id='select-items' class="tab" data-new-plan-target='tab'>
+      <h2>Selecione os items desejados</h2>
       <% @boxes.each do |box, items| %>
         <%= field_set_tag nil, id: "box_#{box.id}_items", class: 'item-option items-fieldset' do %>
           <legend style="color: <%= box.color %>">Box <%= box.name %></legend>

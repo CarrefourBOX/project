@@ -119,7 +119,7 @@ export default class extends Controller {
     selectedBoxes.forEach(box => {
       box.querySelector('.box-price').innerText = this.monetize(parseInt(box.querySelector('select').value));
     })
-    document.querySelector("#discount span").innerText = `${discount * 100}%`;
+    document.querySelector("#discount span").innerText = this.monetize(boxesPrice.reduce((a, b) => a + b, 0) * discount);
     if (document.getElementById('delivery-fee').dataset.price) {
       document.querySelector("#delivery-fee span").innerText = this.monetize(deliveryFee);
     }
