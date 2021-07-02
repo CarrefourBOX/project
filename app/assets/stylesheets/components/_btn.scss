@@ -17,6 +17,10 @@
     &.purple {
         background: $purple;
     }
+    &.round {
+        border-radius: 50rem;
+        padding: $sm-gap;
+    }
 }
 
 .btn-orange {

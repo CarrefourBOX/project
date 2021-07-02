@@ -32,6 +32,7 @@ class ApplicationController < ActionController::Base
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit :sign_up, keys: %i[login email first_name last_name cpf phone birth_date]
     devise_parameter_sanitizer.permit :sign_in, keys: %i[login encrypted_password]
+    devise_parameter_sanitizer.permit :account_update, keys: %i[first_name last_name birth_date phone cpf]
   end
 
   # def after_sign_in_path_for(resource)

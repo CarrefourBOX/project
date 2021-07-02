@@ -13,7 +13,7 @@ class User < ApplicationRecord
 
   # validations
   validates :first_name, :last_name, :birth_date, :cpf, :phone, presence: true, unless: :admin?
-  validates :password, format: { with: /(.*([A-Za-z]+[0-9]|[0-9]+[A-Za-z]).*)/ }
+  validates :password, format: { with: /(.*([A-Za-z]+[0-9]|[0-9]+[A-Za-z]).*)/ }, unless: -> { password.blank? } 
   validates :cpf, uniqueness: true, format: { with: /\A(\d{11}|\d{3}\.\d{3}\.\d{3}-\d{2})\z/ }
 
   attr_writer :login
