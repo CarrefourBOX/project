@@ -1,6 +1,7 @@
 class PlansController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[new shopcart update]
   before_action :skip_authorization, only: %i[new create update shopcart]
+  skip_before_action :verify_authenticity_token, only: [:create] 
 
   def new
     @plan = Plan.new

@@ -35,6 +35,7 @@ export default class extends Controller {
         const currentHash = window.location.hash;
         const initialTab = document.getElementById("select-box");
         const secondTab = document.getElementById("select-items");
+        
 
         this.loadSessionBoxInfo();
 
