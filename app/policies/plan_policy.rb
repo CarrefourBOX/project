@@ -17,6 +17,14 @@ class PlanPolicy < ApplicationPolicy
     owner? || admin?
   end
 
+  def update_my_box?
+    owner?
+  end
+
+  def cancel_box?
+    owner?
+  end
+
   def owner?
     user == record.user
   end
