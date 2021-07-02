@@ -19,6 +19,7 @@ class PagesController < ApplicationController
     # @plan = Plan.includes(:orders, :shipments, :address).where(user: current_user).first
     @review = Review.new
     @plan = current_user.plans.includes(:orders, :shipments, :address).order(:created_at).last
+    @review = Review.new
     return unless @plan
 
     @boxes = @plan.box_items.group_by(&:carrefour_box)
