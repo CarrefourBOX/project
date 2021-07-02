@@ -1,6 +1,7 @@
 import { Controller } from "stimulus";
 import { post } from "@rails/request.js";
 import { Modal } from "bootstrap";
+import filterGenerator from "plugins/filter_generator";
 
 export default class extends Controller {
     static targets = [
@@ -14,7 +15,8 @@ export default class extends Controller {
     ];
 
     connect = () => {
-        this.loadRightTab();
+      this.loadRightTab();
+      filterGenerator();
     };
 
     showCurrentTab = () => {
