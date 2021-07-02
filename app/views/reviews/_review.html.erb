@@ -1,0 +1,28 @@
+<div id="<%= dom_id review %>" class="review-container">
+  <p class="review-author">
+    <% if review.user == current_user %>
+      Por você
+    <% else %>
+      <em><%= review.user.name %></em>
+    <% end %>
+  </p>
+
+  <div class="row d-flex justify-content-between">
+    <span>
+      <% (review.rating.to_i).times do %>
+        <i class="fas fa-star"></i>
+      <% end %>
+      <% (5 - review.rating.to_i).times do %>
+        <i class="far fa-star"></i>
+      <% end %></span>
+    <span class="review-date text-end"><%= review.updated_at.strftime("%d/%m/%Y") %></span>
+  </div>
+
+  <p><%= review.content %></p>
+
+  <% if request.env["PATH_INFO"] == '/my_box' %>
+    <%= link_to '#', class: 'review-edit-link', data: { 'bs-toggle': 'offcanvas', 'bs-target': "#Box#{review.carrefour_box.id}EditReviewCanvas" } do %>
+      <i class="fas fa-pencil-alt"></i>
+    <% end %>
+  <% end %>
+</div>

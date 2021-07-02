@@ -1,0 +1,61 @@
+.review-container {
+    border-radius: 0.5rem;
+    box-shadow: 0 0.05rem 0.2rem 0.05rem rgba(0, 0, 0, 0.15);
+    padding: $md-gap;
+    margin-bottom: 15px;
+    position: relative;
+    margin: 15px 0;
+    .review-edit-link {
+        position: absolute;
+        top: 5px;
+        right: 10px;
+        color: $text-gray;
+    }
+    .fas.fa-star,
+    .far.fa-star {
+        color: $btn-start-orange;
+    }
+    span {
+        width: 50%;
+    }
+}
+
+.review-author {
+    font-size: calc(0.4rem + 0.4vw);
+    color: $black;
+}
+
+.review-date {
+    color: $text-gray !important;
+    font-size: calc(0.8rem + 0.4vw);
+}
+
+.review-form {
+    textarea {
+        min-height: 150px !important;
+    }
+    .form-control input {
+        border-radius: 0.5rem !important;
+        width: 100%;
+        border-radius: 0.5rem;
+        padding: calc(0.5rem + 0.5vw);
+        border-color: #878787;
+        font-size: calc(0.8rem + 0.8vw);
+    }
+    .btn {
+        color: white;
+    }
+    .br-wrapper {
+        text-align: center !important;
+    }
+    .br-widget {
+        margin: 0 auto;
+        width: 50% !important;
+        display: flex !important;
+        justify-content: center;
+        a::after {
+            font-size: 30px !important;
+            letter-spacing: 5px !important;
+        }
+    }
+}
