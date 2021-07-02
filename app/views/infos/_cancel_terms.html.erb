@@ -2,7 +2,7 @@
   <h1 class="text-center">Termo de Cancelamento – Assinatura Box Surpresa</h1>
   <div class="text-justify">
     <% if current_user %>
-      <p style="font-size: small;"><%= "Eu, #{current_user.name}, portador do CPF nº #{current_user.cpf}, solicito o cancelamento da assinatura do Box #{current_user.plans.first.boxes.first.box_item.carrefour_box.name} e declaro   estar ciente dos termos abaixo: "%></p>
+      <p style="font-size: small;"><%= "Eu, #{current_user.name}, portador do CPF nº #{current_user.cpf}, solicito o cancelamento da assinatura do meu Box e declaro estar ciente dos termos abaixo: "%></p>
     <% else %>
       <p style="font-size: small;">"Eu, usuário, solicito o cancelamento da assinatura do meu Box e declaro estar ciente dos termos abaixo: "</p>
     <% end %>
