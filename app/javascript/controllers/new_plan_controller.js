@@ -1,5 +1,6 @@
 import { Controller } from "stimulus";
 import { post } from "@rails/request.js";
+import { Modal } from "bootstrap";
 
 export default class extends Controller {
     static targets = [
@@ -201,18 +202,6 @@ export default class extends Controller {
       )}`;
     };
 
-    updateBtnSubmit = () => {
-        if (
-            this.tabTargets[this.tabTargets.length - 1].classList.contains(
-                "current-tab"
-            )
-        ) {
-            this.nextBtnTarget.setAttribute("type", "submit");
-        } else {
-            this.nextBtnTarget.setAttribute("type", "button");
-        }
-    };
-
     updateNextBtn = () => {
         if (this.isTabValid()) {
             this.nextBtnTarget.removeAttribute("disabled");
@@ -233,8 +222,12 @@ export default class extends Controller {
             );
             this.showCurrentTab();
         } else {
+          if (this.nextBtnTarget.dataset.signedIn === "false") {
+            new Modal('#sessionModal').show();
+          } else {
             this.formTarget.action = "/plans";
             this.formTarget.submit();
+          }
         }
     };
 

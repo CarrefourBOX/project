@@ -102,7 +102,7 @@
         </div>
       </div>
     </div>
-    <button type='button' data-new-plan-target="nextBtn" data-action='new-plan#nextTab' class="btn-blue-rounded">Continuar</button>
+    <button type='button' data-new-plan-target="nextBtn" data-action='new-plan#nextTab' class="btn-blue-rounded" data-signed-in="<%= user_signed_in? %>">Continuar</button>
   <% end %>
   <%= form_with(url: new_plan_path, html: { class: 'd-flex row row-cols-lg-auto g-3 align-items-center', data: { controller: 'input', remote: 'true', action: 'ajax:success->new-plan#updateDeliveryFee', id: 'form-delivery-fee' } }) do |f| %>
   <% end %>
