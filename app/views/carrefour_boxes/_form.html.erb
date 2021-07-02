@@ -9,6 +9,10 @@
       </div>
 
       <div class="pb-3">
+        <%= text_area_tag "carrefour_box[summary]", carrefour_box.summary, required: true, class: 'form-control', placeholder: 'resumo', style:'resize:none;' %>
+      </div>
+
+      <div class="pb-3">
         <%= text_area_tag "carrefour_box[description]", carrefour_box.description, required: true, class: 'form-control', placeholder: 'descrição', style:'resize:none;' %>
       </div>
 
