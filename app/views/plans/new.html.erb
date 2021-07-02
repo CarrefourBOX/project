@@ -49,7 +49,10 @@
                 <div class="box-tools">
                   <div class='f-column'>
                     <%= label_tag "carrefour_box_category_#{box.id}", 'Tamanho da BOX' %>
-                    <%= select_tag "box_size[#{box.id}]", options_for_select(box.plans.map { |x| [x[0], x[1]["price"]] }), id: "carrefour_box_category_#{box.id}", disabled: session["boxes"] ? !session["boxes"].has_key?(box.id.to_s) : true %>
+                    <%= select_tag "box_size[#{box.id}]", 
+                                    options_for_select(box.plans.map { |x| [x[0], x[1]["price"]] }, session["boxes"] && session["boxes"]["#{box.id}"] ? session["boxes"]["#{box.id}"]["size_price"] : nil), 
+                                    id: "carrefour_box_category_#{box.id}", 
+                                    disabled: session["boxes"] ? !session["boxes"].has_key?(box.id.to_s) : true %>
                   </div>
                   <button type="button" data-action="new-plan#deleteBox" data-box-target="<%= box.id %>" class="trash-btn">
                     <i class="far fa-trash-alt"></i>

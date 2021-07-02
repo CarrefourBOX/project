@@ -36,7 +36,7 @@
         <% end %>
       </li>
       <li>
-        <% if current_user.plans.empty? %>
+        <% if current_user.plans.joins(:orders).where(orders: { status: "complete" }).empty? %>
           <%= link_to new_plan_path do %>
             <i aria-hidden="true" class="fas fa-box-open"></i>
             <div>
