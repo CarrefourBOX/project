@@ -53,7 +53,7 @@ class Plan < ApplicationRecord
     boxes.includes(box_item: :carrefour_box).group_by { |box| box.box_item.carrefour_box }.each do |box, items|
       subscription += box.plans[items.first.box_size]['price']
     end
-    total_price = subscription * Plan.discounts(quantity)
+    subscription * Plan.discounts(quantity)
   end
 
   def set_ship_day
