@@ -38,7 +38,6 @@
         transition: border-color 0.1s;
     }
     img {
-        filter: brightness(0.5);
         margin-bottom: $sm-gap;
     }
     input {
@@ -49,6 +48,9 @@
             }
             &~span {
                 color: $black !important;
+            }
+            &~img {
+                opacity: .5;
             }
         }
         &:checked {

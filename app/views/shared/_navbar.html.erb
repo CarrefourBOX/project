@@ -13,9 +13,9 @@
         <p class="visibility-hidden">Menu de opções box surpresa</p>
       </button>
       <% if session["boxes"] %>
-        <%= link_to new_plan_path(anchor: session["boxes"].values.select { |box_values| box_values.has_key?("items") && box_values["items"].blank? }.any? ? 'select-items' : 'select-category'), 
-                    class: "shopcart", 
-                    id: 'shopcart-link', 
+        <%= link_to new_plan_path(anchor: session["boxes"].values.select { |box_values| box_values.has_key?("items") && box_values["items"].blank? }.any? ? 'select-items' : 'select-category'),
+                    class: "shopcart",
+                    id: 'shopcart-link',
                     data: { 'boxes-selected': session["boxes"] ? session["boxes"].keys.count : "" } do %>
           <%= inline_svg_tag 'icons/cart.svg', aria: { hidden: true } %>
           <p class="visibility-hidden">Carrinho de compras</p>
@@ -64,6 +64,16 @@
           <p>Vantagens</p>
           <i aria-hidden="true" class="fas fa-chevron-right"></i>
         <% end %>
+        <%= link_to '#', data: { 'bs-toggle': 'offcanvas', 'bs-target': "#userTermsCanvas" } do %>
+          <i class="fas fa-handshake"></i>
+          <p>Termo de Adesão</p>
+          <i aria-hidden="true" class="fas fa-chevron-right"></i>
+        <% end %>
+        <%= link_to '#', data: { 'bs-toggle': 'offcanvas', 'bs-target': "#cancelTermsCanvas" } do %>
+          <i class="fas fa-window-close"></i>
+          <p>Termo de Cancelamento</p>
+          <i aria-hidden="true" class="fas fa-chevron-right"></i>
+        <% end %>
       </div>
     </div>
   <% end %>
@@ -95,4 +105,18 @@
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <%= render 'infos/vantagens' %>
+</div>
+
+<div class="container offcanvas offcanvas-end" id="cancelTermsCanvas" tabindex="-1" aria-labelledby="sessionHeaders" aria-hidden="true">
+  <div class="pt-5 ms-auto">
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <%= render 'infos/cancel_terms' %>
+</div>
+
+<div class="container offcanvas offcanvas-end" id="userTermsCanvas" tabindex="-1" aria-labelledby="sessionHeaders" aria-hidden="true">
+  <div class="pt-5 ms-auto">
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <%= render 'infos/user_terms' %>
 </div>

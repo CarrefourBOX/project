@@ -18,6 +18,7 @@ class PagesController < ApplicationController
     authorize :page
     @review = Review.new
     @plan = current_user.plans.includes(:orders, :shipments, :address).order(:created_at).last
+    @review = Review.new
     return unless @plan
 
     @boxes = @plan.boxes.includes(box_item: [carrefour_box: :reviews]).group_by { |box| box.box_item.carrefour_box }
