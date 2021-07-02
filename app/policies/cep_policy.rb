@@ -8,4 +8,8 @@ class CepPolicy < ApplicationPolicy
   def fetch_address?
     user
   end
+
+  def calculate_shipment?
+    user
+  end
 end

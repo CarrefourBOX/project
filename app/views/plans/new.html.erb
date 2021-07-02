@@ -3,16 +3,16 @@
   <%= form_with(url: shopcart_path, html: { class: 'f-column', data: { action: 'change->new-plan#submitForm', 'new-plan-target': 'form' } }) do |f| %>
     <div id="select-box" class="tab" data-new-plan-target='tab'>
       <h2>Selecione quais caixas deseja</h2>
-        <%= field_set_tag nil, class: 'checkbox-fieldset' do %>
-          <% @carrefour_boxes.each do |box| %>
-            <%= label_tag "plan_carrefour_box_#{box.id}" do %>
-              <%= check_box_tag "carrefour_box[]", box.id, session["boxes"] ? session["boxes"].has_key?(box.id.to_s) : false, id: "plan_carrefour_box_#{box.id}" %>
-              <%= cl_image_tag box.icon.key, width: 35, style: "filter: opacity(0.5) drop-shadow(0 0 0 #{box.color}) drop-shadow(0 0 0 #{box.color});" %>
-              <span style="color: <%= box.color %>"><%= box.name %></span>
-              <div class="custom-checkbox" style="border-color: <%= box.color %>"></div>
-            <% end %>
+      <%= field_set_tag nil, class: 'checkbox-fieldset' do %>
+        <% @carrefour_boxes.each do |box| %>
+          <%= label_tag "plan_carrefour_box_#{box.id}" do %>
+            <%= check_box_tag "carrefour_box[]", box.id, session["boxes"] ? session["boxes"].has_key?(box.id.to_s) : false, id: "plan_carrefour_box_#{box.id}" %>
+            <%= cl_image_tag box.icon.key, width: 35, style: "filter: opacity(0.5) drop-shadow(0 0 0 #{box.color}) drop-shadow(0 0 0 #{box.color});" %>
+            <span style="color: <%= box.color %>"><%= box.name %></span>
+            <div class="custom-checkbox" style="border-color: <%= box.color %>"></div>
           <% end %>
         <% end %>
+      <% end %>
     </div>
     <div id='select-items' class="tab" data-new-plan-target='tab'>
       <h2>Selecione os items desejados</h2>
@@ -64,11 +64,20 @@
         <% end %>
       </div>
       <div id="plan-delivery-fee">
-          <%= label_tag "cep-input", "Calcule o frete" %>
-          <div class='rounded-form-group'>
-            <%= text_field_tag "cep-input[]", "", data: { mask: 'cep' }, form: 'form-delivery-fee' %>
-            <%= submit_tag "Calcular", form: 'form-delivery-fee' %>
-          </div>
+        <%= label_tag "cep-input", "Calcule o frete" %>
+        <div class='rounded-form-group'>
+          <%= text_field_tag "cep-input[]", "", data: { mask: 'cep', 'new-plan-target': 'cep' }, form: 'form-delivery-fee' %>
+          <%= submit_tag "Calcular", form: 'form-delivery-fee', data: {action: 'click->new-plan#fetchAddress'} %>
+        </div>
+        <div class="display-address" data-new-plan-target="address">
+          <% if user_signed_in? %>
+            <p>Enviar para endereço principal:</p>
+            <% user_address = current_user.main_address%>
+            <p><%= "#{user_address.street}, #{user_address.number}#{" / " + user_address.complements if user_address.complements.present?}" %></p>
+            <p><%= "#{user_address.cep} - #{user_address.city}, #{user_address.state}" %></p>
+            <%= link_to 'Meus endereços', my_addresses_path, class: 'text-center' %>
+          <% end %>
+        </div>
       </div>
 
       <div id="plan-values">
@@ -80,7 +89,7 @@
           <p>Descontos</p>
           <span>-</span>
         </div>
-        <div id="delivery-fee" data-price="<%= Plan.new(address: User.last.addresses.find_by(main: true)).calculate_shipment if user_signed_in? %>">
+        <div id="delivery-fee" data-price="<%= ShipmentCalculator.calculate(user_address) if user_signed_in? %>" data-new-plan-target="fee">
           <p>Taxa de entrega</p>
           <span>-</span>
         </div>

@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get 'cancel', to: 'pages#cancel', as: :cancel
 
   post 'fetch_address', to: 'ceps#fetch_address', as: :fetch_address
+  post 'calculate_shipment', to: 'ceps#calculate_shipment', as: :calculate_shipment
 
   resources :plans, only: %i[new create show destroy update], shallow: true do
     member do

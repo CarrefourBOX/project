@@ -1,190 +1,209 @@
-.item-option, .box-options {
-  &:not(.selected) {
-    display: none;
-  }
+.item-option,
+.box-options {
+    &:not(.selected) {
+        display: none;
+    }
 }
+
 #plan-values {
-  & > div {
-    display: flex;
-    justify-content: space-between;
-  }
+    &>div {
+        display: flex;
+        justify-content: space-between;
+    }
 }
 
 .checkbox-fieldset {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: $md-gap;
-  margin-bottom: $md-gap;
-  & > label {
-    box-shadow: 0 0.05rem 0.1rem 0.07rem rgba(0, 0, 0, 0.1);
-    border-radius: .75rem;
-    padding: $md-gap $sm-gap;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    position: relative;
-  }
-  .custom-checkbox {
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 100%;
-    border-radius: inherit;
-    padding: inherit;
-    border: 3px solid;
-    transition: border-color .1s;
-  }
-  img {
-    filter: brightness(0.5);
-    margin-bottom: $sm-gap;
-  }
-  input {
-    appearance: none;
-    &:not(:checked) {
-      & ~ .custom-checkbox {
-        border-color: transparent !important;
-      }
-      & ~ span {
-        color: $black !important;
-      }
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $md-gap;
+    margin-bottom: $md-gap;
+    &>label {
+        box-shadow: 0 0.05rem 0.1rem 0.07rem rgba(0, 0, 0, 0.1);
+        border-radius: 0.75rem;
+        padding: $md-gap $sm-gap;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        position: relative;
     }
-    &:checked {
-      & ~ span {
-        font-weight: 500;
-      }
+    .custom-checkbox {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        border-radius: inherit;
+        padding: inherit;
+        border: 3px solid;
+        transition: border-color 0.1s;
     }
-  }
+    img {
+        filter: brightness(0.5);
+        margin-bottom: $sm-gap;
+    }
+    input {
+        appearance: none;
+        &:not(:checked) {
+            &~.custom-checkbox {
+                border-color: transparent !important;
+            }
+            &~span {
+                color: $black !important;
+            }
+        }
+        &:checked {
+            &~span {
+                font-weight: 500;
+            }
+        }
+    }
 }
 
 .items-fieldset {
-  box-shadow: 0 0.05rem 0.1rem 0.07rem rgba(0, 0, 0, .1);
-  border-radius: .75rem;
-  margin-bottom: $md-gap;
-  padding: $sm-gap;
-  & > div {
-    margin: $xs-gap 0;
-    margin-left: $xs-gap;
-  }
-  legend {
-    font-weight: 500;
-    color: white;
-    border-radius: inherit;
-  }
-  .checkmark {
-    &::before {
-      content: '\f0c8';
-      font-family: "Font Awesome 5 Free";
+    box-shadow: 0 0.05rem 0.1rem 0.07rem rgba(0, 0, 0, 0.1);
+    border-radius: 0.75rem;
+    margin-bottom: $md-gap;
+    padding: $sm-gap;
+    &>div {
+        margin: $xs-gap 0;
+        margin-left: $xs-gap;
     }
-  }
-  input {
-    appearance: none;
-    &:checked {
-      & ~ .checkmark {
+    legend {
+        font-weight: 500;
+        color: white;
+        border-radius: inherit;
+    }
+    .checkmark {
         &::before {
-          content: '\f14a';
-          font-weight: 900;
+            content: "\f0c8";
+            font-family: "Font Awesome 5 Free";
         }
-      }
     }
-  }
-  label {
-    margin-left: $xs-gap;
-  }
+    input {
+        appearance: none;
+        &:checked {
+            &~.checkmark {
+                &::before {
+                    content: "\f14a";
+                    font-weight: 900;
+                }
+            }
+        }
+    }
+    label {
+        margin-left: $xs-gap;
+    }
 }
 
 .box-options {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  margin: $sm-gap 0;
-  padding: 0 $sm-gap;
-  ul {
-    list-style: none;
-    padding: 0 $md-gap;
-    border-left: 4px solid;
-    margin: $md-gap 0;
-  }
-  li {
-    padding: $xs-gap 0;
-  }
-  p {
-    margin-bottom: 0;
-  }
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    margin: $sm-gap 0;
+    padding: 0 $sm-gap;
+    ul {
+        list-style: none;
+        padding: 0 $md-gap;
+        border-left: 4px solid;
+        margin: $md-gap 0;
+    }
+    li {
+        padding: $xs-gap 0;
+    }
+    p {
+        margin-bottom: 0;
+    }
 }
+
 .selected-box-infos {
-  display: flex;
-  align-items: center;
-  img {
-    width: calc(3rem + 3vw);
-    margin-right: $md-gap;
-  }
-  select {
-    border-radius: 50rem;
-    border: none;
-    box-shadow: 0 0.04rem 0.1rem 0.1rem rgba(0, 0, 0, .13);
-    background: none;
-    padding: $xs-gap $sm-gap;
-  }
-  label {
-    font-size: calc(.8rem + .4vw);
-  }
-  strong, h4 {
-    font-size: calc(1rem + 1vw);
-  }
-  strong {
-    line-height: 2em;
-  }
-  & > div {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    width: 100%;
-  }
+    display: flex;
+    align-items: center;
+    img {
+        width: calc(3rem + 3vw);
+        margin-right: $md-gap;
+    }
+    select {
+        border-radius: 50rem;
+        border: none;
+        box-shadow: 0 0.04rem 0.1rem 0.1rem rgba(0, 0, 0, 0.13);
+        background: none;
+        padding: $xs-gap $sm-gap;
+    }
+    label {
+        font-size: calc(0.8rem + 0.4vw);
+    }
+    strong,
+    h4 {
+        font-size: calc(1rem + 1vw);
+    }
+    strong {
+        line-height: 2em;
+    }
+    &>div {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        width: 100%;
+    }
 }
+
 .box-tools {
-  display: grid;
-  justify-items: flex-end;
-  gap: $sm-gap;
+    display: grid;
+    justify-items: flex-end;
+    gap: $sm-gap;
 }
 
 .rounded-form-group {
-  display: grid;
-  grid-template-columns: 70% 30%;
-  input[type="text"] {
-    border: 1px solid $black;
-    border-radius: 10rem 0 0 10rem;
-    border-right: none;
-    padding: $xs-gap $md-gap;
-    outline: none;
-  }
-  input[type="submit"] {
-    border: 1px solid $black;
-    right: 0;
-    border-radius: 0 10rem 10rem 0;
-    border-left: none;
-    padding: $sm-gap;
-    background: none;
-    font-weight: 500;
-    color: $dark-blue;
-  }
+    display: grid;
+    grid-template-columns: 70% 30%;
+    input[type="text"] {
+        border: 1px solid $black;
+        border-radius: 10rem 0 0 10rem;
+        border-right: none;
+        padding: $xs-gap $md-gap;
+        outline: none;
+    }
+    input[type="submit"] {
+        border: 1px solid $black;
+        right: 0;
+        border-radius: 0 10rem 10rem 0;
+        border-left: none;
+        padding: $sm-gap;
+        background: none;
+        font-weight: 500;
+        color: $dark-blue;
+    }
 }
+
 #plan-delivery-fee {
-  margin: $lg-gap 0;
-  label {
-    margin: $sm-gap;
-  }
+    margin: $lg-gap 0;
+    label {
+        margin: $sm-gap;
+    }
 }
+
 #total {
-  font-weight: 500;
+    font-weight: 500;
 }
+
 #discount {
-  color: #890596;
+    color: #890596;
 }
+
 #plan-values {
-  margin-bottom: $md-gap;
+    margin-bottom: $md-gap;
 }
+
 .new-plan {
-  margin: 0 $md-gap;
-  h2 {
-    margin: $md-gap 0 $lg-gap;
-    font-weight: 400;
-  }
+    margin: 0 $md-gap;
+    margin-bottom: 35px;
+    h2 {
+        margin: $md-gap 0 $lg-gap;
+        font-weight: 400;
+    }
+}
+
+.display-address {
+    padding: 10px;
+    p {
+        margin: 0;
+        color: $black;
+    }
 }
