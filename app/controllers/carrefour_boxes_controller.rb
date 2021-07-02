@@ -1,4 +1,5 @@
 class CarrefourBoxesController < ApplicationController
+  skip_before_action :authenticate_user!, only: %i[show]
   before_action :set_carrefour_box, only: %i[show update destroy]
   before_action :rating, only: :show
 

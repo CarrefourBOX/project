@@ -35,17 +35,13 @@
         color: inherit;
     }
     p {
-        font-size: 18px !important;
+        font-size: 18px;
         line-height: normal;
         padding-top: 10px;
     }
 }
 
 .card-price {
-    // span:first-child {
-    //     font-size: 14px !important;
-    //     text-decoration: line-through;
-    // }
     span:last-child {
         margin-left: 7px;
     }

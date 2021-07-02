@@ -1,27 +1,109 @@
-<div class="container">
-  <h1 class='text-center pb-3'>Selecione suas preferências</h1>
+<div class="new-plan" data-controller='new-plan'>
 
-  <%= form_with(url: plans_path, local: true, html: {class: 'd-flex row row-cols-lg-auto g-3 align-items-center', 'data-turbo': false }) do %>
-    <div class="col-12">
+  <%= form_with(url: shopcart_path, html: { class: 'f-column', data: { action: 'change->new-plan#submitForm', 'new-plan-target': 'form' } }) do |f| %>
+    <div id="select-box" class="tab" data-new-plan-target='tab'>
+      <h2>Selecione quais caixas deseja</h2>
+      <%= field_set_tag nil, class: 'checkbox-fieldset' do %>
+        <% @carrefour_boxes.each do |box| %>
+          <%= label_tag "plan_carrefour_box_#{box.id}" do %>
+            <%= check_box_tag "carrefour_box[]", box.id, session["boxes"] ? session["boxes"].has_key?(box.id.to_s) : false, id: "plan_carrefour_box_#{box.id}" %>
+            <%= cl_image_tag box.icon.key, width: 35, style: "filter: opacity(0.5) drop-shadow(0 0 0 #{box.color}) drop-shadow(0 0 0 #{box.color});" %>
+            <span style="color: <%= box.color %>"><%= box.name %></span>
+            <div class="custom-checkbox" style="border-color: <%= box.color %>"></div>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+    <div id='select-items' class="tab" data-new-plan-target='tab'>
+      <h2>Selecione os items desejados</h2>
       <% @boxes.each do |box, items| %>
-        <%= field_set_tag do %>
-          <h3>Box <%= box.name %></h3>
+        <%= field_set_tag nil, id: "box_#{box.id}_items", class: 'item-option items-fieldset' do %>
+          <legend style="color: <%= box.color %>">Box <%= box.name %></legend>
           <% items.each do |item| %>
-            <div class="form-check">
-              <%= check_box_tag "boxes[#{box.name}][items][]", item.id, false, class: 'form-check-input' %>
-              <%= label_tag "boxes[#{box.name}]", item.name, class:'form-check-label' %>
+            <div>
+              <%= check_box_tag "box_items[#{box.id}][]", 
+                                item.id, 
+                                session["boxes"] && session["boxes"].has_key?(box.id.to_s) && session["boxes"][box.id.to_s].has_key?("items") && session["boxes"][box.id.to_s]["items"] != nil && session["boxes"][box.id.to_s]["items"].include?(item.id.to_s),
+                                id: "box_item_#{item.id}", 
+                                data: { box: item.carrefour_box.id, item: item.name }, 
+                                disabled: '' %>
+              <span class="checkmark" style="color: <%= box.color %>"></span>
+              <%= label_tag "box_item_#{item.id}", item.name %>
             </div>
           <% end %>
-          <div class="pb-3">
-            <%= select_tag "boxes[#{box.name}][box_size]", options_for_select(box.plans.keys), class: 'form-select', prompt: 'selecione um tamanho' %>
+        <% end %>
+      <% end %>
+    </div>
+    <div id='select-category' class="tab" data-new-plan-target='tab'>
+      <h2>Carrinho de compras</h2>
+      <div data-new-plan-target="selectedOptions">
+        <% @carrefour_boxes.each do |box| %>
+          <div id="box_<%= box.id %>" data-plan="<%= box.plans %>" class="box-options" >
+            <div class='selected-box-infos'>
+              <%= cl_image_tag box.icon.key, width: 35, style: "filter: opacity(0.5) drop-shadow(0 0 0 #{box.color}) drop-shadow(0 0 0 #{box.color});" %>
+              <div>
+                <div>
+                  <h4 style="color: <%= box.color %>;"><%= box.name %></h4>
+                  <strong class="box-price"></strong>
+                </div>
+                <div class="box-tools">
+                  <div class='f-column'>
+                    <%= label_tag "carrefour_box_category_#{box.id}", 'Tamanho da BOX' %>
+                    <%= select_tag "box_size[#{box.id}]", options_for_select(box.plans.map { |x| [x[0], x[1]["price"]] }), id: "carrefour_box_category_#{box.id}", disabled: session["boxes"] ? !session["boxes"].has_key?(box.id.to_s) : true %>
+                  </div>
+                  <button type="button" data-action="new-plan#deleteBox" data-box-target="<%= box.id %>" class="trash-btn">
+                    <i class="far fa-trash-alt"></i>
+                    <span class="visibility-hidden">Excluir box</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <ul style="border-color: <%= box.color %>;">
+            </ul>
           </div>
         <% end %>
-        <hr>
-      <% end %>
-      <div class="pb-3">
-        <%# text_field_tag "CEP", params[:CEP], required: true, class: 'form-control', placeholder: 'CEP' %>
       </div>
-      <%= submit_tag 'Assinar', class: 'btn btn-dark w-100' %>
+      <div id="plan-delivery-fee">
+        <%= label_tag "cep-input", "Calcule o frete" %>
+        <div class='rounded-form-group'>
+          <%= text_field_tag "cep-input[]", "", data: { mask: 'cep', 'new-plan-target': 'cep' }, form: 'form-delivery-fee' %>
+          <%= submit_tag "Calcular", form: 'form-delivery-fee', data: {action: 'click->new-plan#fetchAddress'} %>
+        </div>
+        <div class="display-address" data-new-plan-target="address">
+          <% if user_signed_in? %>
+            <p>Enviar para endereço principal:</p>
+            <% user_address = current_user.main_address%>
+            <p><%= "#{user_address.street}, #{user_address.number}#{" / " + user_address.complements if user_address.complements.present?}" %></p>
+            <p><%= "#{user_address.cep} - #{user_address.city}, #{user_address.state}" %></p>
+            <%= link_to 'Meus endereços', my_addresses_path, class: 'text-center' %>
+          <% end %>
+        </div>
+      </div>
+
+      <div id="plan-values">
+        <div id="subtotal">
+          <p>Subtotal</p>
+          <span>-</span>
+        </div>
+        <div id="discount" data-boxes-selected="" data-discount="<%= Plan.discount_hash %>">
+          <p>Descontos</p>
+          <span>-</span>
+        </div>
+        <div id="delivery-fee" data-price="<%= ShipmentCalculator.calculate(user_address) if user_signed_in? %>" data-new-plan-target="fee">
+          <p>Taxa de entrega</p>
+          <span>-</span>
+        </div>
+        <div id="total">
+          <p>Total</p>
+          <div>
+            <span>-</span>
+            <span>por mês</span>
+          </div>
+        </div>
+      </div>
     </div>
+    <button type='button' data-new-plan-target="nextBtn" data-action='new-plan#nextTab' class="btn-blue-rounded" data-signed-in="<%= user_signed_in? %>">Continuar</button>
+  <% end %>
+  <%= form_with(url: new_plan_path, html: { class: 'd-flex row row-cols-lg-auto g-3 align-items-center', data: { controller: 'input', remote: 'true', action: 'ajax:success->new-plan#updateDeliveryFee', id: 'form-delivery-fee' } }) do |f| %>
   <% end %>
 </div>

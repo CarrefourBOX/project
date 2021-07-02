@@ -5,18 +5,21 @@ Rails.application.routes.draw do
   root to: 'pages#home'
   get 'start', to: 'pages#start', as: :start
   get 'dashboard', to: 'pages#dashboard', as: :dashboard
-  get 'my_boxes', to: 'pages#my_boxes', as: :my_boxes
+  get 'my_box', to: 'pages#my_box', as: :my_box
   get 'my_addresses', to: 'pages#my_addresses', as: :my_addresses
   get 'cancel', to: 'pages#cancel', as: :cancel
   get 'user_terms', to: 'pages#user_terms', as: :user_terms
   get 'cancel_terms', to: 'pages#cancel_terms', as: :cancel_terms
 
-  resources :plans, only: %i[new create show destroy], shallow: true do
+  post 'fetch_address', to: 'ceps#fetch_address', as: :fetch_address
+  post 'calculate_shipment', to: 'ceps#calculate_shipment', as: :calculate_shipment
+
+  resources :plans, only: %i[new create show destroy update], shallow: true do
     member do
       put '/toggle_auto_renew', to: 'plans#toggle_auto_renew', as: :toggle_auto_renew
     end
   end
-  get :shopcart, to: 'plans#shopcart'
+  post :shopcart, to: 'plans#shopcart'
 
   resources :orders, only: %i[show create] do
     member do
@@ -24,9 +27,10 @@ Rails.application.routes.draw do
     end
     resources :payments, only: :new
   end
-  resources :carrefour_boxes, only: %i[create show destroy update] do
-    resources :reviews, only: %i[new create update destroy]
+  resources :carrefour_boxes, only: %i[create show update destroy] do
+    resources :reviews, only: %i[create update destroy], shallow: true
   end
+
   resources :box_items, only: %i[new create destroy]
   resources :addresses, only: %i[create update destroy]
 end

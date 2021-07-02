@@ -1,0 +1,27 @@
+.my-box-container {
+    .mybox-card {
+        p {
+            margin: 0;
+        }
+        border-radius: 0.5rem;
+        box-shadow: 0 0.05rem 0.2rem 0.05rem rgba(0, 0, 0, 0.15);
+        padding: $md-gap;
+        margin: 0 15px 15px 15px;
+        position: relative;
+    }
+    .mybox-card-header {
+        border-radius: 0.5rem;
+        p {
+            text-align: center;
+            font-size: calc(0.4rem + 0.8vw);
+            color: white;
+            padding: 5px;
+        }
+    }
+    .shipping {
+        li,
+        a {
+            font-size: calc(0.6rem + 0.8vw) !important;
+        }
+    }
+}

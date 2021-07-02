@@ -12,9 +12,14 @@
         <%= inline_svg_tag 'icons/hamburger.svg' %>
         <p class="visibility-hidden">Menu de opções box surpresa</p>
       </button>
-      <%= link_to shopcart_path, class: 'shopcart' do %>
-        <%= inline_svg_tag 'icons/cart.svg', aria: { hidden: true } %>
-        <p class="visibility-hidden">Carrinho de compras</p>
+      <% if session["boxes"] %>
+        <%= link_to new_plan_path(anchor: session["boxes"].values.select { |box_values| box_values.has_key?("items") && box_values["items"].blank? }.any? ? 'select-items' : 'select-category'),
+                    class: "shopcart",
+                    id: 'shopcart-link',
+                    data: { 'boxes-selected': session["boxes"] ? session["boxes"].keys.count : "" } do %>
+          <%= inline_svg_tag 'icons/cart.svg', aria: { hidden: true } %>
+          <p class="visibility-hidden">Carrinho de compras</p>
+        <% end %>
       <% end %>
     </div>
 
@@ -28,30 +33,76 @@
               <i aria-hidden="true" class="fas fa-chevron-right"></i>
             <% end %>
           <% end %>
-          <%= link_to new_plan_path do %>
-            <i class="fas fa-store"></i>
-            <p>Adquirir nova caixa</p>
-            <i aria-hidden="true" class="fas fa-chevron-right"></i>
-          <% end %>
-          <%= link_to my_boxes_path do %>
+          <%= link_to my_box_path do %>
             <i class="fas fa-boxes"></i>
-            <p>Minhas caixas</p>
+            <p>Meu BOX</p>
             <i aria-hidden="true" class="fas fa-chevron-right"></i>
           <% end %>
-          <%= link_to user_terms_path do %>
-            <i class="fas fa-handshake"></i>
-            <p>Termo de Adesão</p>
-            <i aria-hidden="true" class="fas fa-chevron-right"></i>
-          <% end %>
-          <%= link_to cancel_terms_path do %>
-            <i class="fas fa-window-close"></i>
-            <p>Termo de Cancelamento</p>
-            <i aria-hidden="true" class="fas fa-chevron-right"></i>
-          <% end %>
-        <% else %>
-          <%= link_to 'Entrar', '#', data: { 'bs-toggle': 'modal', 'bs-target': '#sessionModal' } %>
+        <% end %>
+        <%= link_to new_plan_path do %>
+          <i class="fas fa-store"></i>
+          <p>Adquirir nova caixa</p>
+          <i aria-hidden="true" class="fas fa-chevron-right"></i>
+        <% end %>
+        <%= link_to '#', data: { 'bs-toggle': 'offcanvas', 'bs-target': "#oqueCanvas" } do %>
+          <i class="fas fa-question"></i>
+          <p>O que é?</p>
+          <i aria-hidden="true" class="fas fa-chevron-right"></i>
+        <% end %>
+        <%= link_to '#', data: { 'bs-toggle': 'offcanvas', 'bs-target': "#recebeCanvas" } do %>
+          <i class="fas fa-box-open"></i>
+          <p>O que você recebe?</p>
+          <i aria-hidden="true" class="fas fa-chevron-right"></i>
+        <% end %>
+        <%= link_to '#', data: { 'bs-toggle': 'offcanvas', 'bs-target': "#comoFuncionaCanvas" } do %>
+          <i class="fas fa-info"></i>
+          <p>Como funciona?</p>
+          <i aria-hidden="true" class="fas fa-chevron-right"></i>
+        <% end %>
+        <%= link_to '#', data: { 'bs-toggle': 'offcanvas', 'bs-target': "#vantagensCanvas" } do %>
+          <i class="fas fa-tags"></i>
+          <p>Vantagens</p>
+          <i aria-hidden="true" class="fas fa-chevron-right"></i>
+        <% end %>
+        <%= link_to '#', data: { 'bs-toggle': 'offcanvas', 'bs-target': "#cancelTermsCanvas" } do %>
+          <i class="fas fa-handshake"></i>
+          <p>Termo de Adesão</p>
+          <i aria-hidden="true" class="fas fa-chevron-right"></i>
+        <% end %>
+        <%= link_to '#', data: { 'bs-toggle': 'offcanvas', 'bs-target': "#userTermsCanvas" } do %>
+          <i class="fas fa-window-close"></i>
+          <p>Termo de Cancelamento</p>
+          <i aria-hidden="true" class="fas fa-chevron-right"></i>
         <% end %>
       </div>
     </div>
   <% end %>
+</div>
+
+<div class="container offcanvas offcanvas-end" id="oqueCanvas" tabindex="-1" aria-labelledby="sessionHeaders" aria-hidden="true">
+  <div class="pt-5 ms-auto">
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <%= render 'infos/o_que_e' %>
+</div>
+
+<div class="container offcanvas offcanvas-end" id="recebeCanvas" tabindex="-1" aria-labelledby="sessionHeaders" aria-hidden="true">
+  <div class="pt-5 ms-auto">
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <%= render 'infos/o_que_recebe' %>
+</div>
+
+<div class="container offcanvas offcanvas-end" id="comoFuncionaCanvas" tabindex="-1" aria-labelledby="sessionHeaders" aria-hidden="true">
+  <div class="pt-5 ms-auto">
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <%= render 'infos/como_funciona' %>
+</div>
+
+<div class="container offcanvas offcanvas-end" id="vantagensCanvas" tabindex="-1" aria-labelledby="sessionHeaders" aria-hidden="true">
+  <div class="pt-5 ms-auto">
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <%= render 'infos/vantagens' %>
 </div>

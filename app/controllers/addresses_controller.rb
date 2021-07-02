@@ -5,6 +5,7 @@ class AddressesController < ApplicationController
     @address = Address.new(address_params)
     authorize @address
     @address.user = current_user
+    @address.main = current_user.addresses.active.empty?
     flash[:notice] = 'Endereço adicionado' if @address.save
     main_address(@address) if @address.main
     redirect_to my_addresses_path

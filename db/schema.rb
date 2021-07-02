@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(version: 2021_06_28_140655) do
     t.string "full_address", default: "", null: false
     t.float "latitude"
     t.float "longitude"
+    t.datetime "deleted_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_addresses_on_user_id"
@@ -83,6 +84,7 @@ ActiveRecord::Schema.define(version: 2021_06_28_140655) do
   create_table "carrefour_boxes", force: :cascade do |t|
     t.string "name"
     t.string "color", default: "", null: false
+    t.text "summary", default: "", null: false
     t.text "description", default: "", null: false
     t.jsonb "plans", default: {}, null: false
     t.float "average_rating"
