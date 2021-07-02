@@ -10,16 +10,15 @@ class OrdersController < ApplicationController
     authorize plan, :owner?
     @shipment = plan.shipment_cents
     @price = plan.total_price_cents
-    # @monthly_price_cents = (plan.monthly_price_cents + plan.shipment_cents) / plan.quantity
     order = Order.create!(plan: plan, amount: @price, status: 'pending', user: current_user)
 
     if plan.carrefour_card == true
       coupon = Stripe::Coupon.create({
-        name: 'Desconto Cartão Carrefour',
-        amount_off: @shipment,
-        currency: 'brl',
-        duration: 'once',
-      })
+                                       name: 'Desconto Cartão Carrefour',
+                                       amount_off: @shipment,
+                                       currency: 'brl',
+                                       duration: 'once'
+                                     })
 
       session = Stripe::Checkout::Session.create(
         payment_method_types: ['card'],
@@ -30,7 +29,7 @@ class OrdersController < ApplicationController
           quantity: 1
         }],
         discounts: [{
-          coupon: coupon,
+          coupon: coupon
         }],
         success_url: confirm_payment_order_url(order),
         cancel_url: plan_url(plan)

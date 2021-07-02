@@ -4,6 +4,7 @@
     padding: $md-gap;
     margin-bottom: 15px;
     position: relative;
+    display: flex;
     h2 {
         color: $text-gray;
         font-size: calc(0.8rem + 0.8vw);
@@ -28,12 +29,29 @@
     li {
         color: $black;
     }
-}
-
-.address-menu {
-    position: absolute !important;
-    top: 5px;
-    right: 10px;
+    .address-card-menu {
+        width: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition-property: width, opacity;
+        transition-duration: 0.5s;
+        transition-timing-function: ease-in-out;
+    }
+    input[type="checkbox"] {
+        display: none;
+    }
+    input[type="checkbox"]:checked~.address-card-menu {
+        width: 25px;
+        opacity: 1;
+        transition-property: width, opacity;
+        transition-duration: 0.5s;
+        transition-timing-function: ease-in-out;
+    }
+    label {
+        position: absolute;
+        top: 5px;
+        right: 10px;
+    }
 }
 
 .address-form {

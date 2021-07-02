@@ -81,7 +81,8 @@ icon_urls = [
 
 box1 = CarrefourBox.create!(
   name: 'Happy Hour',
-  description: 'Receba em sua casa um KIT para curtir um momento de distração, com bebidas, salgados e aperitivos.',
+  summary: 'Receba em sua casa um KIT para curtir um momento de distração, com bebidas, salgados e aperitivos.',
+  description: 'Precisando encontrar um tempo para você? Adquirindo o BOX Happy Hour você receberá ítens da sua preferência como: cervejas, vinhos, destilados, sucos, diversos aperitivos e comidas da melhor qualidade, para unir seus amigos e familiares e curtir um momento de risadas e descontração no conforto de seu lar.',
   color: '#7A0997',
   plans: {
     'P' => { 'price' => 7990 },
@@ -99,7 +100,8 @@ puts "#{box1.name} Box created!"
 
 box2 = CarrefourBox.create!(
   name: 'Beleza e Cuidado',
-  description: 'Que tal cuidar da sua beleza? Com o Box Beleza & Cuidado nunca foi tão facil e prático cuidar de você',
+  summary: 'Que tal cuidar da sua beleza? Com o Box Beleza & Cuidado nunca foi tão facil e prático cuidar de você',
+  description: 'Que tal cuidar de você e da sua beleza? Adquirindo o BOX Beleza e Cuidado você receberá itens da sua preferência como hidratantes, esmaltes, esfoliante corporais, entre outros produtos para ajudar na sua rotina de autocuidado.',
   color: '#E1357D',
   plans: {
     'P' => { 'price' => 7990 },
@@ -117,7 +119,8 @@ puts "#{box2.name} Box created!"
 
 box3 = CarrefourBox.create!(
   name: 'Receita Certa',
-  description: 'Receba em sua residência todas os ingredientes para preparar sua receita diferente, tendo momentos agradáveis com seus familiares',
+  summary: 'Receba em sua residência todas os ingredientes para preparar sua receita diferente, tendo momentos agradáveis com seus familiares',
+  description: 'Sabe cozinhar? Chegou o momento de se aventurar. Adquirindo o Box Receita Certa, você irá receber em sua residência todos os ingredientes para iniciar suas aventuras na cozinha, desenvolver suas habilidades culinárias e preparar uma nova receita em um momento ou uma data especial. E você ainda pode selecionar os itens de sua preferência como aves, bovinos, peixes, sobremesas entre outros.',
   color: '#05977D',
   plans: {
     'P' => { 'price' => 7990 },

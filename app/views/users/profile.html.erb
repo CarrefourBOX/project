@@ -36,13 +36,24 @@
         <% end %>
       </li>
       <li>
-        <%= link_to my_boxes_path do %>
-          <i aria-hidden="true" class="fas fa-box-open"></i>
-          <div>
-            <p>Box Surpresas</p>
-            <span>Histórico de planos e planos ativos</span>
-          </div>
-          <i aria-hidden="true" class="fas fa-chevron-right"></i>
+        <% if current_user.plans.empty? %>
+          <%= link_to new_plan_path do %>
+            <i aria-hidden="true" class="fas fa-box-open"></i>
+            <div>
+              <p>BOX Carrefour</p>
+              <span>Adquira sua BOX!</span>
+            </div>
+            <i aria-hidden="true" class="fas fa-chevron-right"></i>
+          <% end %>
+        <% else %>
+          <%= link_to my_box_path do %>
+            <i aria-hidden="true" class="fas fa-box-open"></i>
+            <div>
+              <p>BOX Carrefour</p>
+              <span>Seu plano ativo</span>
+            </div>
+            <i aria-hidden="true" class="fas fa-chevron-right"></i>
+          <% end %>
         <% end %>
       </li>
       <li>
