@@ -59,9 +59,12 @@
     <hr>
     <div class="pb-3 mybox-card">
       <p><b>Valor total da assinatura:</b></p>
-      <p><%= humanized_money_with_symbol @plan.price %></p>
+      <p><%= humanized_money_with_symbol @plan.total_price %></p>
       <p><b>Endereço de envio:</b></p>
       <p><%= @plan.address.full_address %></p>
+      <% if @plan.carrefour_card %>
+        <p class="text-center text-success">(frete grátis com Cartão Carrefour!)</p>
+      <% end %>
 
       <% if @plan.shipments.size.positive? %>
         <p><b>Envios anteriores:</b></p>
