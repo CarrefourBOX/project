@@ -1,8 +1,9 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery
+  protect_from_forgery with: :null_session, only: [:create]
+
   before_action :authenticate_user!
   before_action :configure_permitted_parameters, if: :devise_controller?
-  before_action :persist_last_visited_path, except: %i[create update]
+  before_action :persist_last_visited_path, except: %i[create update shopcart]
 
   # Uncomment if user model has additional attributes
   # before_action :configure_permitted_parameters, if: :devise_controller?
