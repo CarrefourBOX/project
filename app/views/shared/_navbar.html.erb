@@ -64,12 +64,12 @@
           <p>Vantagens</p>
           <i aria-hidden="true" class="fas fa-chevron-right"></i>
         <% end %>
-        <%= link_to '#', data: { 'bs-toggle': 'offcanvas', 'bs-target': "#cancelTermsCanvas" } do %>
+        <%= link_to '#', data: { 'bs-toggle': 'offcanvas', 'bs-target': "#userTermsCanvas" } do %>
           <i class="fas fa-handshake"></i>
           <p>Termo de Adesão</p>
           <i aria-hidden="true" class="fas fa-chevron-right"></i>
         <% end %>
-        <%= link_to '#', data: { 'bs-toggle': 'offcanvas', 'bs-target': "#userTermsCanvas" } do %>
+        <%= link_to '#', data: { 'bs-toggle': 'offcanvas', 'bs-target': "#cancelTermsCanvas" } do %>
           <i class="fas fa-window-close"></i>
           <p>Termo de Cancelamento</p>
           <i aria-hidden="true" class="fas fa-chevron-right"></i>
@@ -105,4 +105,18 @@
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <%= render 'infos/vantagens' %>
+</div>
+
+<div class="container offcanvas offcanvas-end" id="cancelTermsCanvas" tabindex="-1" aria-labelledby="sessionHeaders" aria-hidden="true">
+  <div class="pt-5 ms-auto">
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <%= render 'infos/cancel_terms' %>
+</div>
+
+<div class="container offcanvas offcanvas-end" id="userTermsCanvas" tabindex="-1" aria-labelledby="sessionHeaders" aria-hidden="true">
+  <div class="pt-5 ms-auto">
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <%= render 'infos/user_terms' %>
 </div>
