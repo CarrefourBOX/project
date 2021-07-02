@@ -5,7 +5,9 @@
     <% @boxes.each do |box, items| %>
       <div class="mybox-card" style="border: 1px solid <%= box.color %>">
         <div class="row mx-auto mybox-card-header" style="background: rgba(<%= box.color.match(/^#(..)(..)(..)$/).captures.map(&:hex).join(', ') %>, 0.7);">
-          <p><b>BOX <%= box.name %></b></p>
+          <%= link_to carrefour_box_path(box) do %>
+            <p><b>BOX <%= box.name %></b></p>
+          <% end %>
         </div>
         <p class="text-center py-2" style="color: <%= box.color %>"><%= items.map { |item| item.name }.join(', ') %></p>
         <div class="mybox-info">

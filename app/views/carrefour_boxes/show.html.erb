@@ -19,7 +19,7 @@
       </div>
     </div>
 
-    <div>
+    <div class='box-show-description'>
       <p><%= @carrefour_box.description %></p>
     </div>
     <div class="row box-card-footer">
@@ -27,7 +27,15 @@
     </div>
   </div>
   <div id="reviews">
-    <p class="m-4">Avaliações:</p>
+    <p class="m-4 box-show-stars text-center">Avaliações:
+      <% (@carrefour_box.average_rating.to_i).times do %>
+        <i class="fas fa-star"></i>
+      <% end %>
+      <% (5 - @carrefour_box.average_rating.to_i).times do %>
+        <i class="far fa-star"></i>
+      <% end %>
+      (<%= @carrefour_box.average_rating %> de 5.0)
+    </p>
     <% @carrefour_box.reviews.each do |review| %>
       <p><%= render 'reviews/review', review: review %></p>
     <% end %>
