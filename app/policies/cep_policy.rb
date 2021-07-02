@@ -10,6 +10,6 @@ class CepPolicy < ApplicationPolicy
   end
 
   def calculate_shipment?
-    user
+    true
   end
 end

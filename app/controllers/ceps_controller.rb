@@ -1,4 +1,6 @@
 class CepsController < ApplicationController
+  skip_before_action :authenticate_user!, only: %i[calculate_shipment]
+
   def fetch_address
     authorize :cep
     @address = ViaCep::Address.new(params[:cep])
@@ -8,7 +10,7 @@ class CepsController < ApplicationController
   end
 
   def calculate_shipment
-    authorize :cep
+    skip_authorization
     begin
       address = ViaCep::Address.new(params[:cep])
       destination = "#{address.street}, #{address.city}, #{address.state}"
