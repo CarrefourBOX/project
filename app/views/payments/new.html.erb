@@ -1,8 +1,18 @@
 <div class="container">
+  <div class="d-flex justify-content-center">
+    <i class="fas fa-home"></i>
+    <i class="fas fa-arrow-right"></i>
+    <i class="fas fa-credit-card"></i>
+  </div>
   <div class="row py-4">
     <div class="col">
       <h1>Receber no endereço:</h1>
-      <p><%= current_user.addresses.where(main: true).first.full_address %></p>
+      <div class="">
+        <p><%= current_user.addresses.where(main: true).first.name %></p>
+        <p><%= "#{current_user.addresses.where(main: true).first.street}, #{current_user.addresses.where(main: true).first.number}"%></p>
+        <p><%= "#{current_user.addresses.where(main: true).first.city}-#{current_user.addresses.where(main: true).first.state} "%></p>
+        <p><%= "CEP: #{current_user.addresses.where(main: true).first.cep}" %></p>
+      </div>
       <button id="pagar" class="btn btn-primary">Pagar</button>
       <script src="https://js.stripe.com/v3/"></script>
       <script>
