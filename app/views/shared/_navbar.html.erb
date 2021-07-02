@@ -44,7 +44,55 @@
           <p>Adquirir nova caixa</p>
           <i aria-hidden="true" class="fas fa-chevron-right"></i>
         <% end %>
+        <%= link_to '#', data: { 'bs-toggle': 'offcanvas', 'bs-target': "#oqueCanvas" } do %>
+          <i class="fas fa-question"></i>
+          <p>O que é?</p>
+          <i aria-hidden="true" class="fas fa-chevron-right"></i>
+        <% end %>
+        <%= link_to '#', data: { 'bs-toggle': 'offcanvas', 'bs-target': "#recebeCanvas" } do %>
+          <i class="fas fa-box-open"></i>
+          <p>O que você recebe?</p>
+          <i aria-hidden="true" class="fas fa-chevron-right"></i>
+        <% end %>
+        <%= link_to '#', data: { 'bs-toggle': 'offcanvas', 'bs-target': "#comoFuncionaCanvas" } do %>
+          <i class="fas fa-info"></i>
+          <p>Como funciona?</p>
+          <i aria-hidden="true" class="fas fa-chevron-right"></i>
+        <% end %>
+        <%= link_to '#', data: { 'bs-toggle': 'offcanvas', 'bs-target': "#vantagensCanvas" } do %>
+          <i class="fas fa-tags"></i>
+          <p>Vantagens</p>
+          <i aria-hidden="true" class="fas fa-chevron-right"></i>
+        <% end %>
       </div>
     </div>
   <% end %>
+</div>
+
+<div class="container offcanvas offcanvas-end" id="oqueCanvas" tabindex="-1" aria-labelledby="sessionHeaders" aria-hidden="true">
+  <div class="pt-5 ms-auto">
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <%= render 'infos/o_que_e' %>
+</div>
+
+<div class="container offcanvas offcanvas-end" id="recebeCanvas" tabindex="-1" aria-labelledby="sessionHeaders" aria-hidden="true">
+  <div class="pt-5 ms-auto">
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <%= render 'infos/o_que_recebe' %>
+</div>
+
+<div class="container offcanvas offcanvas-end" id="comoFuncionaCanvas" tabindex="-1" aria-labelledby="sessionHeaders" aria-hidden="true">
+  <div class="pt-5 ms-auto">
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <%= render 'infos/como_funciona' %>
+</div>
+
+<div class="container offcanvas offcanvas-end" id="vantagensCanvas" tabindex="-1" aria-labelledby="sessionHeaders" aria-hidden="true">
+  <div class="pt-5 ms-auto">
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <%= render 'infos/vantagens' %>
 </div>
