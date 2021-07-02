@@ -266,7 +266,6 @@ export default class extends Controller {
 
     async fetchAddress() {
         if (this.cepTarget.value.length >= 8) {
-            console.log(this.cepTarget.value);
             const response = await post("/calculate_shipment", {
                 responseKind: "json",
                 body: { cep: this.cepTarget.value },
