@@ -7,10 +7,6 @@ class PagesController < ApplicationController
     @boxes = CarrefourBox.all
   end
 
-  def user_terms; end
-
-  def cancel_terms; end
-
   def dashboard
     authorize :page
     @carrefour_box = CarrefourBox.new

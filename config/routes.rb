@@ -8,8 +8,6 @@ Rails.application.routes.draw do
   get 'my_box', to: 'pages#my_box', as: :my_box
   get 'my_addresses', to: 'pages#my_addresses', as: :my_addresses
   get 'cancel', to: 'pages#cancel', as: :cancel
-  get 'user_terms', to: 'pages#user_terms', as: :user_terms
-  get 'cancel_terms', to: 'pages#cancel_terms', as: :cancel_terms
 
   post 'fetch_address', to: 'ceps#fetch_address', as: :fetch_address
   post 'calculate_shipment', to: 'ceps#calculate_shipment', as: :calculate_shipment
