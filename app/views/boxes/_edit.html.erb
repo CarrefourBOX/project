@@ -1,0 +1,22 @@
+<div class="container">
+  <h1 style="color: <%= carrefour_box.color %>" class="text-center py-1"> Sua BOX <%= carrefour_box.name %></h1>
+
+  <%= form_with(url: update_plan_path(plan), method: :patch, local: true, html: {class: 'd-flex row row-cols-lg-auto g-3 align-items-center review-form', 'data-turbo': false }) do %>
+    <%= hidden_field_tag "carrefour_box", carrefour_box.id %>
+    <% current_items = items.map {|item| item.box_item.name} %>
+    <p class="fs-4 mt-3">Preferências</p>
+    <%= field_set_tag do %>
+      <% carrefour_box.box_items.each do |item| %>
+        <div class="form-check">
+          <%= check_box_tag "items[]", item.id, current_items.include?(item.name), class: 'form-check-input' %>
+          <%= label_tag "items", item.name, class:'form-check-label' %>
+        </div>
+      <% end %>
+    <% end %>
+    <hr>
+    <p class="fs-4 mt-3">Tamanho</p>
+    <%= select_tag "box_size", options_for_select(carrefour_box.plans.keys.collect {|key| ["#{key} - R$ #{carrefour_box.plans[key]['price'].to_s.insert(-3, ',')}", key]}, items.first.box_size), class: 'form-select' %>
+
+    <%= submit_tag 'Atualizar', class: 'btn w-100', style:"background: #{carrefour_box.color}" %>
+  <% end %>
+</div>

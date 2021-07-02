@@ -1,7 +1,7 @@
 class PlansController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[new shopcart update]
   before_action :skip_authorization, only: %i[new create update shopcart]
-  skip_before_action :verify_authenticity_token, only: [:create] 
+  skip_before_action :verify_authenticity_token, only: [:create]
 
   def new
     @plan = Plan.new
@@ -15,12 +15,12 @@ class PlansController < ApplicationController
       params[:carrefour_box].each do |box|
         boxesInfo[box] = { size_price: params[:box_size][box] }
         if params[:box_items] && params[:box_items].has_key?(box)
-          boxesInfo[box]["items"] = params[:box_items][box]
+          boxesInfo[box]['items'] = params[:box_items][box]
         else
-          boxesInfo[box].delete("items")
+          boxesInfo[box].delete('items')
         end
       end
-      session["boxes"] = boxesInfo
+      session['boxes'] = boxesInfo
     else
       session.delete('boxes')
     end
@@ -32,17 +32,17 @@ class PlansController < ApplicationController
   end
 
   def create
-    if session["boxes"].blank?
+    if session['boxes'].blank?
       flash[:notice] = 'Escolha pelo menos uma BOX'
       redirect_to new_plan_path
       return
-    elsif session['boxes'].values.any? { |h| h["items"].nil? }
+    elsif session['boxes'].values.any? { |h| h['items'].nil? }
       flash[:notice] = 'Selecione pelo menos um item para todas BOX selecionadas'
       redirect_to new_plan_path(anchor: 'select-items')
       return
     end
 
-    quantity = session["boxes"].keys.count
+    quantity = session['boxes'].keys.count
     @plan = Plan.new(quantity: quantity)
     @plan.user = current_user
     @plan.address = current_user.addresses.where(main: true).first
@@ -50,7 +50,7 @@ class PlansController < ApplicationController
 
     current_user.plans.where.not(id: @plan.id).destroy_all
 
-    session["boxes"].each do |k, v|
+    session['boxes'].each do |k, v|
       create_plan_boxes(@plan, k, v)
     end
 
@@ -77,33 +77,49 @@ class PlansController < ApplicationController
     redirect_to cancel_path
   end
 
-  def toggle_auto_renew
-    @plan = Plan.find(params[:id])
-    authorize @plan
-    if @plan.auto_renew
-      @plan.update(auto_renew: false)
-      flash[:notice] = 'Renovação automática cancelada'
-    else
-      @plan.update(auto_renew: true)
-      flash[:notice] = 'Renovação automática ativada'
-    end
-    respond_to do |format|
-      format.turbo_stream do
-        render turbo_stream: turbo_stream.replace(@plan,
-                                                  partial: 'plans/plan',
+  def update_my_box
+    plan = Plan.find(params[:id])
+    authorize plan
+    carrefour_box = CarrefourBox.find(params[:carrefour_box])
+    boxes = plan.boxes.includes(box_item: :carrefour_box).where(box_size: params[:box_size]).where(box_items: { carrefour_box: carrefour_box })
 
-                                                  locals: { plan: @plan })
-      end
-    end
+    destroy_plan_boxes(plan, carrefour_box) if boxes.empty?
+    update_box_items(plan, params[:box_size], boxes, params[:items])
+    plan.calculate_total
+    redirect_to my_box_path
+  end
+
+  def cancel_box
+    plan = Plan.find(params[:id])
+    carrefour_box = CarrefourBox.find(params[:carrefour_box])
+    authorize plan
+    destroy_plan_boxes(plan, carrefour_box)
+    plan.calculate_total
+    plan.destroy if plan.boxes.empty?
+    redirect_to my_box_path
   end
 
   private
 
   def create_plan_boxes(plan, box, box_params)
-    box_size = CarrefourBox.find(box.to_i).plans.select { |_k, v| v["price"] == box_params["size_price"].to_i }.keys.first
-    box_params["items"].each do |item|
+    box_size = CarrefourBox.find(box.to_i).plans.select do |_k, v|
+      v['price'] == box_params['size_price'].to_i
+    end.keys.first
+    box_params['items'].each do |item|
       Box.create(plan: plan, box_item: BoxItem.find(item.to_i), box_size: box_size)
     end
+  end
+
+  def update_box_items(plan, box_size, boxes, items)
+    boxes.destroy_all
+
+    items.each do |item|
+      Box.create(plan: plan, box_size: box_size, box_item: BoxItem.find(item))
+    end
+  end
+
+  def destroy_plan_boxes(plan, box)
+    plan.boxes.includes(box_item: :carrefour_box).where(box_item: { carrefour_box: box }).destroy_all
   end
 
   def plan_params
