@@ -5,7 +5,7 @@
         <i class="fas fa-circle fa-stack-2x"></i>
         <i class="fas fa-home fa-stack-1x fa-inverse"></i>
       </span>
-      <p>Endereço</p>
+      <p class="text-center">Endereço</p>
     </div>
     <span class="mt-4 m-4">
       <i class="fas fa-arrow-right fa-3x"></i>
@@ -15,17 +15,16 @@
         <i class="fas fa-circle fa-stack-2x"></i>
         <i class="fas fa-credit-card fa-stack-1x fa-inverse"></i>
       </span>
-      <p> Pagamento</p>
+      <p class="text-center">Pagamento</p>
     </div>
   </div>
   <div class="row py-4">
     <div class="col">
-      <h1>Receber no endereço:</h1>
+      <h1><%= "Receber em #{@order.plan.address.name}:"%></h1>
       <div class="">
-        <p><%= current_user.addresses.where(main: true).first.name %></p>
-        <p><%= "#{current_user.addresses.where(main: true).first.street}, #{current_user.addresses.where(main: true).first.number}"%></p>
-        <p><%= "#{current_user.addresses.where(main: true).first.city}-#{current_user.addresses.where(main: true).first.state} "%></p>
-        <p><%= "CEP: #{current_user.addresses.where(main: true).first.cep}" %></p>
+        <p><%= "Endereço: #{@order.plan.address.street}, #{@order.plan.address.number}"%></p>
+        <p><%= "Cidade: #{@order.plan.address.city}-#{@order.plan.address.state} "%></p>
+        <p><%= "CEP: #{@order.plan.address.cep}" %></p>
       </div>
       <button id="pagar" class="btn btn-primary">Adicionar cartão</button>
       <script src="https://js.stripe.com/v3/"></script>
