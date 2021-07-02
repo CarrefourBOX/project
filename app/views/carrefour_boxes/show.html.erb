@@ -26,6 +26,7 @@
       <span>*Valor referente ao BOX pequeno</span>
     </div>
   </div>
+  <div class='mt-5 mx-3'><%= link_to 'Eu quero', new_plan_path, class: 'btn-orange' %></div>
   <div id="reviews">
     <p class="m-4 box-show-stars text-center">Avaliações:
       <% (@carrefour_box.average_rating.to_i).times do %>
