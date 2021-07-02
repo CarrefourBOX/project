@@ -2,13 +2,17 @@
 #page-container {
     position: relative;
     min-height: 100vh;
+    &:not(.devise) {
+        #content-wrap {
+            padding-bottom: calc(#{$menu-height} + 1rem + 2vw);
+        }
+    }
 }
 
 #content-wrap {
     &:not(.home) {
         padding-top: $nav-height;
     }
-    padding-bottom: calc(#{$menu-height} + 1rem + 2vw);
 }
 
 .container-pad {
