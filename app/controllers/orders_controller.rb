@@ -55,6 +55,7 @@ class OrdersController < ApplicationController
   def confirm_payment
     authorize @order
     @order.update(status: 'complete')
+    session.delete('boxes')
     redirect_to @order
   end
 
