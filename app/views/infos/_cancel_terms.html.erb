@@ -1,7 +1,11 @@
 <div class="start-container", style="font-size: 5px;">
   <h1 class="text-center">Termo de Cancelamento – Assinatura Box Surpresa</h1>
   <div class="text-justify">
-    <p style="font-size: small;"><%= "Eu, #{current_user.name}, portador do CPF nº #{current_user.cpf}, solicito o cancelamento da assinatura do Box #{current_user.plans.first.boxes.first.box_item.carrefour_box.name} e declaro   estar ciente dos termos abaixo: "%></p>
+    <% if current_user %>
+      <p style="font-size: small;"><%= "Eu, #{current_user.name}, portador do CPF nº #{current_user.cpf}, solicito o cancelamento da assinatura do Box #{current_user.plans.first.boxes.first.box_item.carrefour_box.name} e declaro   estar ciente dos termos abaixo: "%></p>
+    <% else %>
+      <p style="font-size: small;">"Eu, usuário, solicito o cancelamento da assinatura do meu Box e declaro estar ciente dos termos abaixo: "</p>
+    <% end %>
       <li style="font-size: small;">A assinatura será cancelada à partir do momento da confirmação do serviço neste aplicativo, Meu Carrefour (Box Surpresa);</li>
       <li style="font-size: small;">A mensalidade debitada no cartão será automaticamente cancelada;</li>
       <li style="font-size: small;">Para que a cobrança do mês vigente NÃO seja realizada, é necessário o cancelamento por parte do usuário dos serviços do Box Surpresa com 10(dez) dias de antecedência do envio do produto, conforme seu plano personalizado. Caso não seja realizado nos termos em questão, o cancelamento dos serviços e pagamento serão realizados no próximo mês vigente;</li>
