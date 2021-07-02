@@ -13,8 +13,8 @@
 
   <% @addresses.each do |address| %>
     <div class="address-card">
-      <input type="checkbox" id="menu-toggle">
-      <label for="menu-toggle">
+      <input type="checkbox" id="menu-toggle<%= address.id %>">
+      <label for="menu-toggle<%= address.id %>">
         <i class="fas fa-ellipsis-h"></i>
       </label>
       <div class="address-card-menu d-flex flex-column justify-content-around">
