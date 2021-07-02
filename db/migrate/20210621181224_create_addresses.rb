@@ -13,6 +13,7 @@ class CreateAddresses < ActiveRecord::Migration[6.1]
       t.string :full_address, null: false, default: ''
       t.float :latitude
       t.float :longitude
+      t.datetime :deleted_at
 
       t.timestamps
     end

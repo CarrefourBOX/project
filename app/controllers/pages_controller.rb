@@ -35,8 +35,8 @@ class PagesController < ApplicationController
   end
 
   def my_addresses
-    @addresses = current_user.addresses.order(main: :desc)
-    @address = Address.new
+    @addresses = current_user.addresses.active.order(main: :desc)
+    @address = Address.new(main: @addresses.empty?)
   end
 
   private

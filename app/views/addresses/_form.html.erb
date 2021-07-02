@@ -1,7 +1,7 @@
 <div class="address-form">
   <h1 class="text-center py-1"><%= address.id ? "Editar #{address.name}" : "Novo endereço" %></h1>
 
-  <%= form_with model: address, local: true, html: {class: 'd-flex row row-cols-lg-auto g-3 align-items-center', 'data-turbo': false } do |f| %>
+  <%= form_with model: address, local: true, html: {class: 'd-flex row row-cols-lg-auto g-3 align-items-center', 'data-turbo': false, data: { controller: 'ceps'} } do |f| %>
     <div class="col-12">
 
       <div class="pb-3">
@@ -9,11 +9,11 @@
       </div>
 
       <div class="pb-3">
-        <%= text_field_tag "address[cep]", address.cep, required: true, class: 'form-control w-100', placeholder: 'CEP' %>
+        <%= text_field_tag "address[cep]", address.cep, required: true, class: 'form-control w-100', placeholder: 'CEP', data: { 'ceps-target': 'cep', action: 'keyup->ceps#fetchAddress' } %>
       </div>
 
       <div class="pb-3">
-        <%= text_field_tag "address[street]", address.street, required: true, class: 'form-control', placeholder: 'rua', style:'resize:none;' %>
+        <%= text_field_tag "address[street]", address.street, required: true, class: 'form-control', placeholder: 'rua', style:'resize:none;', data: { 'ceps-target': 'street'}, readonly: true %>
       </div>
 
       <div class="row g-3 pb-3">
@@ -27,11 +27,11 @@
       </div>
 
       <div class="pb-3">
-        <%= text_field_tag "address[city]", address.city, required: true, class: 'form-control', placeholder: 'cidade', style:'resize:none;' %>
+        <%= text_field_tag "address[city]", address.city, required: true, class: 'form-control', placeholder: 'cidade', style:'resize:none;', data: { 'ceps-target': 'city'}, readonly: true %>
       </div>
 
       <div class="pb-3">
-        <%= text_field_tag "address[state]", address.state, required: true, class: 'form-control', placeholder: 'estado', style:'resize:none;' %>
+        <%= text_field_tag "address[state]", address.state, required: true, class: 'form-control', placeholder: 'estado', style:'resize:none;', data: { 'ceps-target': 'state'}, readonly: true %>
       </div>
 
       <div class="pb-3 form-check">
