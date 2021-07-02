@@ -1,8 +1,22 @@
 <div class="container">
   <div class="d-flex justify-content-center">
-    <i class="fas fa-home"></i>
-    <i class="fas fa-arrow-right"></i>
-    <i class="fas fa-credit-card"></i>
+    <div class="row">
+      <span class="fa-stack fa-3x">
+        <i class="fas fa-circle fa-stack-2x"></i>
+        <i class="fas fa-home fa-stack-1x fa-inverse"></i>
+      </span>
+      <p>Endereço</p>
+    </div>
+    <span class="mt-4 m-4">
+      <i class="fas fa-arrow-right fa-3x"></i>
+    </span>
+    <div class="row">
+      <span class="fa-stack fa-3x">
+        <i class="fas fa-circle fa-stack-2x"></i>
+        <i class="fas fa-credit-card fa-stack-1x fa-inverse"></i>
+      </span>
+      <p> Pagamento</p>
+    </div>
   </div>
   <div class="row py-4">
     <div class="col">
@@ -13,7 +27,7 @@
         <p><%= "#{current_user.addresses.where(main: true).first.city}-#{current_user.addresses.where(main: true).first.state} "%></p>
         <p><%= "CEP: #{current_user.addresses.where(main: true).first.cep}" %></p>
       </div>
-      <button id="pagar" class="btn btn-primary">Pagar</button>
+      <button id="pagar" class="btn btn-primary">Adicionar cartão</button>
       <script src="https://js.stripe.com/v3/"></script>
       <script>
         const paymentButton = document.getElementById('pagar');
