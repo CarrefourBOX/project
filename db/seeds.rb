@@ -86,8 +86,8 @@ box1 = CarrefourBox.create!(
   color: '#7A0997',
   plans: {
     'P' => { 'price' => 7990 },
-    'M' => { 'price' => 8990 },
-    'G' => { 'price' => 9990 }
+    'M' => { 'price' => 9990 },
+    'G' => { 'price' => 11990 }
   }
 )
 box1_icon = URI.open(icon_urls[0])
@@ -105,8 +105,8 @@ box2 = CarrefourBox.create!(
   color: '#E1357D',
   plans: {
     'P' => { 'price' => 7990 },
-    'M' => { 'price' => 8990 },
-    'G' => { 'price' => 9990 }
+    'M' => { 'price' => 9990 },
+    'G' => { 'price' => 11990 }
   }
 )
 box2_icon = URI.open(icon_urls[1])
@@ -124,8 +124,8 @@ box3 = CarrefourBox.create!(
   color: '#05977D',
   plans: {
     'P' => { 'price' => 7990 },
-    'M' => { 'price' => 8990 },
-    'G' => { 'price' => 9990 }
+    'M' => { 'price' => 9990 },
+    'G' => { 'price' => 11990 }
   }
 )
 box3_icon = URI.open(icon_urls[2])

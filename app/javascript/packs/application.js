@@ -30,4 +30,5 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import ("@client-side-validations/client-side-validations");
 import ("../plugins/simple-form.bootstrap4");
 import { initTooltips } from "../components/init_tooltips";
+
 initTooltips();

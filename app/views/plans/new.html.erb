@@ -7,7 +7,7 @@
         <% @carrefour_boxes.each do |box| %>
           <%= label_tag "plan_carrefour_box_#{box.id}" do %>
             <%= check_box_tag "carrefour_box[]", box.id, session["boxes"] ? session["boxes"].has_key?(box.id.to_s) : false, id: "plan_carrefour_box_#{box.id}" %>
-            <%= cl_image_tag box.icon.key, width: 35, style: "filter: opacity(0.5) drop-shadow(0 0 0 #{box.color}) drop-shadow(0 0 0 #{box.color});" %>
+            <%= cl_image_tag box.icon.key, width: 35, data: { 'color-target': box.color } %>
             <span style="color: <%= box.color %>"><%= box.name %></span>
             <div class="custom-checkbox" style="border-color: <%= box.color %>"></div>
           <% end %>
@@ -40,7 +40,7 @@
         <% @carrefour_boxes.each do |box| %>
           <div id="box_<%= box.id %>" data-plan="<%= box.plans %>" class="box-options" >
             <div class='selected-box-infos'>
-              <%= cl_image_tag box.icon.key, width: 35, style: "filter: opacity(0.5) drop-shadow(0 0 0 #{box.color}) drop-shadow(0 0 0 #{box.color});" %>
+              <%= cl_image_tag box.icon.key, width: 35, data: { 'color-target': box.color } %>
               <div>
                 <div>
                   <h4 style="color: <%= box.color %>;"><%= box.name %></h4>
@@ -70,7 +70,7 @@
           <%= submit_tag "Calcular", form: 'form-delivery-fee', data: {action: 'click->new-plan#fetchAddress'} %>
         </div>
         <div class="display-address" data-new-plan-target="address">
-          <% if user_signed_in? %>
+          <% if user_signed_in? && current_user.main_address %>
             <p>Enviar para endereço principal:</p>
             <% user_address = current_user.main_address%>
             <p><%= "#{user_address.street}, #{user_address.number}#{" / " + user_address.complements if user_address.complements.present?}" %></p>
@@ -89,7 +89,7 @@
           <p>Descontos</p>
           <span>-</span>
         </div>
-        <div id="delivery-fee" data-price="<%= ShipmentCalculator.calculate(user_address) if user_signed_in? %>" data-new-plan-target="fee">
+        <div id="delivery-fee" data-price="<%= ShipmentCalculator.calculate(user_address) if user_address %>" data-new-plan-target="fee">
           <p>Taxa de entrega</p>
           <span>-</span>
         </div>
