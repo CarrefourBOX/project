@@ -36,6 +36,6 @@ class User < ApplicationRecord
   end
 
   def main_address
-    addresses.where(main: true).first
+    addresses.active.where(main: true).first
   end
 end

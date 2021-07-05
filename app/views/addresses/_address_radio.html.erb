@@ -1,0 +1,25 @@
+<div id="<%= dom_id address %>">
+  <label class="choice-label">
+    <%= radio_button_tag "address-radio", address.id, address.main %>
+    <div class="address-card">
+      <input type="checkbox" id="menu-toggle<%= address.id %>">
+      <label for="menu-toggle<%= address.id %>">
+        <i class="fas fa-ellipsis-h"></i>
+      </label>
+      <div class="address-card-menu d-flex flex-column justify-content-around">
+        <%= link_to '#', data: { 'bs-toggle': 'offcanvas', 'bs-target': "#editAddress#{address.id}Canvas" } do %>
+          <i class="fas fa-pencil-alt"></i>
+        <% end %>
+        <%= link_to address_path(address), class: 'me-2', method: :delete, data: { confirm: 'Tem certeza?', turbo: true } do %>
+          <i class="far fa-trash-alt"></i>
+        <% end %>
+      </div>
+      <div class="address-card-content">
+        <h2><%= address.name %></h2>
+        <p><%= "#{address.street}, #{address.number}#{" / " + address.complements if address.complements.present?}" %></p>
+        <p><%= "#{address.cep} - #{address.city}, #{address.state}" %></p>
+      </div>
+    </div>
+    <%= render 'addresses/edit', address: address %>
+  </label>
+</div>

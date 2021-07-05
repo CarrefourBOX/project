@@ -17,6 +17,10 @@ class AddressPolicy < ApplicationPolicy
     owner?
   end
 
+  def address_choice?
+    owner?
+  end
+
   private
 
   def owner?

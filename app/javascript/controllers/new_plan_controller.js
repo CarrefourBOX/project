@@ -9,14 +9,15 @@ export default class extends Controller {
         "selectedOptions",
         "nextBtn",
         "form",
-        "cep",
         "fee",
+        "cep",
         "address",
     ];
 
     connect = () => {
-      this.loadRightTab();
-      filterGenerator();
+        this.loadRightTab();
+        filterGenerator();
+        this.updateAddress();
     };
 
     showCurrentTab = () => {
@@ -37,7 +38,6 @@ export default class extends Controller {
         const currentHash = window.location.hash;
         const initialTab = document.getElementById("select-box");
         const secondTab = document.getElementById("select-items");
-        
 
         this.loadSessionBoxInfo();
 
@@ -139,9 +139,11 @@ export default class extends Controller {
             return parseInt(box.querySelector("select").value);
         });
         // get delivery fee
-        const deliveryFee = document.getElementById("delivery-fee").dataset.price ?
-            parseInt(document.getElementById("delivery-fee").dataset.price) :
+
+        const deliveryFee = this.hasCepTarget ?
+            parseInt(this.cepTarget.dataset.fee) :
             0;
+
         // check if user got a discount
         const discountDiv = document.getElementById("discount");
         const discountObj = JSON.parse(
@@ -182,10 +184,10 @@ export default class extends Controller {
         document.querySelector("#discount span").innerText = this.monetize(
             boxesPrice.reduce((a, b) => a + b, 0) * discount
         );
-        if (document.getElementById("delivery-fee").dataset.price) {
-            document.querySelector("#delivery-fee span").innerText =
-                this.monetize(deliveryFee);
-        }
+
+        document.querySelector("#delivery-fee span").innerText =
+            this.monetize(deliveryFee);
+
         document.querySelector("#total span").innerText = this.monetize(totalValue);
     };
 
@@ -225,12 +227,20 @@ export default class extends Controller {
             );
             this.showCurrentTab();
         } else {
-          if (this.nextBtnTarget.dataset.signedIn === "false") {
-            new Modal('#sessionModal').show();
-          } else {
-            this.formTarget.action = "/plans";
-            this.formTarget.submit();
-          }
+            if (!this.validateAddress()) {
+                document
+                    .getElementById("address-option-button")
+                    .insertAdjacentHTML(
+                        "beforeend",
+                        '<p class="text-danger">adicione um endereço para continuar</p>'
+                    );
+            }
+            if (this.nextBtnTarget.dataset.signedIn === "false") {
+                new Modal("#sessionModal").show();
+            } else if (this.validateAddress()) {
+                this.formTarget.action = "/plans";
+                this.formTarget.submit();
+            }
         }
     };
 
@@ -260,26 +270,22 @@ export default class extends Controller {
         }
     };
 
-    async fetchAddress() {
-        if (this.cepTarget.value.length >= 8) {
-            const response = await post("/calculate_shipment", {
-                responseKind: "json",
-                body: { cep: this.cepTarget.value },
-            });
-            if (response.ok) {
-                const data = await response.json;
-                this.feeTarget.dataset.price = data.shipment;
-                if (data.address === "formato inválido") {
-                    this.addressTarget.innerHTML =
-                        "<p class='text-danger text-center'>formato inválido</p>";
-                } else if (data.address === "CEP não encontrado") {
-                    this.addressTarget.innerHTML =
-                        "<p class='text-danger text-center'>CEP não encontrado</p>";
-                } else {
-                    this.addressTarget.innerHTML = `<p>Enviar para:</p> <p>${data.address.street}</p> <p>${data.address.city} - ${data.address.state}</p>`;
-                    this.calculatePlanPrice();
-                }
-            }
+    updateAddress() {
+        const updateCurrentAddress = () => {
+            this.nextBtnTarget.removeAttribute("disabled");
+            this.calculatePlanPrice();
+        };
+        const observer = new MutationObserver(updateCurrentAddress);
+        observer.observe(this.addressTarget, { childList: true, subtree: true });
+    }
+
+    validateAddress() {
+        const address = document.getElementById("current-address-id");
+        if (address.value !== "") {
+            this.nextBtnTarget.removeAttribute("disabled");
+            return true;
+        } else {
+            return false;
         }
     }
 }
