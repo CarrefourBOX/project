@@ -31,5 +31,9 @@ Rails.application.routes.draw do
   end
 
   resources :box_items, only: %i[new create destroy]
-  resources :addresses, only: %i[create update destroy]
+  resources :addresses, only: %i[create update destroy] do
+    collection do
+      patch 'choose', to: 'addresses#address_choice'
+    end
+  end
 end

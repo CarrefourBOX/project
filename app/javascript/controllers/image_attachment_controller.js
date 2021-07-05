@@ -2,10 +2,6 @@ import { Controller } from "stimulus";
 
 export default class extends Controller {
     static targets = ["output", "input"];
-    connect() {
-        console.log(this.outputTarget.id);
-    }
-
     preview() {
         const input = this.inputTarget;
         const output = this.outputTarget;
