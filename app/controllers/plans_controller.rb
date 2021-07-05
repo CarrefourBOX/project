@@ -99,8 +99,12 @@ class PlansController < ApplicationController
   def cancel_box
     authorize @plan
     destroy_plan_boxes(@plan, @carrefour_box)
-    @plan.calculate_total
-    @plan.destroy if @plan.boxes.empty?
+    if @plan.boxes.empty?
+      @plan.destroy
+    else
+      update_quantity(@plan)
+      @plan.calculate_total
+    end
     redirect_to my_box_path
   end
 
@@ -137,5 +141,12 @@ class PlansController < ApplicationController
 
   def plan_params
     params.require(:plan).permit(:carrefour_card)
+  end
+
+  def update_quantity(plan)
+    quantity = plan.boxes.includes(box_item: [carrefour_box: :reviews]).group_by do |box|
+      box.box_item.carrefour_box
+    end.size
+    plan.update(quantity: quantity)
   end
 end
