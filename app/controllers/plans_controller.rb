@@ -2,11 +2,20 @@ class PlansController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[new shopcart update]
   before_action :skip_authorization, only: %i[new create update shopcart]
   skip_before_action :verify_authenticity_token, only: [:create]
+  before_action :set_plan, only: %i[update destroy update_my_box cancel_box]
+  before_action :set_carrefour_box, only: %i[update_my_box cancel_box]
 
   def new
     @plan = Plan.new
     @carrefour_boxes = CarrefourBox.includes(:box_items).where.not(box_items: { id: nil })
     @boxes = BoxItem.includes(:carrefour_box).group_by(&:carrefour_box)
+    @addresses = current_user ? current_user.addresses.active.order(main: :desc) : []
+    @address = Address.new
+    @current_address = if session[:address_id]
+                         Address.find_by(id: session[:address_id])
+                       elsif current_user
+                         current_user.main_address
+                       end
   end
 
   def shopcart
@@ -45,7 +54,7 @@ class PlansController < ApplicationController
     quantity = session['boxes'].keys.count
     @plan = Plan.new(quantity: quantity)
     @plan.user = current_user
-    @plan.address = current_user.addresses.where(main: true).first
+    @plan.address = Address.find(params[:address_id])
     return unless @plan.quantity && @plan.save
 
     current_user.plans.where.not(id: @plan.id).destroy_all
@@ -56,53 +65,58 @@ class PlansController < ApplicationController
 
     @plan.calculate_total
     flash[:notice] = 'Plano criado!'
+    session.delete(:boxes)
+    session.delete(:address_id)
+
     redirect_to @plan
   end
 
   def show
     @plan = Plan.includes(box_items: :carrefour_box).find(params[:id])
     authorize @plan
+    @boxes = @plan.boxes.includes(box_item: [carrefour_box: :reviews]).group_by { |box| box.box_item.carrefour_box }
   end
 
   def update
-    @plan = Plan.find(params[:id])
     @plan.update(plan_params)
   end
 
   def destroy
-    @plan = Plan.find(params[:id])
     authorize @plan
     flash[:notice] = 'Plano cancelado!' if @plan.destroy
     redirect_to cancel_path
   end
 
   def update_my_box
-    plan = Plan.find(params[:id])
-    authorize plan
-    carrefour_box = CarrefourBox.find(params[:carrefour_box])
-    boxes = plan.boxes.includes(box_item: :carrefour_box).where(box_size: params[:box_size]).where(box_items: { carrefour_box: carrefour_box })
-
-    destroy_plan_boxes(plan, carrefour_box) if boxes.empty?
-    update_box_items(plan, params[:box_size], boxes, params[:items])
-    plan.calculate_total
+    authorize @plan
+    boxes = @plan.boxes.includes(box_item: :carrefour_box).where(box_size: params[:box_size]).where(box_items: { carrefour_box: @carrefour_box })
+    destroy_plan_boxes(@plan, @carrefour_box) if boxes.empty?
+    update_box_items(@plan, params[:box_size], boxes, params[:items])
+    @plan.calculate_total
     redirect_to my_box_path
   end
 
   def cancel_box
-    plan = Plan.find(params[:id])
-    carrefour_box = CarrefourBox.find(params[:carrefour_box])
-    authorize plan
-    destroy_plan_boxes(plan, carrefour_box)
-    if plan.boxes.empty?
-      plan.destroy
+    authorize @plan
+    destroy_plan_boxes(@plan, @carrefour_box)
+    if @plan.boxes.empty?
+      @plan.destroy
     else
-      update_quantity(plan)
-      plan.calculate_total
+      update_quantity(@plan)
+      @plan.calculate_total
     end
     redirect_to my_box_path
   end
 
   private
+
+  def set_plan
+    @plan = Plan.find(params[:id])
+  end
+
+  def set_carrefour_box
+    @carrefour_box = CarrefourBox.find(params[:carrefour_box])
+  end
 
   def create_plan_boxes(plan, box, box_params)
     box_size = CarrefourBox.find(box.to_i).plans.select do |_k, v|

@@ -3,7 +3,7 @@
     box-shadow: 0 0.05rem 0.1rem 0.05rem rgba(0, 0, 0, 0.15);
     padding: $md-gap;
     margin-bottom: 15px;
-    position: relative;
+    position: relative !important;
     display: flex;
     h2 {
         color: $text-gray;
@@ -52,8 +52,42 @@
         top: 5px;
         right: 10px;
     }
+    .address-card-content {
+        width: 100%;
+    }
+    .main-address-badge {
+        color: $dark-blue;
+    }
 }
 
 .address-form {
     padding-bottom: 30px;
+}
+
+.address-choice {
+    // border-radius: 0.5rem;
+    // box-shadow: 0 0.05rem 0.1rem 0.05rem rgba(0, 0, 0, 0.15);
+    // position: relative;
+    // display: flex;
+    .choice-label {
+        width: 100%;
+    }
+    [type="radio"] {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+    [type="radio"]+div {
+        cursor: pointer;
+    }
+    [type="radio"]:checked+div {
+        outline: 2px solid $dark-blue;
+    }
+}
+
+#addressChoiceModal {
+    .modal-header {
+        border-bottom: none !important;
+    }
 }

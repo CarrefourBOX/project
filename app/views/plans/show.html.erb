@@ -1,30 +1,32 @@
-<div class="row d-flex justify-content-center">
-  <div class="card text-dark bg-light mb-3">
-    <div class="text-center card-header"> Meu Carrinho
+<div class="container my-box-container">
+  <h2 class="text-center mb-3"> Meu Carrinho </h2>
+  <% @boxes.each do |box, items| %>
+    <div class="mybox-card" style="border: 1px solid <%= box.color %>">
+      <div class="row mx-auto mybox-card-header" style="background: rgba(<%= box.color.match(/^#(..)(..)(..)$/).captures.map(&:hex).join(', ') %>, 0.7);">
+        <%= link_to carrefour_box_path(box) do %>
+          <p><b>BOX <%= box.name %></b></p>
+        <% end %>
+      </div>
+      <p class="text-center py-2" style="color: <%= box.color %>"><%= items.map { |item| item.box_item.name }.join(', ') %></p>
+      <div class="mybox-info">
+        <p><b>Tamanho:</b></p>
+        <p><%= items.first.box_size %></p>
+        <p><b>Valor:</b></p>
+        <p>R$<%= box.plans[items.first.box_size]['price'].to_s.insert(-3, ',') %></p>
+        <p><b>Valor do frete:</b></p>
+        <p><%= humanized_money_with_symbol @plan.shipment %></p>
+      </div>
     </div>
-    <div class="card-body">
-      <p><%= "Valor do Frete: #{humanized_money_with_symbol @plan.shipment}"%></p>
-      <p><%= "Valor Total: #{humanized_money_with_symbol @plan.price}" %></p>
-      <% @plan.box_items.group_by(&:carrefour_box).each do |box, items| %>
-        <h5 class="card-title"><%= box.name %></h5>
-
-        <ul>
-          <% items.each do |item| %>
-            <div class="row">
-              <div class="col-6">
-                <li class="card-text"><%= item.name %></li>
-              </div>
-            </div>
-          <% end %>
-        </ul>
-      <% end %>
-      <%= simple_form_for @plan, url: plan_path(@plan.id) do |f| %>
-        <%= f.input :carrefour_card, as: :boolean, label: 'Pagar com cartão carrefour', input_html: { onchange:"this.form.submit()" } %>
-      <% end %>
-      <%= form_tag orders_path do %>
-        <%= hidden_field_tag 'plan_id', @plan.id %>
-        <%= submit_tag 'Próximo', class: 'btn btn-primary' %>
-      <% end %>
+  <% end %>
+  <%= simple_form_for @plan, url: plan_path(@plan.id) do |f| %>
+    <div class="mx-auto w-75 fs-6">
+      <%= f.input :carrefour_card, as: :boolean, label: 'Pagar com cartão carrefour (frete grátis)', input_html: { onchange:"this.form.submit()", class: 'form-check-input' }, class: 'row d-flex justify-content-center' %>
     </div>
+  <% end %>
+  <div class="text-center mt-3">
+    <%= form_tag orders_path do %>
+      <%= hidden_field_tag 'plan_id', @plan.id %>
+      <%= submit_tag 'Pagar', class: 'btn-dark-blue' %>
+    <% end %>
   </div>
 </div>

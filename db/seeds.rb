@@ -73,12 +73,6 @@ puts '=' * 30
 puts 'Creating Carrefour Boxes'
 puts '=' * 30
 
-icon_urls = [
-  'https://res.cloudinary.com/dezlaawpu/image/upload/v1624482281/carrefour_box/happy-hour.png',
-  'https://res.cloudinary.com/dezlaawpu/image/upload/v1624482281/carrefour_box/beleza-e-cuidado.png',
-  'https://res.cloudinary.com/dezlaawpu/image/upload/v1624482281/carrefour_box/receita-certa.png'
-]
-
 box1 = CarrefourBox.create!(
   name: 'Happy Hour',
   summary: 'Receba em sua casa um KIT para curtir um momento de distração, com bebidas, salgados e aperitivos.',
@@ -87,10 +81,10 @@ box1 = CarrefourBox.create!(
   plans: {
     'P' => { 'price' => 7990 },
     'M' => { 'price' => 9990 },
-    'G' => { 'price' => 11990 }
+    'G' => { 'price' => 11_990 }
   }
 )
-box1_icon = URI.open(icon_urls[0])
+box1_icon = File.open(File.join(Rails.root, 'app/assets/images/box-icons/happy-hour.png'))
 box1.icon.attach(
   io: box1_icon,
   filename: "box#{box1.id}-icon.jpg",
@@ -106,10 +100,10 @@ box2 = CarrefourBox.create!(
   plans: {
     'P' => { 'price' => 7990 },
     'M' => { 'price' => 9990 },
-    'G' => { 'price' => 11990 }
+    'G' => { 'price' => 11_990 }
   }
 )
-box2_icon = URI.open(icon_urls[1])
+box2_icon = File.open(File.join(Rails.root, 'app/assets/images/box-icons/beauty-care.png'))
 box2.icon.attach(
   io: box2_icon,
   filename: "box#{box2.id}-icon.jpg",
@@ -125,10 +119,10 @@ box3 = CarrefourBox.create!(
   plans: {
     'P' => { 'price' => 7990 },
     'M' => { 'price' => 9990 },
-    'G' => { 'price' => 11990 }
+    'G' => { 'price' => 11_990 }
   }
 )
-box3_icon = URI.open(icon_urls[2])
+box3_icon = File.open(File.join(Rails.root, 'app/assets/images/box-icons/right-recipe.png'))
 box3.icon.attach(
   io: box3_icon,
   filename: "box#{box3.id}-icon.jpg",

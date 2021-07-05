@@ -1,0 +1,7 @@
+<div id="current-address" data-current-address-cep="<%= current_address&.cep %>" data-new-plan-target="cep" data-fee="<%= ShipmentCalculator.calculate(current_address) if current_address %>">
+  <%= hidden_field_tag "address_id", current_address&.id, id:'current-address-id' %>
+  <% if current_address %>
+    <p><%= "#{current_address&.street}, #{current_address&.number}#{" / " + current_address.complements if current_address&.complements.present?}" %></p>
+    <p><%= "#{current_address&.cep} - #{current_address&.city}, #{current_address&.state}" %></p>
+  <% end %>
+</div>

@@ -2,5 +2,7 @@
   <div class="pt-5 ms-auto">
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
-  <%= render 'addresses/form', address: address %>
+  <%= turbo_frame_tag "edit-address#{address.id}" do %>
+    <%= render 'addresses/form', address: address %>
+  <% end %>
 </div>

@@ -3,9 +3,15 @@ class CepsController < ApplicationController
 
   def fetch_address
     authorize :cep
-    @address = ViaCep::Address.new(params[:cep])
+    begin
+      address = ViaCep::Address.new(params[:cep])
+    rescue ViaCep::Errors::InvalidZipcodeFormat
+      address = 'formato inválido'
+    rescue ViaCep::Errors::ZipcodeNotFound
+      address = 'CEP não encontrado'
+    end
     respond_to do |format|
-      format.json { render json: @address }
+      format.json { render json: { address: address } }
     end
   end
 
@@ -17,7 +23,6 @@ class CepsController < ApplicationController
       shipment_distance = Geocoder::Calculations.distance_between(CARREFOUR_COORDS, destination)
       shipment = shipment_distance < 100 ? 1499 : 1499 + shipment_distance.round
     rescue ViaCep::Errors::InvalidZipcodeFormat
-      puts 'Rescued: '
       address = 'formato inválido'
     rescue ViaCep::Errors::ZipcodeNotFound
       address = 'CEP não encontrado'

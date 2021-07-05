@@ -1,0 +1,28 @@
+<div class="container addresses-container text-start pb-5">
+  <div class="row d-flex justify-content-between mb-3">
+    <div class="col">
+      <span>Meus endereços</span>
+    </div>
+    <div class="col text-end">
+      <%= link_to '#', data: { 'bs-toggle': 'offcanvas', 'bs-target': '#newAddressCanvas' } do %>
+        <i class="fas fa-plus"></i> Novo endereço
+      <% end %>
+    </div>
+  </div>
+  <%= form_with(url: choose_addresses_path, method: :patch, local: true, data: { controller: 'reset-form', action: 'turbo:submit-end->reset-form#reset', 'reset-form-target': 'form' }, html: {id: 'choice-form'}) do %>
+    <div class="address-choice" id="addresses-list">
+      <% @addresses.each do |address| %>
+        <%= render 'addresses/address_radio', address: address %>
+      <% end %>
+      <div class="text-center">
+        <%= submit_tag 'Selecionar', class:'btn-dark-blue', 'data-bs-dismiss': 'modal' %>
+      </div>
+    </div>
+  <% end %>
+  <div class="container offcanvas offcanvas-end" id="newAddressCanvas" tabindex="-1" aria-labelledby="sessionHeaders" aria-hidden="true">
+    <div class="pt-5 ms-auto">
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <%= render 'addresses/form', address: new_address %>
+  </div>
+</div>

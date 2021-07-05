@@ -1,7 +1,9 @@
 <div class="address-form">
   <h1 class="text-center py-1"><%= address.id ? "Editar #{address.name}" : "Novo endereço" %></h1>
 
-  <%= form_with model: address, local: true, html: {class: 'd-flex row row-cols-lg-auto g-3 align-items-center', 'data-turbo': false, data: { controller: 'ceps'} } do |f| %>
+  <%= form_with(model: address, local: true, html: {class: 'd-flex row row-cols-lg-auto g-3 align-items-center', data: { controller: 'ceps', action: 'turbo:submit-end->ceps#reset', 'ceps-target': 'form', 'turbo-frame': 'addresses-list' }}) do |f| %>
+
+    <%= hidden_field_tag 'request_path', request.env["PATH_INFO"] %>
     <div class="col-12">
 
       <div class="pb-3">
@@ -10,6 +12,7 @@
 
       <div class="pb-3">
         <%= text_field_tag "address[cep]", address.cep, required: true, class: 'form-control w-100', placeholder: 'CEP', data: { 'ceps-target': 'cep', action: 'keyup->ceps#fetchAddress' } %>
+        <span data-ceps-target="feedback" class="text-danger text-center"></span>
       </div>
 
       <div class="pb-3">
@@ -36,11 +39,11 @@
 
       <div class="pb-3 form-check">
         <%= check_box_tag "address[main]", true, address.main, class: 'form-check-input' %>
-        <%= label_tag "address[main]", 'Tornar principal', checked: false, class: 'form-check-label' %>
+        <%= label_tag "address[main]", 'Tornar principal', class: 'form-check-label' %>
       </div>
 
       <div class="row d-flex justify-content-center align-items-center pt-3">
-        <%= submit_tag address.id ? "Atualizar" : "Adicionar", class: 'btn-dark-blue mx-auto w-50' %>
+        <%= submit_tag address.id ? "Atualizar" : "Adicionar", class: 'btn-dark-blue mx-auto w-50', 'data-bs-dismiss': "offcanvas" %>
       </div>
     </div>
   <% end %>

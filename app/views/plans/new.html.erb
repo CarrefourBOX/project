@@ -67,18 +67,23 @@
         <% end %>
       </div>
       <div id="plan-delivery-fee">
-        <%= label_tag "cep-input", "Calcule o frete" %>
-        <div class='rounded-form-group'>
-          <%= text_field_tag "cep-input[]", "", data: { mask: 'cep', 'new-plan-target': 'cep' }, form: 'form-delivery-fee' %>
-          <%= submit_tag "Calcular", form: 'form-delivery-fee', data: {action: 'click->new-plan#fetchAddress'} %>
-        </div>
         <div class="display-address" data-new-plan-target="address">
           <% if user_signed_in? && current_user.main_address %>
-            <p>Enviar para endereço principal:</p>
-            <% user_address = current_user.main_address%>
-            <p><%= "#{user_address.street}, #{user_address.number}#{" / " + user_address.complements if user_address.complements.present?}" %></p>
-            <p><%= "#{user_address.cep} - #{user_address.city}, #{user_address.state}" %></p>
-            <%= link_to 'Meus endereços', my_addresses_path, class: 'text-center' %>
+            <p>Enviar para:</p>
+            <%= render 'addresses/current_address', current_address: @current_address %>
+            <div id="address-option-button" class="text-center">
+              <%= link_to 'escolher outro endereço', '#', class: '', data: { 'bs-toggle': 'modal', 'bs-target': "#addressChoiceModal" } %>
+            </div>
+          <% elsif current_user %>
+            <%= render 'addresses/current_address', current_address: @current_address %>
+            <div id="address-option-button" class="text-center">
+              <%= link_to 'Selecionar o endereço de entrega', '#', class: '', data: { 'bs-toggle': 'modal', 'bs-target': "#addressChoiceModal" } %>
+            </div>
+          <% else %>
+            <%= render 'addresses/current_address', current_address: @current_address %>
+            <div id="address-option-button" class="text-center">
+              <%= link_to 'Selecionar o endereço de entrega', new_user_session_path, data: { 'bs-toggle': 'modal', 'bs-target': '#sessionModal' } %>
+            </div>
           <% end %>
         </div>
       </div>
@@ -92,7 +97,7 @@
           <p>Descontos</p>
           <span>-</span>
         </div>
-        <div id="delivery-fee" data-price="<%= ShipmentCalculator.calculate(user_address) if user_address %>" data-new-plan-target="fee">
+        <div id="delivery-fee" data-new-plan-target="fee">
           <p>Taxa de entrega</p>
           <span>-</span>
         </div>
@@ -109,4 +114,15 @@
   <% end %>
   <%= form_with(url: new_plan_path, html: { class: 'd-flex row row-cols-lg-auto g-3 align-items-center', data: { controller: 'input', remote: 'true', action: 'ajax:success->new-plan#updateDeliveryFee', id: 'form-delivery-fee' } }) do |f| %>
   <% end %>
+
+  <div class="modal" id="addressChoiceModal" tabindex="-1" aria-labelledby="sessionHeaders" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <%= render 'addresses/address_choice', addresses: @addresses, new_address: @address %>
+      </div>
+    </div>
+  </div>
 </div>
