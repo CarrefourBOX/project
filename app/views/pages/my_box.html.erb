@@ -1,6 +1,6 @@
 <% content_for(:page_header, 'Meu BOX') %>
 
-<div class="container my-box-container">
+<div class="container my-box-container pt-3">
   <% if @plan %>
     <% @boxes.each do |box, items| %>
       <div class="mybox-card" style="border: 1px solid <%= box.color %>">
